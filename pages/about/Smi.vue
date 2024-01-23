@@ -33,16 +33,13 @@
 </template>
 
 <script>
-import PaginationBar from "@/components/pagination/PaginationBar";
-
 export default {
   name: "AboutSMI",
-  components: {PaginationBar}
 }
 </script>
 
 <style lang="less" scoped>
-
+@import "assets/core.less";
 
 .smi {
   margin-top: 40px;

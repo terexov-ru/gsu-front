@@ -46,11 +46,8 @@
 </template>
 
 <script>
-import PaginationBar from "@/components/pagination/PaginationBar";
-
 export default {
   name: "AboutEmployees",
-  components: {PaginationBar},
   data() {
     return {
       active: false,
@@ -60,7 +57,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+@import "assets/core.less";
 
 .team-block {
   margin-top: 80px;

@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+@import "assets/core.less";
 
 .register-block {
   margin-top: 45px;

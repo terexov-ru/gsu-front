@@ -32,17 +32,13 @@
 </template>
 
 <script>
-import QuestionSlider from "@/components/sliders/QuestionSlider";
-import SummaryCard from "@/components/summary/SummaryCard";
-
 export default {
   name: "AboutPage",
-  components: {SummaryCard, QuestionSlider}
 }
 </script>
 
 <style lang="less" scoped>
-
+@import "assets/core.less";
 
 .about-block {
   margin-top: 80px;

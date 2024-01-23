@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+@import "assets/core.less";
 
 .requisites-block {
   margin-top: 60px;

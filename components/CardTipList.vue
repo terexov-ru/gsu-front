@@ -9,16 +9,14 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--import ProgramCardTip from "@/components/cards/programm/ProgramCardTip";-->
-<!--export default {-->
-<!--  name: "CardTipList",-->
-<!--  components: {ProgramCardTip},-->
-<!--  props: {-->
-<!--    tips: Array-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  name: "CardTipList",
+  props: {
+    tips: Array
+  }
+}
+</script>
 
 <style scoped>
 .card__tip-list {

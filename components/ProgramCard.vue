@@ -16,23 +16,20 @@
   </div>
 </template>
 
-<!--<script>-->
-
-<!--import CardTipList from "@/components/cards/programm/CardTipList";-->
-<!--export default {-->
-<!--  name: "ProgramCard",-->
-<!--  components: {CardTipList},-->
-<!--  props: {-->
-<!--    title: {-->
-<!--      type: String,-->
-<!--      require: true,-->
-<!--    },-->
-<!--    tips: {-->
-<!--      type: Array-->
-<!--    },-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  name: "ProgramCard",
+  props: {
+    title: {
+      type: String,
+      require: true,
+    },
+    tips: {
+      type: Array
+    },
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

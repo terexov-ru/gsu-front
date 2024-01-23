@@ -59,17 +59,13 @@
 </template>
 
 <script>
-import PaginationBar from "@/components/pagination/PaginationBar";
-import ProgramCardTip from "@/components/cards/programm/ProgramCardTip";
-
 export default {
   name: "AboutReviews",
-  components: {ProgramCardTip, PaginationBar}
 }
 </script>
 
 <style lang="less" scoped>
-
+@import "assets/core.less";
 
 .reviews-block {
   margin-top: 80px;

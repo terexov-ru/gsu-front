@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+@import "assets/core.less";
 
 .back {
   margin-top: 40px;

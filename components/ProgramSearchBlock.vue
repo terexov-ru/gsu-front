@@ -10,16 +10,13 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--import ProgramSearchBar from "@/components/search/ProgramSearchBar";-->
-<!--import ProgramCardList from "@/components/cards/programm/ProgramCardList";-->
-<!--import SeeMore from "@/components/links/SeeMore";-->
+<script>
 
-<!--export default {-->
-<!--  name: "ProgramSearchBlock",-->
-<!--  components: {SeeMore, ProgramCardList, ProgramSearchBar},-->
-<!--}-->
-<!--</script>-->
+
+export default {
+  name: "ProgramSearchBlock",
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
