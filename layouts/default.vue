@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <p>Default layout?</p>
+<!--  <div>-->
+<!--    <p>Default layout?</p>-->
     <slot />
-  </div>
+<!--  </div>-->
 </template>
 
 <script>
