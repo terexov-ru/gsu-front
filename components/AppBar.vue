@@ -1,6 +1,10 @@
 <script setup>
+const viewport = useViewport();
 
-const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWidthHeight();
+// watch(viewport.breakpoint, (newBreakpoint, oldBreakpoint) => {
+//   console.log('Breakpoint updated:', oldBreakpoint, '->', newBreakpoint)
+// })
+// const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWidthHeight();
 </script>
 
 <template>
@@ -15,13 +19,14 @@ const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWid
           <img class="icon" src="~/assets/logo.png"/>
         </NuxtLink>
 
-        <div v-if="isWidth990()"
+        <div
+            v-if="!$viewport.isLessThan('desktop')"
              class="delimiter delimiter_column delimiter_light-grey"/>
 
         <div class="nav">
           <!--     Верх навигации     -->
           <div class="nav__container">
-            <ul v-if="isWidth990()" class="nav__list">
+            <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
               <li class="nav__list__item text text_caption text_light">
                 <NuxtLink to="/">
                   Программа лояльности
@@ -60,7 +65,7 @@ const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWid
                     d="M21 21L16.6569 16.6569M16.6569 16.6569C18.1046 15.2091 19 13.2091 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C13.2091 19 15.2091 18.1046 16.6569 16.6569Z"
                     stroke="#129DF4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <svg v-if="isWidth580()" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              <svg v-if="!$viewport.isLessThan('mobile')" width="24" height="24" viewBox="0 0 24 24" fill="none"
                    xmlns="http://www.w3.org/2000/svg">
                 <path d="M7 19C7 17.3431 9.23858 16 12 16C14.7614 16 17 17.3431 17 19" stroke="#129DF4"
                       stroke-width="1.5"
@@ -87,11 +92,11 @@ const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWid
             </div>
           </div>
 
-          <div v-if="isWidth990()" class="delimiter delimiter_gradient"/>
+          <div v-if="!$viewport.isLessThan('desktop')" class="delimiter delimiter_gradient"/>
 
-          <div v-if="isWidth580()" class="nav__container">
+          <div v-if="!$viewport.isLessThan('mobile')" class="nav__container">
             <!--     Низ навигации     -->
-            <ul v-if="isWidth990()" class="nav__list">
+            <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
 
               <li class="dropdown nav__list__item">
                 <span class="dropdown__btn text text_caption text_dark">Обучение</span>
@@ -175,7 +180,7 @@ const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWid
                 class="button button_rounded button_gradient button_small">Заказать звонок</button>
           </div>
 
-          <div v-if="!isWidth990()"
+          <div v-if="$viewport.isLessThan('desktop')"
                @click="menuActive = !menuActive"
           >
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -316,22 +321,22 @@ const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWid
   </header>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "AppBar",-->
-<!--  data() {-->
-<!--    return {-->
-<!--      menuActive: false,-->
-<!--      active: false,-->
-<!--    }-->
-<!--  },-->
-<!--  methods: {-->
-<!--    closeOverflow() {-->
-<!--      this.active = false-->
-<!--    },-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  name: "AppBar",
+  data() {
+    return {
+      menuActive: false,
+      active: false,
+    }
+  },
+  methods: {
+    closeOverflow() {
+      this.active = false
+    },
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

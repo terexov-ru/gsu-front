@@ -22,11 +22,6 @@
 @import "assets/core.less";
 
 .home-page {
-
-}
-
-.mission-block {
-
   @media @min1200 {
     margin-top: 40px;
   }
@@ -34,6 +29,11 @@
   @media @min1400 {
     margin-top: 60px;
   }
+}
+
+.mission-block {
+
+
 }
 
 .search-block {
