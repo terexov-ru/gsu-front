@@ -6,7 +6,9 @@
         class="text_accent">компетентность</span></h2>
     <ProgramSearchBar/>
     <ProgramCardList/>
-    <SeeMore/>
+    <SeeMore
+        :href="'/courses'"
+    />
   </div>
 </template>
 

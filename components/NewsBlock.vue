@@ -2,7 +2,10 @@
   <div class="wrapper wrapper_paddings">
     <h2 class="text text_h2">Новости</h2>
     <NewsCardList class="list"/>
-    <SeeMore class="link"/>
+    <SeeMore
+        class="link"
+        :href="'/news'"
+    />
   </div>
 </template>
 
