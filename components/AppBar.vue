@@ -51,40 +51,18 @@
             </ul>
             <!--     Иконки     -->
             <div class="nav__icons">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M21 21L16.6569 16.6569M16.6569 16.6569C18.1046 15.2091 19 13.2091 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C13.2091 19 15.2091 18.1046 16.6569 16.6569Z"
-                    stroke="#129DF4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
 
-              <svg v-if="!$viewport.isLessThan('mobile')"
+              <img class="pointer" src="~/assets/svg/search.svg" alt="search">
+
+              <img class="pointer" v-if="!$viewport.isLessThan('mobile')"
                    @click="logActive = !logActive"
-                   width="24" height="24" viewBox="0 0 24 24" fill="none"
-                   xmlns="http://www.w3.org/2000/svg"
+                   src="~/assets/svg/profile.svg"
+                   alt="profile"
               >
-                <path d="M7 19C7 17.3431 9.23858 16 12 16C14.7614 16 17 17.3431 17 19" stroke="#129DF4"
-                      stroke-width="1.5"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-                <path
-                    d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
-                    stroke="#129DF4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path
-                    d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                    stroke="#129DF4" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-              </svg>
 
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M3 4H5L5.27273 7M5.27273 7L5.8224 13.0464C5.92104 14.1314 6.86996 14.9379 7.95668 14.8602L18.3908 14.1149C19.3299 14.0479 20.095 13.3349 20.2282 12.4029L21 7H5.27273Z"
-                    stroke="#129DF4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path
-                    d="M9 20C9.55228 20 10 19.5523 10 19C10 18.4477 9.55228 18 9 18C8.44772 18 8 18.4477 8 19C8 19.5523 8.44772 20 9 20Z"
-                    stroke="#129DF4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path
-                    d="M17 20C17.5523 20 18 19.5523 18 19C18 18.4477 17.5523 18 17 18C16.4477 18 16 18.4477 16 19C16 19.5523 16.4477 20 17 20Z"
-                    stroke="#129DF4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <NuxtLink to="/basket">
+                <img class="pointer" src="~/assets/svg/basket.svg" alt="basket">
+              </NuxtLink>
             </div>
           </div>
 
@@ -318,7 +296,7 @@
         @closeOverflow="closeOverflow()"
     >
       <OverflowLogin
-        @close="logActive = false"
+          @close="logActive = false"
       />
     </OverflowContainer>
 

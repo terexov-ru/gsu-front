@@ -1,6 +1,6 @@
 <template>
   <div class="input-block">
-    <div class="text text_normal text_light">{{ name }}</div>
+    <div class="text text_normal">{{ name }}</div>
     <input class="input" :placeholder="placeholder" :type="type">
   </div>
 </template>

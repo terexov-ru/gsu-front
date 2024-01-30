@@ -24,7 +24,6 @@ export default {
 .overflow {
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 
   position: fixed;
@@ -35,5 +34,8 @@ export default {
   justify-content: center;
 
   overflow: hidden;
+
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
 }
 </style>
