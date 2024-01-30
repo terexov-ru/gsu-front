@@ -10,47 +10,43 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--import SearchTip from "@/components/search/SearchTip";-->
-
-<!--export default {-->
-<!--  name: "SearchTipList",-->
-<!--  components: {SearchTip},-->
-<!--  props: {-->
-<!--    tips: {-->
-<!--      type: Array,-->
-<!--      require: true,-->
-<!--    }-->
-<!--  },-->
-<!--  data() {-->
-<!--    return {-->
-<!--      selectedTipId: Number,-->
-<!--    }-->
-<!--  },-->
-<!--  methods: {-->
-<!--    selectTip(tip) {-->
-<!--      //Метод, проверяет выбран ли сейчас tip, если нет,-->
-<!--      //то переключает, если кликнут по выбранному, то отменяет выбор-->
-<!--      //похоже на реализация radioButton-->
-<!--      if (this.selectedTipId === tip.id) {-->
-<!--        tip.active = false;-->
-<!--        this.selectedTipId = undefined;-->
-<!--        this.$emit('unselectTip', tip);-->
-<!--      }-->
-<!--      else {-->
-<!--        this.tips.forEach((item) => {-->
-<!--          if (item.id === tip.id) {-->
-<!--            this.selectedTipId = item.id;-->
-<!--            item.active = true-->
-<!--          }-->
-<!--          else item.active = false;-->
-<!--        })-->
-<!--        this.$emit('selectTip', tip)-->
-<!--      }-->
-<!--    },-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  props: {
+    tips: {
+      type: Array,
+      require: true,
+    }
+  },
+  data() {
+    return {
+      selectedTipId: Number,
+    }
+  },
+  methods: {
+    selectTip(tip) {
+      //Метод, проверяет выбран ли сейчас tip, если нет,
+      //то переключает, если кликнут по выбранному, то отменяет выбор
+      //похоже на реализация radioButton
+      if (this.selectedTipId === tip.id) {
+        tip.active = false;
+        this.selectedTipId = undefined;
+        this.$emit('unselectTip', tip);
+      }
+      else {
+        this.tips.forEach((item) => {
+          if (item.id === tip.id) {
+            this.selectedTipId = item.id;
+            item.active = true
+          }
+          else item.active = false;
+        })
+        this.$emit('selectTip', tip)
+      }
+    },
+  }
+}
+</script>
 
 <style lang="less" scoped>
 .tip-list {

@@ -1,13 +1,8 @@
-<script setup>
-
-
-const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWidthHeight();
-</script>
 <template>
   <!--  TODO вынести input как отедльный компонент и добваить slot под icon-->
   <div class="search-container">
     <div class="input-container">
-      <input class="input" :placeholder="isWidth990() ? 'Поиск по ключевым словам...' : 'Поиск'" type="text">
+      <input class="input" :placeholder="!$viewport.isLessThan('desktop') ? 'Поиск по ключевым словам...' : 'Поиск'" type="text">
       <svg class="input-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M21 21L16.6569 16.6569M16.6569 16.6569C18.1046 15.2091 19 13.2091 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C13.2091 19 15.2091 18.1046 16.6569 16.6569Z"
@@ -24,30 +19,28 @@ const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWid
   />
 </template>
 
-<!--<script>-->
-
-<!--export default {-->
-<!--  name: "ProgramSearchBar",-->
-<!--  data() {-->
-<!--    return {-->
-<!--      tips: [-->
-<!--        {id: 0, text: "Непрерывное медицинское и фармацевтическое образование"},-->
-<!--        {id: 1, text: "Повышение квалификации"},-->
-<!--        {id: 2, text: "Профессиональная переподготовка"},-->
-<!--        {id: 3, text: "Профессиональная переобучение"},-->
-<!--      ]-->
-<!--    }-->
-<!--  },-->
-<!--  methods: {-->
-<!--    selectTip(tip) {-->
-<!--      console.log(tip);-->
-<!--    },-->
-<!--    unselectTip(tip) {-->
-<!--      console.log(tip);-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  data() {
+    return {
+      tips: [
+        {id: 0, text: "Непрерывное медицинское и фармацевтическое образование"},
+        {id: 1, text: "Повышение квалификации"},
+        {id: 2, text: "Профессиональная переподготовка"},
+        {id: 3, text: "Профессиональная переобучение"},
+      ]
+    }
+  },
+  methods: {
+    selectTip(tip) {
+      console.log(tip);
+    },
+    unselectTip(tip) {
+      console.log(tip);
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

@@ -4,17 +4,16 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "SearchTip",-->
-<!--  props: {-->
-<!--    text: {-->
-<!--      type: String,-->
-<!--      require: true-->
-<!--    },-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  props: {
+    text: {
+      type: String,
+      require: true
+    },
+  }
+}
+</script>
 
 <style lang="less" scoped>
 
