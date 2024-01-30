@@ -53,7 +53,6 @@
 <style lang="less" scoped>
 @import "assets/core.less";
 
-
 .bill {
   display: flex;
   flex-direction: column;

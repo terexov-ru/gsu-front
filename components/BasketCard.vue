@@ -25,7 +25,10 @@
         </div>
 
         <div class="basket-card__content__price">
-          <SeeMore class="basket__link"/>
+          <SeeMore
+              class="basket__link"
+              :href="'/'"
+          />
           <div>
             <span class="text text_h4">20 000 ₽</span>
             <span class="text text_semi-bold text_light text_margin">20 000 ₽</span>
@@ -39,15 +42,15 @@
     <div class="delimiter delimiter_mid-grey"/>
 
     <div class="basket-card__promo">
-      <DropDown
-          class="basket__drop-down"
-          :title="'Заголовок'"
-          :options="[]"
-      />
+<!--      <DropDown-->
+<!--          class="basket__drop-down"-->
+<!--          :title="'Заголовок'"-->
+<!--          :options="[]"-->
+<!--      />-->
+
       <input class="input text text_normal input_white" placeholder="Промокод" type="text">
 
       <button class="button button_dark text_normal">Активировать</button>
-
     </div>
 
   </div>
