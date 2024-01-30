@@ -1,7 +1,7 @@
 <template>
   <div class="info">
     <div class="info__container"
-         @click="active ? active = false : active = true"
+         @click="active = !active"
     >
       <label class="text info__headline text_normal text_light">Описание курса</label>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,23 +26,14 @@
       />
     </div>
 
-
   </div>
 </template>
 
-<!--<script>-->
-<!--import SeeMore from "@/components/links/SeeMore";-->
+<script setup>
+import {ref} from "vue";
 
-<!--export default {-->
-<!--  name: "DetailsInfo",-->
-<!--  components: {SeeMore},-->
-<!--  data() {-->
-<!--    return {-->
-<!--      active: false,-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+let active = ref(false);
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

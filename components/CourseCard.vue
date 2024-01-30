@@ -15,7 +15,6 @@
         </div>
 
         <DetailsInfo class="details"/>
-
       </div>
 
       <div class="course__info__sale">
@@ -33,23 +32,18 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--import CardTipList from "@/components/cards/programm/CardTipList";-->
-<!--import DetailsInfo from "@/components/details/DetailsInfo";-->
-
-<!--export default {-->
-<!--  name: "CourseCard",-->
-<!--  components: {DetailsInfo, CardTipList},-->
-<!--  data() {-->
-<!--    return {-->
-<!--      tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {-->
-<!--        id: 2,-->
-<!--        text: "Бактериология"-->
-<!--      }]-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  data() {
+    return {
+      tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {
+        id: 2,
+        text: "Бактериология"
+      }]
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
