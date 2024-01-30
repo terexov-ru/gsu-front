@@ -1,0 +1,121 @@
+<template>
+  <div class="wrapper wrapper_paddings">
+    <div class="loyalty-block">
+      <h2 class="text text_h2">Программы лояльности</h2>
+
+      <div class="loyalty">
+
+        <div class="loyalty__card">
+          <img class="loyalty__card__img" src="~/assets/loyalty_1.png">
+          <div class="loyalty__card__content">
+            <div class="text text_h3">Пригласи друга и получи бесплатное обучение</div>
+            <div class="text text_normal">Виртуальная карта «Вместе» с индивидуальным номером.
+              Пригласите друга, коллегу или знакомого на обучение, сообщите ему индивидуальный номер Вашей
+            </div>
+            <button class="button loyalty__card__button button_gradient">Подключиться</button>
+          </div>
+        </div>
+
+        <div class="loyalty__card">
+          <img class="loyalty__card__img" src="~/assets/loyalty_1.png">
+          <div class="loyalty__card__content">
+            <div class="text text_h3">Пригласи друга и получи бесплатное обучение</div>
+            <div class="text text_normal">Виртуальная карта «Вместе» с индивидуальным номером.
+              Пригласите друга, коллегу или знакомого на обучение, сообщите ему индивидуальный номер Вашей
+            </div>
+            <button class="button loyalty__card__button button_gradient">Подключиться</button>
+          </div>
+        </div>
+
+        <div class="loyalty__card">
+          <img class="loyalty__card__img" src="~/assets/loyalty_1.png">
+          <div class="loyalty__card__content">
+            <div class="text text_h3">Пригласи друга и получи бесплатное обучение</div>
+            <div class="text text_normal">Виртуальная карта «Вместе» с индивидуальным номером.
+              Пригласите друга, коллегу или знакомого на обучение, сообщите ему индивидуальный номер Вашей
+            </div>
+            <button class="button loyalty__card__button button_gradient">Подключиться</button>
+          </div>
+        </div>
+
+      </div>
+
+      <QuestionSlider class="question-block"/>
+
+    </div>
+  </div>
+</template>
+
+<style lang="less" scoped>
+@import "assets/core.less";
+
+.loyalty-block {
+  margin-top: 80px;
+}
+
+.question-block {
+  margin-top: 120px;
+  margin-bottom: 120px;
+}
+
+.loyalty {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media @min1200 {
+    flex-direction: row;
+  }
+}
+
+.loyalty__card {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  box-sizing: border-box;
+  padding: 20px;
+
+  border-radius: 8px;
+  border: solid 1px @MidGreyColor;
+
+  @media @min580 {
+    gap: 40px;
+    flex-direction: row;
+  }
+
+  @media @min1200 {
+    flex-direction: column;
+  }
+}
+
+.loyalty__card__img {
+  width: 100%;
+  height: min-content;
+  max-width: 320px;
+
+  @media @min1200 {
+    max-width: 350px;
+  }
+}
+
+.loyalty__card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loyalty__card__button {
+  align-self: flex-end;
+
+  @media @min580 {
+    max-width: 300px;
+  }
+
+  @media @min1200 {
+    max-width: none;
+  }
+}
+
+</style>

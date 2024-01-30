@@ -8,17 +8,17 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "OverflowContainer",-->
-<!--  props: {-->
-<!--    active: {-->
-<!--      type: Boolean,-->
-<!--      require: true-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  name: "OverflowContainer",
+  props: {
+    active: {
+      type: Boolean,
+      require: true
+    }
+  }
+}
+</script>
 
 <style scoped>
 .overflow {

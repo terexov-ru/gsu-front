@@ -23,32 +23,31 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "DropDown",-->
-<!--  props: {-->
-<!--    title: {-->
-<!--      type: String,-->
-<!--      require: true,-->
-<!--    },-->
-<!--    options: Array,-->
-<!--  },-->
-<!--  data() {-->
-<!--    return {-->
-<!--      active: false,-->
-<!--      selected: {text: 'Заголовок', value: ''},-->
-<!--    }-->
-<!--  },-->
-<!--  mounted() {-->
-<!--    this.selected.text = this.title;-->
-<!--  },-->
-<!--  methods: {-->
-<!--    onClickOutside() {-->
-<!--      this.active = false-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      require: true,
+    },
+    options: Array,
+  },
+  data() {
+    return {
+      active: false,
+      selected: {text: 'Заголовок', value: ''},
+    }
+  },
+  mounted() {
+    this.selected.text = this.title;
+  },
+  methods: {
+    onClickOutside() {
+      this.active = false
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

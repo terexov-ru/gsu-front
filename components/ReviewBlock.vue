@@ -2,7 +2,9 @@
   <div class="wrapper wrapper_paddings">
     <h2 class="text text_h2 text_dark"><span class="text_accent">Честные отзывы</span> от наших учеников</h2>
     <ReviewCardList class="list"/>
-    <SeeMore/>
+    <SeeMore
+      :href="'/about/reviews'"
+    />
   </div>
 </template>
 

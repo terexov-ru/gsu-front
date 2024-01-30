@@ -5,17 +5,16 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "InputBlock",-->
-<!--  components: {},-->
-<!--  props: {-->
-<!--    name: String,-->
-<!--    placeholder: String,-->
-<!--    type: String,-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  name: "InputBlock",
+  props: {
+    name: String,
+    placeholder: String,
+    type: String,
+  },
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

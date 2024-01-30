@@ -8,18 +8,18 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "GoBack",-->
-<!--  props: {-->
-<!--    text: String,-->
-<!--    link: String,-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  name: "GoBack",
+  props: {
+    text: String,
+    link: String,
+  }
+}
+</script>
 
 <style lang="less" scoped>
-
+@import "assets/core.less";
 
 .go-back {
   display: flex;

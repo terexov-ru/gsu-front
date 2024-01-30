@@ -3,13 +3,11 @@
 </script>
 
 <template>
-  <div>
-    <AppBar/>
-    <NuxtLayout>
-      <NuxtPage/>
-    </NuxtLayout>
-    <AppFooter/>
-  </div>
+  <AppBar/>
+  <NuxtLayout>
+    <NuxtPage/>
+  </NuxtLayout>
+  <AppFooter/>
 </template>
 
 

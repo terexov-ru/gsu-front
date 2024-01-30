@@ -8,17 +8,17 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "SeeMore",-->
-<!--  props: {-->
-<!--    href: {-->
-<!--      require: true,-->
-<!--      type: String-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  name: "SeeMore",
+  props: {
+    href: {
+      require: true,
+      type: String
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

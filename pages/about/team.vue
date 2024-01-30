@@ -45,15 +45,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AboutEmployees",
-  data() {
-    return {
-      active: false,
-    }
-  }
-}
+<script setup>
+const active = false;
 </script>
 
 <style lang="less" scoped>

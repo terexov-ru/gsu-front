@@ -1,10 +1,25 @@
+<script setup>
+import {toValue} from "vue";
+
+const {data: posts, pending} = await useFetch('https://jsonplaceholder.typicode.com/posts');
+
+const filteredPosts = toValue(posts).slice(0, 3);
+
+// const filteredPosts = () => {
+//   if (toValue(posts) !== null) {
+//     return toValue(posts).slice(0, 3);
+//   }
+//   return [];
+// }
+</script>
+
 <template>
   <div class="card-list">
     <ProgramCard
-      v-for="card in cards"
-      :key="card.id"
-      :title="card.title"
-      :tips="card.tips"
+        v-for="card in filteredPosts"
+        :key="card.id"
+        :title="card.title"
+        :tips="card.tips"
     />
   </div>
 </template>
@@ -15,14 +30,34 @@ export default {
   data() {
     return {
       cards: [
-        {id: 0, title: "Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19",
-          tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {id: 2, text: "Бактериология"}]},
-        {id: 1, title: "Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19",
-          tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {id: 2, text: "Бактериология"}]},
-        {id: 2, title: "Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19",
-          tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {id: 2, text: "Бактериология"}]},
-        {id: 3, title: "Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19",
-          tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {id: 2, text: "Бактериология"}]},
+        {
+          id: 0, title: "Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19",
+          tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {
+            id: 2,
+            text: "Бактериология"
+          }]
+        },
+        {
+          id: 1, title: "Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19",
+          tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {
+            id: 2,
+            text: "Бактериология"
+          }]
+        },
+        {
+          id: 2, title: "Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19",
+          tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {
+            id: 2,
+            text: "Бактериология"
+          }]
+        },
+        {
+          id: 3, title: "Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19",
+          tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {
+            id: 2,
+            text: "Бактериология"
+          }]
+        },
       ]
     }
   }

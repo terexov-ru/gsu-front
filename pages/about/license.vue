@@ -54,12 +54,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "LicensePage"
-}
-</script>
-
 <style lang="less" scoped>
 @import "assets/core.less";
 

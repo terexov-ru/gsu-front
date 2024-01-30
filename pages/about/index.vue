@@ -31,11 +31,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AboutPage",
-}
-</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

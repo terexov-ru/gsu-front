@@ -67,12 +67,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AboutRequisites"
-}
-</script>
-
 <style lang="less" scoped>
 @import "assets/core.less";
 
