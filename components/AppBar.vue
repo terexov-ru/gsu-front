@@ -18,12 +18,12 @@
           <!--     Верх навигации     -->
           <div class="nav__container">
             <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
-              <li class="nav__list__item text text_caption text_light">
+              <li class="nav__list__item text text_caption">
                 <NuxtLink to="/loyalty">
                   Программа лояльности
                 </NuxtLink>
               </li>
-              <li class="nav__list__item text text_caption text_light">
+              <li class="nav__list__item text text_caption">
                 <NuxtLink to="/vacancies">
                   Вакансии
                 </NuxtLink>
@@ -43,7 +43,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav__list__item text text_caption text_light">
+              <li class="nav__list__item text text_caption">
                 <NuxtLink to="/about/contacts">
                   Контакты
                 </NuxtLink>
@@ -168,69 +168,74 @@
 
     <div v-if="menuActive" class="burger-menu">
       <div class="text burger-menu__title text_h3">Меню</div>
+      <div class="column">
+        <div class="burger-menu__item">
+          <div class="text burger-menu__text text_caption text_dark"
+               @click="activeStudy = !activeStudy; activeAbout = false">Обучение
+          </div>
 
-      <ul class="nav__list burger-menu__block nav__list_mob">
-        <li class="dropdown nav__list__item">
-          <span class="dropdown__btn text text_caption text_dark">Обучение</span>
-          <ul class="dropdown__list text text_normal text_dark">
-            <li>Непрерывное медицинское <br>
-              и фармацевтическое образование
-            </li>
-            <li>Профессиональная переподготовка</li>
-            <li>Повышение квалификации</li>
-            <li>Профессиональное обучение</li>
-          </ul>
-        </li>
+          <div class="info__body"
+               :class="{'info__body_active' : activeStudy}"
+          >
+            <div class="column column_gap16 text text_normal text_light">
+              <div>Непрерывное медицинское и фармацевтическое образование</div>
+              <div>Профессиональная переподготовка</div>
+              <div>Повышение квалификации</div>
+              <div>Профессиональное обучение</div>
+            </div>
 
-        <li class="dropdown nav__list__item">
-          <span class="dropdown__btn text text_caption text_dark">О компании</span>
-          <ul class="dropdown__list text text_normal text_dark">
-            <li>Университет</li>
-            <li>Новости</li>
-            <li>Лицензии</li>
-            <li>Отзывы клиентов</li>
-            <li>СМИ о нас</li>
-            <li>Наша команда</li>
-            <li>Реквизиты</li>
-            <li>Государственный реестр ФИС ФРДО</li>
-          </ul>
-        </li>
-      </ul>
+          </div>
+        </div>
+        <div class="burger-menu__item">
+          <div class="text burger-menu__text text_caption text_dark"
+               @click="activeAbout = !activeAbout; activeStudy = false">О компании
+          </div>
+
+          <div class="info__body"
+               :class="{'info__body_active' : activeAbout}"
+          >
+            <div class="column column_gap16 text text_normal text_light">
+              <div>Университет</div>
+              <div>Новости</div>
+              <div>Лицензии</div>
+              <div>Отзывы клиентов</div>
+              <div>СМИ о нас</div>
+              <div>Наша команда</div>
+              <div>Реквизиты</div>
+              <div>Государственный реестр ФИС ФРДО</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="delimiter delimiter_gradient"/>
 
       <ul class="nav__list burger-menu__block nav__list_mob">
-        <li class="nav__list__item text text_caption text_light">Программа лояльности</li>
-        <li class="nav__list__item text text_caption text_light">Вакансии</li>
-        <li class="dropdown nav__list__item">
-          <span class="dropdown__btn text text_caption text_light">Помощь</span>
-          <ul class="dropdown__list text text_normal text_dark">
-            <li>Ответы на вопросы</li>
-            <li>Технические требования</li>
-          </ul>
-        </li>
-        <li class="nav__list__item text text_caption text_light">Контакты</li>
+        <li class="nav__list__item text text_caption">Программа лояльности</li>
+        <li class="nav__list__item text text_caption">Вакансии</li>
+
+        <div class="burger-menu__item">
+          <div class="text text_caption text_dark"
+               @click="activeHelp = !activeHelp">Помощь
+          </div>
+          <div class="info__body" :class="{'info__body_active info__body_help' : activeHelp}">
+            <div class="column column_gap16 text text_normal text_light">
+              <div>Ответы на вопросы</div>
+              <div>Технические требования</div>
+            </div>
+          </div>
+        </div>
+
+        <li class="nav__list__item text text_caption">Контакты</li>
       </ul>
 
       <div class="delimiter delimiter_gradient"/>
 
       <div class="burger-menu__block">
         <div class="row row_gap10 row_al-c">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 19C7 17.3431 9.23858 16 12 16C14.7614 16 17 17.3431 17 19" stroke="#129DF4"
-                  stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-            <path
-                d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
-                stroke="#129DF4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path
-                d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                stroke="#129DF4" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round"/>
-          </svg>
-          <div class="text text_caption text_light">
-            профиль
+          <img class="pointer" src="~/assets/svg/profile.svg" alt="profile">
+          <div class="text text_caption">
+            Профиль
           </div>
         </div>
       </div>
@@ -311,6 +316,9 @@ export default {
       menuActive: false,
       reqActive: false,
       logActive: false,
+      activeStudy: false,
+      activeAbout: false,
+      activeHelp: false,
     }
   },
   methods: {
@@ -408,45 +416,6 @@ a {
   @media @min990 {
     max-width: 175px;
   }
-}
-
-/* Mob version of header */
-.burger-menu {
-  position: fixed;
-  z-index: 200;
-  width: 100%;
-  top: 60px;
-  height: calc(100vh - 60px);
-  background: @WhiteColor;
-
-  display: flex;
-  flex-direction: column;
-
-  box-sizing: border-box;
-  padding: 24px;
-}
-
-.burger-menu__block {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-.burger-menu__title {
-  margin-bottom: 12px;
-}
-
-.burger-menu__button {
-  width: fit-content;
-  margin-top: 15px;
-}
-
-.header_fixed {
-  background: @WhiteColor;
-  position: fixed;
-  top: 0;
-  box-sizing: border-box;
-  width: 100%;
-  z-index: 200;
 }
 
 /* Navigation */
@@ -563,6 +532,67 @@ a {
 
 .dropdown:hover .dropdown__btn {
   color: @BlueNewColor;
+}
+
+/* Mob version of header */
+.burger-menu {
+  position: fixed;
+  z-index: 200;
+  width: 100%;
+  top: 60px;
+  min-height: calc(100vh - 60px);
+  background: @WhiteColor;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+  padding: 24px;
+}
+
+.burger-menu__block {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.burger-menu__title {
+  margin-bottom: 12px;
+}
+
+.burger-menu__button {
+  width: fit-content;
+  margin-top: 15px;
+}
+
+.burger-menu__text {
+  margin-bottom: 16px;
+}
+
+.header_fixed {
+  background: @WhiteColor;
+  position: fixed;
+  top: 0;
+  box-sizing: border-box;
+  width: 100%;
+  z-index: 200;
+}
+
+//Open list for mobile
+.info__body {
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.4s;
+  margin-left: 8px;
+
+  &_active {
+    max-height: 350px;
+    margin-bottom: 16px;
+  }
+}
+
+.info__body_help {
+  margin-bottom: 0;
+  margin-top: 16px;
 }
 
 </style>
