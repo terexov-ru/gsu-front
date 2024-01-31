@@ -7,19 +7,10 @@
       <div class="header__container">
 
         <NuxtLink to="/">
-          <img v-if="!$viewport.isLessThan('desktop')"
-               class="logo"
-               src="~/assets/logo.png"
-          />
-          <img v-else
-               class="logo_s"
+          <img class="logo_s"
                src="~/assets/logo_s.png"
           />
         </NuxtLink>
-
-        <div
-            v-if="!$viewport.isLessThan('desktop')"
-            class="delimiter delimiter_column delimiter_light-grey"/>
 
         <div class="nav">
           <!--     Верх навигации     -->
