@@ -7,24 +7,31 @@
     <div class="course__info">
       <div>
         <div>
-          <div class="text text_h3">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
+          <div class="text text_h3">{{ course.name }}</div>
           <CardTipList
               class="course__info__card-list"
-              :tips="tips"
+              :tips="course.tips"
           />
         </div>
 
-        <DetailsInfo class="details"/>
+        <DetailsInfo
+            :text="course.text"
+            class="details"
+        />
       </div>
 
       <div class="course__info__sale">
         <div class="price">
           <div class="text text_normal text_light">Стоимость курса</div>
-          <div class="text text_h4">20 000 ₽</div>
+          <div class="text text_h4">{{ course.price }} ₽</div>
         </div>
         <div class="buttons">
-          <div class="button course__info__sale__button button_black-bordered button_size">В корзину</div>
-          <div class="button course__info__sale__button button_gradient button_size">Купить сейчас</div>
+          <div class="button course__info__sale__button button_black-bordered button_size">
+            <NuxtLink :to="`/courses/${course.id}`">
+              Подробнее
+            </NuxtLink>
+          </div>
+          <div class="button course__info__sale__button button_gradient button_size">Записаться</div>
         </div>
       </div>
     </div>
@@ -36,10 +43,16 @@
 export default {
   data() {
     return {
-      tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {
-        id: 2,
-        text: "Бактериология"
-      }]
+      course: {
+        id: 0,
+        name: 'Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19',
+        text: 'Вебинары образовательного проекта Level One — современный формат интеллектуального досуга, который будет\n' +
+            '        интересен всем, кто хочет узнать что-то новое. Всего за пару часов вы совершите путешествие в увлекательный мир\n' +
+            '        науки и искусства. Талантливые лекторы поделятся своими знаниями, доступно расскажут о важных научных открытиях\n' +
+            '        и расширят ваш кругозор.',
+        price: 20000,
+        tips: [{id: 0, text: "36 часов", active: true}, {id: 1, text: "лабораторная диагностика"}, {id: 2, text: "Бактериология"}],
+      }
     }
   }
 }

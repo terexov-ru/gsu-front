@@ -2,7 +2,9 @@
   <div class="search-block wrapper wrapper_paddings">
     <h2 class="text text_h2 text_dark">Обучение</h2>
 
-    <ProgramSearchBar/>
+    <ProgramSearchBar
+
+    />
 
     <div class="search-block__filters">
       <DropDown

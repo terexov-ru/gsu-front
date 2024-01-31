@@ -1,6 +1,8 @@
 <template>
   <div class="tip tip_dark">
     {{ text }}
+
+    <img src="~/assets/svg/close.svg" alt="close">
   </div>
 </template>
 

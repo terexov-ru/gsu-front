@@ -14,14 +14,8 @@
          :class="{'info__body_active' : active}"
     >
       <div class="text info__body__text text_normal">
-        Вебинары образовательного проекта Level One — современный формат интеллектуального досуга, который будет
-        интересен всем, кто хочет узнать что-то новое. Всего за пару часов вы совершите путешествие в увлекательный мир
-        науки и искусства. Талантливые лекторы поделятся своими знаниями, доступно расскажут о важных научных открытиях
-        и расширят ваш кругозор.
+        {{ text }}
       </div>
-      <SeeMore
-          class="info__body__see-more"
-      />
     </div>
 
   </div>
@@ -31,6 +25,13 @@
 import {ref} from "vue";
 
 let active = ref(false);
+
+defineProps({
+  text: {
+    type: String,
+    required: true
+  }
+})
 </script>
 
 <style lang="less" scoped>
@@ -54,9 +55,11 @@ let active = ref(false);
 .info__body {
   max-height: 0;
   overflow: hidden;
+  opacity: 0;
   transition: 0.4s;
 
   &_active {
+    opacity: 1;
     max-height: 150px;
   }
 }
@@ -65,6 +68,7 @@ let active = ref(false);
   max-height: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 20px;
 }
 
 .info__body__see-more {
