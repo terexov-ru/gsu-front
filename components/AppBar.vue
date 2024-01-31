@@ -7,7 +7,14 @@
       <div class="header__container">
 
         <NuxtLink to="/">
-          <img class="icon" src="~/assets/logo.png"/>
+          <img v-if="!$viewport.isLessThan('desktop')"
+               class="logo"
+               src="~/assets/logo.png"
+          />
+          <img v-else
+               class="logo_s"
+               src="~/assets/logo_s.png"
+          />
         </NuxtLink>
 
         <div
@@ -52,7 +59,9 @@
             <!--     Иконки     -->
             <div class="nav__icons">
 
-              <img class="pointer" src="~/assets/svg/search.svg" alt="search">
+              <SearchSmallAnimated
+
+              />
 
               <img class="pointer" v-if="!$viewport.isLessThan('mobile')"
                    @click="logActive = !logActive"
@@ -299,8 +308,12 @@
 </template>
 
 <script>
+import AppInput from "./AppInput.vue";
+import Test from "./SearchSmallAnimated.vue";
+
 export default {
   name: "AppBar",
+  components: {Test, AppInput},
   data() {
     return {
       menuActive: false,
@@ -359,7 +372,7 @@ a {
   }
 }
 
-.icon {
+.logo {
   max-width: 125px;
 
   @media @min760 {
@@ -368,6 +381,18 @@ a {
 
   @media @min990 {
     max-width: 175px;
+  }
+}
+
+.logo_s {
+  max-width: 42px;
+
+  @media @min580 {
+    max-width: 42px;
+  }
+
+  @media @min760 {
+    max-width: 59px;
   }
 }
 
