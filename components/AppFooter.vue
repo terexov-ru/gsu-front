@@ -6,7 +6,7 @@
         <div class="nav">
           <ul class="nav__list">
             <li class="text nav__list__item text_semi-bold">
-              <NuxtLink to="/course" class="link link_white">
+              <NuxtLink to="/courses" class="link link_white">
                 ПРОГРАММЫ ОБУЧЕНИЯ
               </NuxtLink>
             </li>
