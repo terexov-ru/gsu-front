@@ -73,7 +73,7 @@ export default {
     unselectTip(tip) {
       console.log(tip);
     }
-  }
+  },
 }
 </script>
 

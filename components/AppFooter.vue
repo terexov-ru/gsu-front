@@ -23,12 +23,12 @@
           </ul>
           <ul class="nav__list">
             <li class="text nav__list__item text_semi-bold">
-              <NuxtLink to="/about/news" class="link link_white">
+              <NuxtLink to="/news" class="link link_white">
                 НОВОСТИ
               </NuxtLink>
             </li>
             <li class="text nav__list__item text_semi-bold">
-              <NuxtLink to="/about/loyalty" class="link link_white">
+              <NuxtLink to="/loyalty" class="link link_white">
                 ПРОГРАММА ЛОЯЛЬНОСТИ
               </NuxtLink>
             </li>

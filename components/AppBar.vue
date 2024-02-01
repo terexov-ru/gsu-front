@@ -76,23 +76,23 @@
                 <span class="dropdown__btn text text_caption text_dark">Обучение</span>
                 <ul class="dropdown__list text text_normal text_dark">
                   <li>
-                    <NuxtLink to="/courses">
+                    <NuxtLink to="/courses?id=0">
                       Непрерывное медицинское <br>
                       и фармацевтическое образование
                     </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/courses">
+                    <NuxtLink to="/courses?id=1" :props="{ message: 'Hello from Page A!' }">
                       Профессиональная переподготовка
                     </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/courses">
+                    <NuxtLink to="/courses?id=2" :props="{ message: 'Hello from Page A!' }">
                       Повышение квалификации
                     </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/courses">
+                    <NuxtLink to="/courses?id=3" :props="{ message: 'Hello from Page A!' }">
                       Профессиональное обучение
                     </NuxtLink>
                   </li>

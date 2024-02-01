@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import {inject} from "vue";
+
 export default {
   props: {
     tips: {
@@ -55,6 +57,25 @@ export default {
     //     this.$emit('selectTip', tip)
     //   }
     // },
+  },
+  setup() {
+    const route = useRoute();
+    const activeTip = ref(route.query.id);
+
+    onBeforeRouteUpdate((to, from) => {
+      activeTip.value = to.query.id;
+    });
+
+    return { activeTip };
+  },
+  watch: {
+    activeTip(val, oldVal) {
+      this.selectedTips = this.tips.filter((i) => i.id === parseInt(val))
+    }
+  },
+  mounted() {
+    if (this.selectedTips)
+      this.selectedTips = this.tips.filter((i) => i.id === parseInt(this.activeTip))
   }
 }
 </script>
