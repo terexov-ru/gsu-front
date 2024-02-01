@@ -10,15 +10,20 @@
 
         {{ tip.text }}
 
-        <img v-if="selectedTips.includes(tip)" src="~/assets/svg/close_white.svg" alt="close">
+<!--        <img v-if="selectedTips.includes(tip)" src="~/assets/svg/close_white.svg" alt="close">-->
+
+        <svg v-if="selectedTips.includes(tip)"
+             class="close"
+             width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 18L6 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 6L6 18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {inject} from "vue";
-
 export default {
   props: {
     tips: {
@@ -81,6 +86,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "/assets/core";
+
 .tip-list {
   display: flex;
   flex-wrap: wrap;
@@ -99,5 +106,15 @@ export default {
 
 .tip_active {
   transition: 0.2s;
+}
+
+.close {
+  width: 16px;
+  height: 16px;
+
+  @media @min760 {
+    width: 20px;
+    height: 20px;
+  }
 }
 </style>

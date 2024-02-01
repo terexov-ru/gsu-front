@@ -45,8 +45,7 @@
     </div>
 
     <div class="course-coast__buttons course-coast__item_big">
-      <button class="button button_gradient">Оплатить</button>
-      <button class="button button_black-bordered">В корзину</button>
+      <button class="button button_black-bordered">Записаться</button>
     </div>
   </div>
 </template>
