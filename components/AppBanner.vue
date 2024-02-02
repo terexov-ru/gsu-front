@@ -20,7 +20,6 @@
 <style lang="less" scoped>
 @import "assets/core.less";
 
-
 .banner {
   position: relative;
   display: flex;

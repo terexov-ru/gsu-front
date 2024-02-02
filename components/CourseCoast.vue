@@ -5,8 +5,11 @@
       <div class="text course-coast__item__name text_normal">
         Специализация
       </div>
-      <div class="text text_h3 course-coast__item__value">
-        Лабораторная диагностика
+      <div>
+      <span v-for="spec in page.specs" class="text text_h3 course-coast__item__value">
+        <!--        Лабораторная диагностика-->
+        {{ spec }};
+      </span>
       </div>
     </div>
 
@@ -15,7 +18,7 @@
         Кол-во часов
       </div>
       <div class="text text_h3 course-coast__item__value">
-        36
+        {{ page.duration }}
       </div>
     </div>
 
@@ -24,7 +27,7 @@
         Стоимость курса
       </div>
       <div class="text text_h3 course-coast__item__value">
-        20 000 ₽
+        {{ page.price }}
       </div>
     </div>
 
@@ -33,14 +36,14 @@
         Категория слушателей
       </div>
       <div class="text text_normal">
-        Врачи всех специальностей
+        {{ page.student_category }}
       </div>
 
       <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
         Форма обучения
       </div>
       <div class="text text_normal">
-        Заочная с применением электронного обучения, дистанционных образовательных технологий
+        {{ page.learning_format }}
       </div>
     </div>
 
@@ -50,11 +53,16 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "CourseCoast"-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  props: {
+    page: {
+      type: Object,
+      require: true,
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
