@@ -23,16 +23,15 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "ModulesInfo",-->
-<!--  data() {-->
-<!--    return {-->
-<!--      active: false,-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  data() {
+    return {
+      active: false,
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

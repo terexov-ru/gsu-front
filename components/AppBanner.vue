@@ -17,7 +17,6 @@
   </div>
 </template>
 
-
 <style lang="less" scoped>
 @import "assets/core.less";
 
@@ -71,6 +70,10 @@
 
 .banner__text {
   color: @WhiteColor;
+
+  @media @max760 {
+    font-size: 28px;
+  }
 }
 
 .banner__article {

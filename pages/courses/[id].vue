@@ -41,7 +41,9 @@
 
       </div>
 
-      <CourseCoast/>
+      <CourseCoast
+
+      />
     </div>
 
 

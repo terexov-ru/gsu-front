@@ -45,7 +45,7 @@
     </div>
 
     <div class="course-coast__buttons course-coast__item_big">
-      <button class="button button_black-bordered">Записаться</button>
+      <button class="button button_black-bordered button_fill">Записаться</button>
     </div>
   </div>
 </template>

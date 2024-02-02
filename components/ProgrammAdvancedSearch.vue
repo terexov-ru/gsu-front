@@ -24,8 +24,8 @@
 
       <DropDown
           :title="'Уровень медецинской подготовки'"
-          :options="options"
-          v-model:selected="selectedLevel"
+          :options="specs"
+          v-model:selected="selectedSpec"
           class="search-block__drop-down"
       />
 
@@ -50,8 +50,6 @@
       />
       <!--      @ChangePage="changePage"-->
     </div>
-
-
   </div>
 </template>
 
@@ -90,11 +88,14 @@ async function search() {
 }
 
 /* search request to get options info */
+const route = useRoute();
+let firstCategory = route.query.id ? route.query.id : 1;
+
 const firstRequestBody = {
   "start": 0,
   "amount": 0,
   "sort": 0,
-  "category": 1
+  "category": firstCategory
 }
 
 const {data: page} = await useFetch(API + '/page/learning', {

@@ -2,7 +2,7 @@
   <div class="drop-down">
 
     <div @click="active = !active" class="text drop-down__box text_normal">
-      <span>{{ selected.title }}</span>
+      <span>{{ selectedItem.title }}</span>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 9.19727L12 14.1973L17 9.19727" stroke="#B9BFC6" stroke-width="1.5" stroke-linecap="round"
               stroke-linejoin="round"/>
