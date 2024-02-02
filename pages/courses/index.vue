@@ -9,13 +9,13 @@
 </template>
 
 <script setup>
-const activeId = ref(-1);
-
-onBeforeRouteUpdate((to, from) => {
-  activeId.value = to.query.id;
-});
-
-provide('activeTip', activeId);
+// const activeId = ref(-1);
+//
+// onBeforeRouteUpdate((to, from) => {
+//   activeId.value = to.query.id;
+// });
+//
+// provide('activeTip', activeId);
 </script>
 
 <style lang="less" scoped>

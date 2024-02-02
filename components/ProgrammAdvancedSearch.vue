@@ -3,80 +3,109 @@
     <h2 class="text text_h2 text_dark">Обучение</h2>
 
     <ProgramSearchBar
-
+        @search="search()"
     />
+
+    <SearchTipList
+        :tips="categories"
+        v-model:selected="category"
+    />
+
+    <!--        @selectTip="selectTip"-->
+    <!--        @unselectTip="unselectTip"-->
 
     <div class="search-block__filters">
       <DropDown
-          :title="'Заголовок'"
-          :options="options"
+          :title="'Специализация'"
+          :options="specs"
+          v-model:selected="selectedSpec"
           class="search-block__drop-down"
       />
 
       <DropDown
-          :title="'Заголовок'"
+          :title="'Уровень медецинской подготовки'"
           :options="options"
+          v-model:selected="selectedLevel"
           class="search-block__drop-down"
       />
 
       <DropDown
-          :title="'Заголовок'"
-          :options="options"
+          :title="'Количество часов'"
+          :options="durations"
+          v-model:selected="selectedDuration"
           class="search-block__drop-down"
       />
     </div>
 
-    <CourseCardList class="search-block__card-list"/>
+    <CourseCardList
+        v-model:courses="courses"
+        class="search-block__card-list"
+    />
 
     <div class="pagination">
       <PaginationBar
           :size="5"
           :count="42"
           :page="1"
-          @ChangePage="changePage"
       />
+      <!--      @ChangePage="changePage"-->
     </div>
 
 
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      options: [
-        { text: 'Первый', value: '1' },
-        { text: 'Второй', value: '2' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-        { text: 'Третий', value: '3' },
-      ],
-    }
-  },
-  methods: {
-    changePage(page) {
-      console.log(page)
-    }
+<script setup>
+import {API} from '~/constants/index.js';
+import {toValue} from "vue";
+
+const selectedSpec = ref({});
+const selectedLevel = ref({});
+const selectedDuration = ref({});
+const category = ref(NaN);
+const courses = ref([]);
+
+/* search request */
+async function search() {
+  const req = {
+    "start": 0,
+    "amount": 0,
+    "sort": 0,
+    "category": toValue(category),
+
+    "search_value": toValue(selectedLevel),
+    "search_spec": toValue(selectedSpec).id,
+    "search_duration": toValue(selectedDuration),
   }
+
+  console.log(req);
+  console.log("HERE!!!");
+
+  const {data: page} = await useFetch(API + '/page/learning', {
+    method: 'POST',
+    body: req
+  });
+
+  courses.value = toValue(page).page.courses;
 }
+
+/* search request to get options info */
+const firstRequestBody = {
+  "start": 0,
+  "amount": 0,
+  "sort": 0,
+  "category": 1
+}
+
+const {data: page} = await useFetch(API + '/page/learning', {
+  method: 'POST',
+  body: firstRequestBody
+});
+
+const durations = toValue(page).page.durations;
+const specs = toValue(page).page.specs;
+const categories = toValue(page).page.categories;
+courses.value = toValue(page).page.courses;
 </script>
 
 <style lang="less" scoped>

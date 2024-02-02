@@ -6,7 +6,7 @@
           @focus="active = true"
           @focusout="active = false"
           class="input" :placeholder="!$viewport.isLessThan('desktop') ? 'Поиск по ключевым словам...' : 'Поиск'"
-             type="text">
+          type="text">
       <svg class="input-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M21 21L16.6569 16.6569M16.6569 16.6569C18.1046 15.2091 19 13.2091 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C13.2091 19 15.2091 18.1046 16.6569 16.6569Z"
@@ -16,53 +16,62 @@
       <div class="search-drop"
            v-if="active"
       >
-
         <div class="search-drop__block">
           <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
+          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
+            инфекции Covid-19
+          </div>
+          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
+            инфекции Covid-19
+          </div>
         </div>
 
         <div class="search-drop__block">
           <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
+          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
+            инфекции Covid-19
+          </div>
+          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
+            инфекции Covid-19
+          </div>
         </div>
 
         <div class="search-drop__block">
           <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
+          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
+            инфекции Covid-19
+          </div>
+          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
+            инфекции Covid-19
+          </div>
         </div>
 
         <div class="search-drop__block">
           <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19</div>
+          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
+            инфекции Covid-19
+          </div>
+          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
+            инфекции Covid-19
+          </div>
         </div>
-
       </div>
+
     </div>
-    <button class="button button_size button_gradient">Найти</button>
+
+
+    <button class="button button_size button_gradient"
+            @click="this.$emit('search')"
+    >Найти
+    </button>
   </div>
 
-  <SearchTipList
-      :tips="tips"
-      @selectTip="selectTip"
-      @unselectTip="unselectTip"
-  />
 </template>
 
 <script>
 export default {
   data() {
     return {
-      tips: [
-        {id: 0, text: "Непрерывное медицинское и фармацевтическое образование"},
-        {id: 1, text: "Повышение квалификации"},
-        {id: 2, text: "Профессиональная переподготовка"},
-        {id: 3, text: "Профессиональная переобучение"},
-      ],
       active: false,
     }
   },
@@ -72,6 +81,9 @@ export default {
     },
     unselectTip(tip) {
       console.log(tip);
+    },
+    search() {
+
     }
   },
 }

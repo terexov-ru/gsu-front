@@ -1,16 +1,7 @@
 <script setup>
-import {toValue} from "vue";
-
-const {data: posts, pending} = await useFetch('https://jsonplaceholder.typicode.com/posts');
+const {data: posts } = await useFetch('https://jsonplaceholder.typicode.com/posts');
 
 const filteredPosts = toValue(posts).slice(0, 3);
-
-// const filteredPosts = () => {
-//   if (toValue(posts) !== null) {
-//     return toValue(posts).slice(0, 3);
-//   }
-//   return [];
-// }
 </script>
 
 <template>

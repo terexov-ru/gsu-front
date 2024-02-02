@@ -2,7 +2,7 @@
   <div class="drop-down">
 
     <div @click="active = !active" class="text drop-down__box text_normal">
-      <span>{{ selected.text }}</span>
+      <span>{{ selected.title }}</span>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 9.19727L12 14.1973L17 9.19727" stroke="#B9BFC6" stroke-width="1.5" stroke-linecap="round"
               stroke-linejoin="round"/>
@@ -15,9 +15,9 @@
       <li class="text drop-down__list__item text_normal"
           v-for="option in options"
           :key="option.text"
-          @click="selected = option; active = false">
+          @click="selectOption(option)">
 
-        {{ option.text }}
+        {{ option.title }}
       </li>
     </ul>
 
@@ -31,20 +31,29 @@ export default {
       type: String,
       require: true,
     },
+    selected: {
+      type: Object,
+      default: null,
+    },
     options: Array,
   },
   data() {
     return {
       active: false,
-      selected: {text: 'Заголовок', value: ''},
+      selectedItem: {title: 'Заголовок', value: ''},
     }
   },
   mounted() {
-    this.selected.text = this.title;
+    this.selectedItem.title = this.title;
   },
   methods: {
     onClickOutside() {
       this.active = false
+    },
+    selectOption(option) {
+      this.selectedItem = option;
+      this.active = false
+      this.$emit('update:selected', option);
     }
   }
 }

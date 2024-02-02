@@ -1,20 +1,27 @@
 <template>
   <div class="card-list">
-    <CourseCard/>
-    <CourseCard/>
-    <CourseCard/>
-    <CourseCard/>
-    <CourseCard/>
+    <CourseCard
+      v-for="course in courses"
+      :key="course.id"
+    />
   </div>
 </template>
 
-<!--<script>-->
-<!--import CourseCard from "@/components/cards/course/CourseCard";-->
-<!--export default {-->
-<!--  name: "CourseCardList",-->
-<!--  components: {CourseCard}-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  props: {
+    courses: {
+      type: Array,
+      default: [],
+    }
+  },
+  watch: {
+    courses(newVal) {
+      console.log(newVal);
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
