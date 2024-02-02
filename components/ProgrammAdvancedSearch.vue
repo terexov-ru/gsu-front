@@ -23,9 +23,9 @@
       />
 
       <DropDown
-          :title="'Уровень медецинской подготовки'"
-          :options="specs"
-          v-model:selected="selectedSpec"
+          :title="'Слушатели'"
+          :options="studentCategories"
+          v-model:selected="selectedStudentCategories"
           class="search-block__drop-down"
       />
 
@@ -60,6 +60,7 @@ import {toValue} from "vue";
 const selectedSpec = ref({});
 const selectedLevel = ref({});
 const selectedDuration = ref({});
+const selectedStudentCategories = ref({});
 const category = ref(NaN);
 const courses = ref([]);
 
@@ -67,13 +68,13 @@ const courses = ref([]);
 async function search() {
   const req = {
     "start": 0,
-    "amount": 0,
+    "amount": 10,
     "sort": 0,
     "category": toValue(category),
 
-    "search_value": toValue(selectedLevel),
+    "search_student_category": toValue(selectedStudentCategories).id,
     "search_spec": toValue(selectedSpec).id,
-    "search_duration": toValue(selectedDuration),
+    "search_duration": toValue(selectedDuration).id,
   }
 
   console.log(req);
@@ -89,11 +90,11 @@ async function search() {
 
 /* search request to get options info */
 const route = useRoute();
-let firstCategory = route.query.id ? route.query.id : 1;
+let firstCategory = route.query.id ? route.query.id : 0;
 
 const firstRequestBody = {
   "start": 0,
-  "amount": 0,
+  "amount": 10,
   "sort": 0,
   "category": firstCategory
 }
@@ -106,6 +107,7 @@ const {data: page} = await useFetch(API + '/page/learning', {
 const durations = toValue(page).page.durations;
 const specs = toValue(page).page.specs;
 const categories = toValue(page).page.categories;
+const studentCategories = toValue(page).page.student_categories;
 courses.value = toValue(page).page.courses;
 </script>
 
