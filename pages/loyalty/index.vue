@@ -5,37 +5,21 @@
 
       <div class="loyalty">
 
-        <div class="loyalty__card">
-          <img class="loyalty__card__img" src="~/assets/loyalty_1.png">
-          <div class="loyalty__card__content">
-            <div class="text text_h3">Пригласи друга и получи бесплатное обучение</div>
-            <div class="text text_normal">Виртуальная карта «Вместе» с индивидуальным номером.
-              Пригласите друга, коллегу или знакомого на обучение, сообщите ему индивидуальный номер Вашей
-            </div>
-            <button class="button loyalty__card__button button_gradient">Подключиться</button>
-          </div>
-        </div>
+        <div
+            v-for="item in list"
+            :key="item.id"
+            class="loyalty__card"
+        >
 
-        <div class="loyalty__card">
-          <img class="loyalty__card__img" src="~/assets/loyalty_1.png">
+          <img class="loyalty__card__img" :src="item.image">
           <div class="loyalty__card__content">
-            <div class="text text_h3">Пригласи друга и получи бесплатное обучение</div>
-            <div class="text text_normal">Виртуальная карта «Вместе» с индивидуальным номером.
-              Пригласите друга, коллегу или знакомого на обучение, сообщите ему индивидуальный номер Вашей
+            <div class="text text_h3">{{ item.title }}</div>
+            <div class="text text_normal">
+              {{ item.description }}
             </div>
-            <button class="button loyalty__card__button button_gradient">Подключиться</button>
           </div>
-        </div>
 
-        <div class="loyalty__card">
-          <img class="loyalty__card__img" src="~/assets/loyalty_1.png">
-          <div class="loyalty__card__content">
-            <div class="text text_h3">Пригласи друга и получи бесплатное обучение</div>
-            <div class="text text_normal">Виртуальная карта «Вместе» с индивидуальным номером.
-              Пригласите друга, коллегу или знакомого на обучение, сообщите ему индивидуальный номер Вашей
-            </div>
-            <button class="button loyalty__card__button button_gradient">Подключиться</button>
-          </div>
+          <button class="button loyalty__card__button button_gradient">Подключиться</button>
         </div>
 
       </div>
@@ -45,6 +29,15 @@
     </div>
   </div>
 </template>
+<script setup>
+const {simpleGet: simpleGet} = useApi();
+
+const {data: data} = await simpleGet('/page/loyalties');
+
+console.log(toValue(data).page.loyalties);
+
+const list = toValue(data).page.loyalties;
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
@@ -72,6 +65,7 @@
 .loyalty__card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 32px;
 
   box-sizing: border-box;
@@ -91,7 +85,6 @@
 }
 
 .loyalty__card__img {
-  width: 100%;
   height: min-content;
   max-width: 320px;
 
