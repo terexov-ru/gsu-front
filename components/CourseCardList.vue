@@ -3,7 +3,7 @@
     <CourseCard
       v-for="course in courses"
       :key="course.id"
-      :test="course"
+      :course="course"
     />
   </div>
 </template>
@@ -17,8 +17,8 @@ export default {
     }
   },
   mounted() {
+    console.log("List");
     console.log(this.courses);
-    console.log("HERE!!!")
   }
 }
 </script>

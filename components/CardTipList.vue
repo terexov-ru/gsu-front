@@ -2,8 +2,8 @@
   <div class="card__tip-list">
     <ProgramCardTip
         v-for="tip in tips"
-        :key="tip.id"
-        :text="tip.text"
+        :key="tip"
+        :text="tip"
         :class="{'tip_active': tip.active}"
     />
   </div>

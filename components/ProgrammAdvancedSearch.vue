@@ -11,9 +11,6 @@
         v-model:selected="category"
     />
 
-    <!--        @selectTip="selectTip"-->
-    <!--        @unselectTip="unselectTip"-->
-
     <div class="search-block__filters">
       <DropDown
           :title="'Специализация'"
@@ -48,7 +45,6 @@
           :count="42"
           :page="1"
       />
-      <!--      @ChangePage="changePage"-->
     </div>
   </div>
 </template>

@@ -2,16 +2,24 @@
   <div class="card">
 
     <CardTipList
-      :tips="tips"
+        :tips="course.specs"
     />
 
     <h3 class="card__title text text_h3 text_dark">
-      {{ title }}
+      {{ course.title }}
     </h3>
 
     <div class="card__buttons">
-      <button class="button button_dark">В корзину</button>
-      <button class="button button_black-bordered">Подробнее</button>
+      <NuxtLink class="nuxt-link" :to="`/courses/${course.id}`">
+        <button class="button button_dark">
+          В корзину
+        </button>
+      </NuxtLink>
+      <NuxtLink class="nuxt-link" :to="`/courses/${course.id}`">
+        <button class="button button_black-bordered">
+          Подробнее
+        </button>
+      </NuxtLink>
     </div>
   </div>
 </template>
@@ -20,19 +28,20 @@
 export default {
   name: "ProgramCard",
   props: {
-    title: {
-      type: String,
-      require: true,
-    },
-    tips: {
-      type: Array
-    },
+    course: {
+      type: Object,
+      require: true
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
+
+.nuxt-link {
+  width: 100%;
+}
 
 .card {
   box-sizing: border-box;

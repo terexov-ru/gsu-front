@@ -3,21 +3,64 @@
   и отображения состояние в ProgramCardList-->
   <div class="search-block wrapper wrapper_paddings">
     <h2 class="text text_h2 text_dark">Подбери <span class="text_accent">программу</span> и повысь <br> свою <span
-        class="text_accent">компетентность</span></h2>
-    <ProgramSearchBar/>
-    <ProgramCardList/>
+        class="text_accent">компетентность</span>
+    </h2>
+
+    <ProgramSearchBar
+      @search="search()"
+    />
+
+    <SearchTipList
+        :tips="categories"
+        v-model:selected="category"
+    />
+
+    <ProgramCardList
+        v-model:courses="courses"
+    />
+
     <SeeMore
         :href="'/courses'"
     />
   </div>
 </template>
 
-<script>
+<script setup>
+import {toValue} from "vue";
+import {API} from '~/constants/index.js';
 
+const category = ref(NaN);
+const courses = ref([]);
 
-export default {
-  name: "ProgramSearchBlock",
+const firstRequestBody = {
+  "start": 0,
+  "amount": 3,
+  "sort": 0,
 }
+
+async function search() {
+  const req = {
+    "start": 0,
+    "amount": 3,
+    "sort": 0,
+    "category": toValue(category),
+  }
+
+  const {data: page} = await useFetch(API + '/page/learning', {
+    method: 'POST',
+    body: req
+  });
+
+  courses.value = toValue(page).page.courses;
+}
+
+const {data: page} = await useFetch(API + '/page/learning', {
+  method: 'POST',
+  body: firstRequestBody
+});
+
+const categories = toValue(page).page.categories;
+courses.value = toValue(page).page.courses;
 </script>
 
 <style lang="less" scoped>

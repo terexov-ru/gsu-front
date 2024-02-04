@@ -1,18 +1,14 @@
 <template>
   <div class="course-coast">
-
     <div class="course-coast__item course-coast__item_big">
       <div class="text course-coast__item__name text_normal">
         Специализация
       </div>
-      <div v-if="page.specs > 0">
+      <div>
         <span v-for="spec in page.specs" class="text text_h3 course-coast__item__value">
         <!--        Лабораторная диагностика-->
         {{ spec }};
         </span>
-      </div>
-      <div v-else class="text text_h3 course-coast__item__value">
-        Подходит для всех
       </div>
     </div>
 
