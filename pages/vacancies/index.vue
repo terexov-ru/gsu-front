@@ -1,45 +1,56 @@
 <template>
-
   <div class="vacancies-block">
-
     <div class="wrapper wrapper_paddings">
       <div class="text text_h2 text_h2-margin">Вакансии</div>
     </div>
 
-    <VacanciesSlider/>
+    <VacanciesSlider
+
+    />
 
     <div class="wrapper wrapper_paddings">
       <div class="vacancies__grid">
-        <div
-            class="vacancies__card"
-            v-for="i in 6"
-            :key="i"
-        >
-          <div class="text text_large">Главный специалист
-            учебного отдела</div>
-
-          <div class="row row_al-c row_gap60">
-
-            <div class="column">
-              <div class="text text_normal">Опыт</div>
-              <div class="text text_normal text_light">1-3 года</div>
-            </div>
-            <div class="column">
-              <div class="text text_normal">Зарплата</div>
-              <div class="text text_normal text_light">30 000 Р</div>
-            </div>
-          </div>
-
-          <div class="button button_dark">
-            Подробнее
-          </div>
-
-        </div>
+        <VacanciesCard
+            v-for="item in list"
+            :key="item.id"
+            :vacancy="item"
+            @click="selectActive(item)"
+        />
       </div>
     </div>
   </div>
 
+  <OverflowContainer
+      :active="activeOverflow"
+      @closeOverflow="closeOverflow()"
+  >
+    <OverflowVacancies
+        @close="closeOverflow()"
+        :vacancy="activeItem"
+    />
+  </OverflowContainer>
+
 </template>
+
+<script setup>
+const {simpleGet: simpleGet} = useApi();
+
+const {data: data} = await simpleGet('/page/vacancies');
+const list = toValue(data).page.vacancies;
+
+const activeItem = ref({});
+const activeOverflow = ref(false);
+
+function selectActive(item) {
+  activeItem.value = item;
+  activeOverflow.value = true;
+}
+
+function closeOverflow() {
+  activeOverflow.value = false;
+  activeItem.value = {};
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

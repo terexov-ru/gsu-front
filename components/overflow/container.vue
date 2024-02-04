@@ -1,6 +1,6 @@
 <template>
-  <div v-if="active" @click="this.$emit('closeOverflow')" class="overflow">
-    <div @click.stop>
+  <div v-if="active" @click="this.$emit('closeOverflow')" >
+    <div class="overflow" @click.stop>
       <slot>
 
       </slot>
@@ -10,7 +10,6 @@
 
 <script>
 export default {
-  name: "OverflowContainer",
   props: {
     active: {
       type: Boolean,
@@ -37,5 +36,9 @@ export default {
 
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
+}
+
+.width {
+  width: 100%;
 }
 </style>

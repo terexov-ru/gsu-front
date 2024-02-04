@@ -33,9 +33,6 @@
 const {simpleGet: simpleGet} = useApi();
 
 const {data: data} = await simpleGet('/page/loyalties');
-
-console.log(toValue(data).page.loyalties);
-
 const list = toValue(data).page.loyalties;
 </script>
 

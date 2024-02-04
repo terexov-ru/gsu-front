@@ -29,8 +29,8 @@ export default {
   border: 1px solid @MidGreyColor;
   background: @WhiteColor;
 
-@media @min580 {
-  width: 440px;
-}
+  @media @min580 {
+    width: 440px;
+  }
 }
 </style>
