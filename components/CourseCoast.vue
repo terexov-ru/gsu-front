@@ -42,14 +42,14 @@
         {{ page.student_category }}
       </div>
 
-      <div class="text course-coast__item__name text_normal">
+      <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
         Итоговая аттестация
       </div>
       <div class="text text_normal">
         {{ page.exam }}
       </div>
 
-      <div class="text course-coast__item__name text_normal">
+      <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
         Документ, выдаваемый после обучения
       </div>
       <div class="text text_normal">
@@ -117,7 +117,7 @@ export default {
   color: @MidGreyColor;
 
   &_margin {
-    margin-top: 32px;
+    margin-top: 16px;
   }
 }
 

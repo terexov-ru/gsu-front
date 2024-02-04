@@ -14,18 +14,12 @@
       </svg>
     </div>
     <div class="text module__description text_semi-bold">
-<!--      Организация помощи детям и подросткам с сердечно-сосудистой-->
-<!--      патологией.-->
       <span v-if="module.module_subtitle">{{ module.module_subtitle }}</span>
       <span v-else>Не указан</span>
-
     </div>
     <div class="text module__text text_normal"
          :class="{'module__text_active' : active}">
       {{ module.module_description }}
-<!--      Данная программа дополнительного профессионального образования прошла экспертную оценку и опубликована на портале-->
-<!--      непрерывного медицинского и фармацевтического образования Минздрава России, для получения баллов, оформите заявку-->
-<!--      на сайте росминздрав edu.rosminzdrav.ru.-->
     </div>
   </div>
 </template>
