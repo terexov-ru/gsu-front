@@ -1,12 +1,13 @@
 <template>
   <div class="news">
     <div class="image-container">
-      <img class="image" src="~/assets/news.png" alt="news">
+
+      <img v-if="news !== undefined && news.image !== undefined" class="image" :src="news.image" alt="news">
     </div>
 
-    <div class="text news__date text_caption">17 января 2023 • Событие</div>
+    <div class="text news__date text_caption">{{ news.date }} • {{ news.type }}</div>
     <div class="description">
-      <div class="text text_semi-bold">Для внесения сведений о прохождении аккредитации не требуется свидетельство об аккредитации</div>
+      <div class="text text_semi-bold">{{ news.annotation }}</div>
       <div class="arrow">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -16,11 +17,16 @@
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "NewsCard"-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  props: {
+    news: {
+      type:Object,
+      require:true
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

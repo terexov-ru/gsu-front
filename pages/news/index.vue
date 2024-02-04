@@ -19,38 +19,31 @@
 
       <div class="news-block">
 
-        <div class="news__banner">
-
+        <div v-if="bigNews" class="news__banner">
           <img class="news__banner__img" src="~/assets/news_banner.png" alt="news_banner">
 
-          <div class="text text_caption text_accent">17 января 2023 • Событие</div>
+          <div class="text text_caption text_accent">{{ bigNews.date }} • {{ bigNews.type }}</div>
 
           <div class="row">
-            <h2 class="text text_h3">Для внесения сведений о прохождении аккредитации не требуется свидетельство об
-              аккредитации</h2>
+            <h2 class="text text_h3">
+              {{ bigNews.annotation }}
+            </h2>
             <svg class="svg" width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7.66016 21L17.6602 11M17.6602 11H7.66016M17.6602 11V21" stroke="#101828" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
 
-          <div class="text text_normal">Уважаемые коллеги, обращаем ваше внимание, в соответствии с письмом Министерства
-            здравоохранения Российской Федерации от 15.03.2022, адресованным руководителям органов исполнительной власти
-            субъектов Российской Федерации в сфере охраны здоровья, за подписью заместителя министра здравоохранения
-            Т.В. Семеновой, лицо считается прошедшим аккредитацию специалиста с момента внесения данных о прохождении
-            аккредитации специалиста в единую государственную информационную систему в сфере здравоохранения (ЕГИСЗ).
+          <div class="text text_normal">
+            {{ bigNews.text }}
           </div>
-
         </div>
 
-        <NewsCard/>
-        <NewsCard/>
-
-        <NewsCard/>
-        <NewsCard/>
-
-        <NewsCard/>
-        <NewsCard/>
+        <div v-for="item of news">
+          <NewsCard
+              :news="item"
+          />
+        </div>
 
       </div>
 
@@ -64,6 +57,23 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const {getNews: getNews} = useApi();
+const viewport = useViewport()
+
+const {data: data} = await getNews(0, 8);
+let bigNews = undefined;
+let news = [];
+
+
+if (!viewport.isLessThan('mobile')) {
+  bigNews = toValue(data).page.news.slice(0, 1)[0];
+  news = toValue(data).page.news.slice(1);
+} else {
+  news = toValue(data).page.news;
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
