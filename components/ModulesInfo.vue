@@ -1,24 +1,31 @@
 <template>
-  <div class="module">
+  <div class="module pointer"
+       @click="active = !active"
+  >
     <div class="module__header">
-      <h4 class="text module__name text_h4">Модуль 1</h4>
-      <svg @click="active = !active"
-           :class="{'module__icon_active': active}"
-           class="module__icon"
+      <h4 class="text module__name text_h4">
+        {{ module.module_title }}
+      </h4>
+      <svg :class="{'module__icon_active': active}"
+           class="module__icon pointer"
            width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7 9.19727L12 14.1973L17 9.19727" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"
               stroke-linejoin="round"/>
       </svg>
     </div>
     <div class="text module__description text_semi-bold">
-      Организация помощи детям и подросткам с сердечно-сосудистой
-      патологией.
+<!--      Организация помощи детям и подросткам с сердечно-сосудистой-->
+<!--      патологией.-->
+      <span v-if="module.module_subtitle">{{ module.module_subtitle }}</span>
+      <span v-else>Не указан</span>
+
     </div>
     <div class="text module__text text_normal"
          :class="{'module__text_active' : active}">
-      Данная программа дополнительного профессионального образования прошла экспертную оценку и опубликована на портале
-      непрерывного медицинского и фармацевтического образования Минздрава России, для получения баллов, оформите заявку
-      на сайте росминздрав edu.rosminzdrav.ru.
+      {{ module.module_description }}
+<!--      Данная программа дополнительного профессионального образования прошла экспертную оценку и опубликована на портале-->
+<!--      непрерывного медицинского и фармацевтического образования Минздрава России, для получения баллов, оформите заявку-->
+<!--      на сайте росминздрав edu.rosminzdrav.ru.-->
     </div>
   </div>
 </template>
@@ -29,6 +36,12 @@ export default {
     return {
       active: false,
     }
+  },
+  props: {
+    module: {
+      type: Object,
+      require: true,
+    },
   }
 }
 </script>

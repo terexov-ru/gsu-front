@@ -58,7 +58,6 @@ import {API} from '~/constants/index.js';
 import {toValue} from "vue";
 
 const selectedSpec = ref({});
-const selectedLevel = ref({});
 const selectedDuration = ref({});
 const selectedStudentCategories = ref({});
 const category = ref(NaN);
@@ -76,9 +75,6 @@ async function search() {
     "search_spec": toValue(selectedSpec).id,
     "search_duration": toValue(selectedDuration).id,
   }
-
-  console.log(req);
-  console.log("HERE!!!");
 
   const {data: page} = await useFetch(API + '/page/learning', {
     method: 'POST',

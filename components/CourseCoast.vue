@@ -5,11 +5,14 @@
       <div class="text course-coast__item__name text_normal">
         Специализация
       </div>
-      <div>
-      <span v-for="spec in page.specs" class="text text_h3 course-coast__item__value">
+      <div v-if="page.specs > 0">
+        <span v-for="spec in page.specs" class="text text_h3 course-coast__item__value">
         <!--        Лабораторная диагностика-->
         {{ spec }};
-      </span>
+        </span>
+      </div>
+      <div v-else class="text text_h3 course-coast__item__value">
+        Подходит для всех
       </div>
     </div>
 
@@ -39,6 +42,20 @@
         {{ page.student_category }}
       </div>
 
+      <div class="text course-coast__item__name text_normal">
+        Итоговая аттестация
+      </div>
+      <div class="text text_normal">
+        {{ page.exam }}
+      </div>
+
+      <div class="text course-coast__item__name text_normal">
+        Документ, выдаваемый после обучения
+      </div>
+      <div class="text text_normal">
+        {{ page.document }}
+      </div>
+
       <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
         Форма обучения
       </div>
@@ -48,7 +65,9 @@
     </div>
 
     <div class="course-coast__buttons course-coast__item_big">
-      <button class="button button_black-bordered button_fill">Записаться</button>
+      <button class="button button_black-bordered button_fill">
+        Записаться
+      </button>
     </div>
   </div>
 </template>
