@@ -18,7 +18,9 @@
     </div>
 
     <div class="link review__link">
-      Читать полностью
+      <NuxtLink to="/about/reviews">
+        Читать полностью
+      </NuxtLink>
     </div>
   </div>
 </template>

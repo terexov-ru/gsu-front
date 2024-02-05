@@ -2,7 +2,7 @@
   <!--  TODO сделать адаптив под телефоны-->
   <div class="review-list">
     <ReviewCard class="box_1 text-clamp text-clamp_7"
-                :class="{'text-clamp_14' : $viewport.isLessThan('desktop')}"
+                :class="{'text-clamp_14' : !$viewport.isLessThan('desktop')}"
                 v-if="reviews[0]"
                 :item="reviews[0]"
     />
