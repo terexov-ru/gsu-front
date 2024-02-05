@@ -48,9 +48,7 @@ export default {
       default: {}
     },
   },
-  mounted() {
-    console.log(this.course);
-  }
+
 }
 </script>
 

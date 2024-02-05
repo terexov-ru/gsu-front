@@ -36,9 +36,6 @@ export default {
       active: false
     }
   },
-  mounted() {
-    console.log(this.news)
-  }
 }
 </script>
 

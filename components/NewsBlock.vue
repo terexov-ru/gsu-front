@@ -26,9 +26,6 @@ export default {
       require: true
     }
   },
-  mounted() {
-    console.log(this.news)
-  }
 }
 </script>
 

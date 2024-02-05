@@ -59,7 +59,7 @@ const selectedStudentCategories = ref({});
 const category = ref(NaN);
 const courses = ref([]);
 const currentPage = ref(1);
-const amount = 5;
+const amount = 2;
 
 /* search request */
 async function search() {
@@ -80,6 +80,7 @@ async function search() {
   });
 
   courses.value = toValue(page).page.courses;
+  count.value =  toValue(page).page.total_courses_amount;
 }
 
 /* search request to get options info */
@@ -98,16 +99,15 @@ const {data: page} = await useFetch(API + '/page/learning', {
   body: firstRequestBody
 });
 
-const count = toValue(page).page.total_courses_amount;
 const durations = toValue(page).page.durations;
 const specs = toValue(page).page.specs;
 const categories = toValue(page).page.categories;
 const studentCategories = toValue(page).page.student_categories;
 courses.value = toValue(page).page.courses;
+const count = ref(toValue(page).page.total_courses_amount);
 
 /* Pagination */
 watch(currentPage, async (newVal) => {
-  console.log(newVal);
   await search();
 })
 </script>
