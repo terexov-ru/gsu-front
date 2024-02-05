@@ -1,28 +1,24 @@
 <template>
   <div class="summary">
-    <div class="item">
-      <div class="text text_h2">267</div>
-      <div class="text text_normal">экспертов-практиков с обширным опытом</div>
-    </div>
-    <div class="item">
-      <div class="text text_h2">1 663</div>
-      <div class="text text_normal">программ НМО и смежных направлений</div>
-    </div>
-    <div class="item">
-      <div class="text text_h2">6 000 +</div>
-      <div class="text text_normal">учреждений пранеров
-        и клиентов</div>
-    </div>
-    <div class="item">
-      <div class="text text_h2">6 864 +</div>
-      <div class="text text_normal">учащихся и выпускников программ</div>
+    <div
+        v-for="item in list"
+        :key="item.title"
+        class="item"
+    >
+      <div class="text text_h2">{{item.title}}</div>
+      <div class="text text_normal">{{ item.text }}</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SummaryCard"
+  props: {
+    list: {
+      type: Array,
+      require: true
+    }
+  }
 }
 </script>
 

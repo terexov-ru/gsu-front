@@ -1,21 +1,28 @@
 <template>
   <div class="summary-block wrapper wrapper_paddings">
-    <h1 class="text text_h2">124 специальности позволяют выбрать наилучший путь развития в медицине</h1>
-    <div class="text summary-block__text text_normal">Более 25 лет в «Синергии» учат самым актуальным и востребованным профессиям.Мы даем
-      знания, которые можно применить для развития своего бизнеса или работы в крупных компаниях.
+    <h1 class="text text_h2">
+      {{ info.title }}
+    </h1>
+    <div class="text summary-block__text text_normal">
+      {{ info.text }}
     </div>
-    <SummaryCard class="summary"/>
+    <SummaryCard
+        class="summary"
+        :list="info.items"
+    />
   </div>
 </template>
 
-<!--<script>-->
-<!--import SummaryCard from "@/components/summary/SummaryCard";-->
-
-<!--export default {-->
-<!--  name: "SummaryBlock",-->
-<!--  components: {SummaryCard}-->
-<!--}-->
-<!--</script>-->
+<script>
+export default {
+  props: {
+    info: {
+      type: Object,
+      require: true
+    }
+  }
+}
+</script>
 
 <style scoped>
 .summary {

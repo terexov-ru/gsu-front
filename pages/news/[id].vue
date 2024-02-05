@@ -58,6 +58,17 @@
   </div>
 </template>
 
+<script>
+export default {
+  props: {
+    news: {
+      type: Object,
+      require: true
+    }
+  }
+}
+</script>
+
 <style lang="less" scoped>
 @import "assets/core.less";
 

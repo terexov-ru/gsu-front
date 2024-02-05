@@ -5,18 +5,39 @@
 
     <ProgramSearchBlock class="search-block"/>
 
-    <ReviewBlock class="review-block"/>
+    <ReviewBlock
+        class="review-block"
+        :reviews="page.reviews"
+    />
 
-    <NewsBlock class="news-block"/>
+    <NewsBlock
+        class="news-block"
+        :news="page.news"
+    />
 
-    <AdvantagesSlider class="advantages-block"/>
+    <AdvantagesSlider
+        class="advantages-block"
+    />
 
-    <SummaryBlock class="summary-block"/>
+    <SummaryBlock
+        class="summary-block"
+        :info="page.block_info"
+    />
 
     <QuestionSlider class="question-block"/>
 
   </main>
 </template>
+<script setup>
+import {toValue} from "vue";
+
+const {simpleGet: simpleGet} = useApi();
+
+const {data: data} = await simpleGet('/page/main');
+
+const page = toValue(data).page;
+
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
