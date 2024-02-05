@@ -8,10 +8,10 @@
       <div>
         <div>
           <div class="text text_h3">{{ course.title }}</div>
-<!--          <CardTipList-->
-<!--              class="course__info__card-list"-->
-<!--              :tips="course.tips"-->
-<!--          />-->
+          <CardTipList
+              class="course__info__card-list"
+              :tips="course.specs"
+          />
         </div>
 
         <DetailsInfo

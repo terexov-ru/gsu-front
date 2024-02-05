@@ -59,10 +59,13 @@ const selectedStudentCategories = ref({});
 const category = ref(NaN);
 const courses = ref([]);
 const currentPage = ref(1);
-const amount = 2;
+const amount = 5;
 
 /* search request */
-async function search() {
+async function search(noUpdated = undefined) {
+  if (!noUpdated)
+    currentPage.value = 1;
+
   const req = {
     "start": toValue(currentPage) * amount - amount,
     "amount": amount,
@@ -80,7 +83,7 @@ async function search() {
   });
 
   courses.value = toValue(page).page.courses;
-  count.value =  toValue(page).page.total_courses_amount;
+  count.value = toValue(page).page.total_courses_amount;
 }
 
 /* search request to get options info */
@@ -108,7 +111,8 @@ const count = ref(toValue(page).page.total_courses_amount);
 
 /* Pagination */
 watch(currentPage, async (newVal) => {
-  await search();
+  currentPage.value = newVal;
+  await search(true);
 })
 </script>
 

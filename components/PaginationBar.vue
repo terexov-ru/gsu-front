@@ -46,6 +46,10 @@ export default {
   watch: {
     currentPage(newVal) {
       this.$emit("update:page", newVal);
+    },
+    page(newVal) {
+      if (newVal !== this.currentPage)
+        this.currentPage = newVal;
     }
   }
 }
