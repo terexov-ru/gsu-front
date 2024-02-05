@@ -2,22 +2,19 @@
   <div class="review">
     <div class="review__profile">
       <div class="info">
-        <div class="text text_h4">Анастасия Ж.</div>
-        <div class="tip review__tip tip_accent tip_small">Бактериология</div>
+        <div class="text text_h4">{{ item.name }}</div>
+        <div class="tip review__tip tip_accent tip_small">{{ item.spec }}</div>
       </div>
       <div class="avatar">
-        <div class="avatar__circle"></div>
-        <div class="avatar__img"></div>
+        <div class="avatar__circle"/>
+        <div class="avatar__img-container">
+          <img class="avatar__img" :src="item.image" alt="лицо">
+        </div>
       </div>
     </div>
 
     <div class="text review__text text_normal">
-      В этом университете меня поразил высокий профессионализм преподавателей и медицинских экспертов, которые вели
-      наши занятия. Они обладали огромным опытом и глубоким знанием в своей области, и их преподавательский стиль
-      позволял нам легко усваивать сложные медицинские концепции. Особенно мне запомнились практические занятия, во
-      время которых мы могли применить полученные знания на практике. Они обладали огромным опытом и глубоким знанием
-      в своей области, и их преподавательский стиль позволял нам легко усваивать сложные медицинские концепции.
-      Особенно мне запомнились практические занятия
+      {{ item.text }}
     </div>
 
     <div class="link review__link">
@@ -25,6 +22,17 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    item: {
+      type: Object,
+      require: true
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
@@ -58,14 +66,25 @@
   position: relative;
 }
 
-.avatar__img {
+.avatar__img-container {
   position: relative;
   width: 60px;
   height: 60px;
   border-radius: 30px;
   z-index: 100;
 
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   background: @MidGreyColor;
+}
+
+.avatar__img {
+  width: auto;
+  height: 100%;
 }
 
 .avatar__circle {

@@ -1,21 +1,37 @@
-<script setup>
-
-
-const { windowWidth, windowHeight, isWidth990, isWidth760, isWidth580 } = useWidthHeight();
-</script>
 <template>
   <!--  TODO сделать адаптив под телефоны-->
   <div class="review-list">
     <ReviewCard class="box_1 text-clamp text-clamp_7"
-                :class="{'text-clamp_14' : isWidth990()}"
+                :class="{'text-clamp_14' : $viewport.isLessThan('desktop')}"
+                v-if="reviews[0]"
+                :item="reviews[0]"
     />
-    <ReviewCard class="box_2 text-clamp text-clamp_7"/>
-    <ReviewCard class="box_3 text-clamp text-clamp_7"/>
+    <ReviewCard class="box_2 text-clamp text-clamp_7"
+                v-if="reviews[1]"
+                :item="reviews[1]"
+    />
+    <ReviewCard class="box_3 text-clamp text-clamp_7"
+                v-if="reviews[2]"
+                :item="reviews[2]"
+    />
     <ReviewCard class="box_4 text-clamp text-clamp_7"
-                :class="{'text-clamp_4' : isWidth990()}"
+                :class="{'text-clamp_4' : !$viewport.isLessThan('desktop')}"
+                v-if="reviews[3]"
+                :item="reviews[3]"
     />
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    reviews: {
+      type: Array,
+      require: true
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
