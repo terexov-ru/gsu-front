@@ -12,7 +12,7 @@
 
     <NewsBlock
         class="news-block"
-        :news="page.news"
+        :news="page.news[0].slice(0, 3)"
     />
 
     <AdvantagesSlider
