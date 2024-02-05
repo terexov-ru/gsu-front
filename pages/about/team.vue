@@ -5,18 +5,25 @@
 
     <div class="radio-button radio-button_margins">
       <div class="radio-button__hover"
-           :class="{'radio-button__hover_active' : active}"
+           :class="[{'radio-button__hover_1' : active === 1}, {'radio-button__hover_2' : active === 2}, {'radio-button__hover_3' : active === 3}]"
       />
 
-      <div @click="active = false"
-           class="text radio-button__text text_normal"
-           :class="{'radio-button__text_active' : !active}">
+      <div @click="active = 1"
+           class="text radio-button__text text_normal radio-button__text_left"
+           :class="{'radio-button__text_active' : active === 1}">
         Администрация
       </div>
-      <div @click="active = true"
-           class="text radio-button__text text_normal"
-           :class="{'radio-button__text_active' : active}">
+
+      <div @click="active = 2"
+           class="text radio-button__text text_normal radio-button__text_center"
+           :class="{'radio-button__text_active' : active === 2}">
         Преподаватели
+      </div>
+
+      <div @click="active = 3"
+           class="text radio-button__text text_normal radio-button__text_center"
+           :class="{'radio-button__text_active' : active === 3}">
+        Сотрудники
       </div>
     </div>
 
@@ -27,8 +34,11 @@
           <img class="team__card__img" src="~/assets/team.png" alt="team"/>
         </div>
         <div class="team__card__description">
-          <div class="text text_large">Фамилия <br> Имя Отчество</div>
-          <div class="text text_normal">Должность</div>
+          <div class="text text_large">
+            Фамилия
+            <br>
+            Имя Отчество</div>
+          <div class="text text_normal text_light">Должность</div>
         </div>
       </div>
 
@@ -46,7 +56,10 @@
 </template>
 
 <script setup>
-const active = false;
+const active = ref(false);
+
+
+
 </script>
 
 <style lang="less" scoped>
@@ -105,8 +118,7 @@ const active = false;
   overflow: hidden;
 
   height: 44px;
-  width: auto;
-  max-width: 310px;
+  width: fit-content;
 
   box-sizing: border-box;
   padding: 10px 16px;
@@ -128,6 +140,20 @@ const active = false;
   z-index: 10;
   color: @DarkGreyColor;
   transition: 150ms;
+  width: 140px;
+  cursor: pointer;
+
+  &_left {
+    text-align: left;
+  }
+
+  &_center {
+    text-align: center;
+  }
+
+  &_right {
+    text-align: right;
+  }
 }
 
 .radio-button__text_active {
@@ -139,7 +165,7 @@ const active = false;
   position: absolute;
   left: 0;
 
-  width: 50%;
+  width: 33%;
   height: 100%;
 
   border-radius: inherit;
@@ -148,8 +174,23 @@ const active = false;
   transition: 150ms;
 }
 
+.radio-button__hover_1 {
+  left: 0;
+  transition: 150ms;
+}
+
+.radio-button__hover_2 {
+  left: 33%;
+  transition: 150ms;
+}
+
+.radio-button__hover_3 {
+  left: 66%;
+  transition: 150ms;
+}
+
 .radio-button__hover_active {
-  left: 50%;
+  left: 33%;
   transition: 150ms;
 }
 
