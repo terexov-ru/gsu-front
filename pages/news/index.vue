@@ -10,17 +10,26 @@
         <DropDown
             class="options__drop-down"
             :title="'Показать все'"
+            :options="newsTypes"
+            v-model:selected="selectedType"
+
         />
         <DropDown
             class="options__drop-down"
             :title="'Год'"
+            :options="newsYears"
+            v-model:selected="selectedYear"
         />
       </div>
 
       <div class="news-block">
 
         <div v-if="bigNews" class="news__banner">
-          <img class="news__banner__img" src="~/assets/news_banner.png" alt="news_banner">
+
+          <div class="news__banner__img-container">
+            <img class="news__banner__img" :src="bigNews.image" alt="news_banner">
+          </div>
+
 
           <div class="text text_caption text_accent">{{ bigNews.date }} • {{ bigNews.type }}</div>
 
@@ -60,19 +69,41 @@
 
 <script setup>
 const {getNews: getNews} = useApi();
-const viewport = useViewport()
+const viewport = useViewport();
 
 const {data: data} = await getNews(0, 8);
-let bigNews = undefined;
-let news = [];
 
+const bigNews = ref(undefined);
+const news = ref([]);
+const page = ref(toValue(data).page);
+const selectedType = ref(undefined);
+const selectedYear = ref(undefined);
 
-if (!viewport.isLessThan('mobile')) {
-  bigNews = toValue(data).page.news.slice(0, 1)[0];
-  news = toValue(data).page.news.slice(1);
-} else {
-  news = toValue(data).page.news;
+watch(selectedType, async (newValue) => {
+  const {data: data} = await getNews(0, 8, selectedYear, newValue.id);
+  page.value = toValue(data).page;
+  updateNews();
+})
+
+watch(selectedYear, async (newValue) => {
+  const {data: data} = await getNews(0, 8, newValue.id, selectedType);
+  page.value = toValue(data).page;
+  updateNews();
+})
+
+const newsTypes = toValue(page).news_types;
+const newsYears = toValue(page).news_years;
+
+function updateNews() {
+  if (!viewport.isLessThan('mobile')) {
+    bigNews.value = toValue(page).news.slice(0, 1)[0];
+    news.value = toValue(page).news.slice(1);
+  } else {
+    news.value = toValue(page).news;
+  }
 }
+
+updateNews();
 </script>
 
 <style lang="less" scoped>
@@ -146,6 +177,15 @@ if (!viewport.isLessThan('mobile')) {
     grid-row: 1 / 3;
     grid-column: 1 / 3;
   }
+}
+
+.news__banner__img-container {
+  max-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .news__banner__img {

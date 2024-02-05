@@ -1,8 +1,6 @@
 <template>
   <div class="card-list">
-    <NewsCard/>
-    <NewsCard/>
-    <NewsCard/>
+
   </div>
 </template>
 
