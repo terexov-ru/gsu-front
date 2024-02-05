@@ -5,43 +5,40 @@
 
     <div class="radio-button radio-button_margins">
       <div class="radio-button__hover"
-           :class="[{'radio-button__hover_1' : active === 1}, {'radio-button__hover_2' : active === 2}, {'radio-button__hover_3' : active === 3}]"
+           :class="[{'radio-button__hover_1' : active === 0}, {'radio-button__hover_2' : active === 1}, {'radio-button__hover_3' : active === 2}]"
       />
 
-      <div @click="active = 1"
+      <div @click="active = 0"
            class="text radio-button__text text_normal radio-button__text_left"
-           :class="{'radio-button__text_active' : active === 1}">
+           :class="{'radio-button__text_active' : active === 0}">
         Администрация
+      </div>
+
+      <div @click="active = 1"
+           class="text radio-button__text text_normal radio-button__text_center"
+           :class="{'radio-button__text_active' : active === 1}">
+        Преподаватели
       </div>
 
       <div @click="active = 2"
            class="text radio-button__text text_normal radio-button__text_center"
            :class="{'radio-button__text_active' : active === 2}">
-        Преподаватели
-      </div>
-
-      <div @click="active = 3"
-           class="text radio-button__text text_normal radio-button__text_center"
-           :class="{'radio-button__text_active' : active === 3}">
         Сотрудники
       </div>
     </div>
 
     <div class="team">
-
-      <div v-for="i in 9" :key="i" class="team__card">
+      <div v-for="item in empl" :key="item.id" class="team__card">
         <div class="team__card__img-container">
           <img class="team__card__img" src="~/assets/team.png" alt="team"/>
         </div>
         <div class="team__card__description">
           <div class="text text_large">
-            Фамилия
-            <br>
-            Имя Отчество</div>
-          <div class="text text_normal text_light">Должность</div>
+            {{ item.name }}
+            </div>
+          <div class="text text_normal text_light">{{ item.job_title }}</div>
         </div>
       </div>
-
     </div>
 
     <div class="pagination">
@@ -56,7 +53,20 @@
 </template>
 
 <script setup>
-const active = ref(false);
+import {toValue, watch} from "vue";
+
+const {getTeam: getTeam } = useApi();
+
+const active = ref(0);
+
+const {data: data} = await getTeam(0, 10);
+const empl = ref(toValue(data).page.employees);
+
+watch(active, async (newValue) => {
+  const {data: data} = await getTeam(0, 10, newValue);
+  empl.value = toValue(data).page.employees;
+});
+
 
 
 
