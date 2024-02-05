@@ -16,10 +16,6 @@ export default {
       default: [],
     }
   },
-  mounted() {
-    console.log("List");
-    console.log(this.courses);
-  }
 }
 </script>
 

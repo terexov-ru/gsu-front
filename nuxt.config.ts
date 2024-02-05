@@ -3,7 +3,7 @@ export default defineNuxtConfig({
     css: ["~/assets/core.less"],
     modules: [
         '@nuxtjs/google-fonts',
-        'nuxt-viewport'
+        'nuxt-viewport',
     ],
     googleFonts: {
         families: {

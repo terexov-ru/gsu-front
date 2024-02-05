@@ -41,9 +41,9 @@
 
     <div class="pagination">
       <PaginationBar
-          :size="5"
-          :count="42"
-          :page="1"
+          :size="amount"
+          :count="count"
+          v-model:page="currentPage"
       />
     </div>
   </div>
@@ -51,19 +51,21 @@
 
 <script setup>
 import {API} from '~/constants/index.js';
-import {toValue} from "vue";
+import {toValue, watch} from "vue";
 
 const selectedSpec = ref({});
 const selectedDuration = ref({});
 const selectedStudentCategories = ref({});
 const category = ref(NaN);
 const courses = ref([]);
+const currentPage = ref(1);
+const amount = 5;
 
 /* search request */
 async function search() {
   const req = {
-    "start": 0,
-    "amount": 10,
+    "start": toValue(currentPage) * amount - amount,
+    "amount": amount,
     "sort": 0,
     "category": toValue(category),
 
@@ -86,7 +88,7 @@ let firstCategory = route.query.id ? route.query.id : 0;
 
 const firstRequestBody = {
   "start": 0,
-  "amount": 10,
+  "amount": amount,
   "sort": 0,
   "category": firstCategory
 }
@@ -96,11 +98,18 @@ const {data: page} = await useFetch(API + '/page/learning', {
   body: firstRequestBody
 });
 
+const count = toValue(page).page.total_courses_amount;
 const durations = toValue(page).page.durations;
 const specs = toValue(page).page.specs;
 const categories = toValue(page).page.categories;
 const studentCategories = toValue(page).page.student_categories;
 courses.value = toValue(page).page.courses;
+
+/* Pagination */
+watch(currentPage, async (newVal) => {
+  console.log(newVal);
+  await search();
+})
 </script>
 
 <style lang="less" scoped>
