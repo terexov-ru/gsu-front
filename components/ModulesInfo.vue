@@ -4,7 +4,7 @@
   >
     <div class="module__header">
       <h4 class="text module__name text_h4">
-        {{ module.module_title }}
+        {{ module.title }}
       </h4>
       <svg :class="{'module__icon_active': active}"
            class="module__icon pointer"
@@ -14,12 +14,12 @@
       </svg>
     </div>
     <div class="text module__description text_semi-bold">
-      <span v-if="module.module_subtitle">{{ module.module_subtitle }}</span>
+      <span v-if="module.subtitle">{{ module.subtitle }}</span>
       <span v-else>Не указан</span>
     </div>
     <div class="text module__text text_normal"
          :class="{'module__text_active' : active}">
-      {{ module.module_description }}
+      {{ module.description }}
     </div>
   </div>
 </template>
