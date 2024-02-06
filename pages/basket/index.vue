@@ -11,14 +11,37 @@
           <div class="column column_gap20">
             <div class="basket__info">
               <div class="text basket__info__count text_normal text_light">В корзине 2 товара</div>
-              <div class="text basket__info__clean text_normal">Очистить корзину</div>
+              <div class="text basket__info__clean text_normal pointer">Очистить корзину</div>
             </div>
 
-            <BasketCard/>
+            <BasketCard
+
+            />
+
+            <BasketCard
+
+            />
+
+            <div class="bill">
+              <div class="row row_jc-sb">
+                <div class="text text_normal">Скидка</div>
+                <div class="text text_semi-bold">0 ₽</div>
+              </div>
+
+              <div class="row row_jc-sb">
+                <div class="text text_large text_accent">Итого</div>
+                <div class="text text_h3 text_accent">40 000 ₽</div>
+              </div>
+            </div>
+
+            <button class="button basket__button button_black-bordered">Добавить курсы</button>
+
           </div>
 
 
-          <BillCard/>
+          <BillCard
+
+          />
 
         </div>
 
@@ -58,6 +81,37 @@
     display: grid;
     grid-template-columns: 1fr 440px;
   }
+}
+
+//bill
+.bill {
+  box-sizing: border-box;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  background: @LightBlueColor;
+
+  @media @min580 {
+    padding: 20px;
+    gap: 10px;
+  }
+
+  @media @min990 {
+    gap: 16px;
+  }
+}
+
+.basket__button {
+  width: 100%;
+  align-self: self-end;
+
+  @media @min580 {
+    width: 170px
+  }
+
 }
 
 </style>

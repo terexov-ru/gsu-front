@@ -42,29 +42,26 @@
     <div class="delimiter delimiter_mid-grey"/>
 
     <div class="basket-card__promo">
-<!--      <DropDown-->
-<!--          class="basket__drop-down"-->
-<!--          :title="'Заголовок'"-->
-<!--          :options="[]"-->
-<!--      />-->
+      <DropDown
+          class="basket__drop-down"
+          :title="'Месяц обучения'"
+          :options="[{id: '1', title: 'Январь'}, {id: '2', title: 'Февраль'}]"
+      />
 
       <input class="input text text_normal input_white" placeholder="Промокод" type="text">
 
-      <button class="button button_dark text_normal">Активировать</button>
+      <button class="button button_black-bordered text_normal">Активировать</button>
     </div>
 
   </div>
 </template>
 
-<!--<script>-->
-<!--import SeeMore from "@/components/links/SeeMore";-->
-<!--import DropDown from "@/components/drop.down/DropDown";-->
+<script>
+export default {
+  name: "BasketCard",
 
-<!--export default {-->
-<!--  name: "BasketCard",-->
-<!--  components: {DropDown, SeeMore}-->
-<!--}-->
-<!--</script>-->
+}
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
@@ -111,7 +108,8 @@
   gap: 12px;
 
   @media @min580 {
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr 140px;
   }
 }
 
@@ -152,8 +150,10 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row-reverse;
-  margin-top: 24px;
+
+
   @media @min580 {
+    align-items: flex-end;
     flex-direction: row;
   }
 }
