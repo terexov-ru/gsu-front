@@ -72,7 +72,6 @@ defineProps({
 const basket = useState('basket');
 
 function deleteFromBasket(id) {
-  console.log(toValue(this.basket).filter((i) => i.id !== id))
   basket.value = toValue(basket).filter((i) => i.id !== id);
 }
 </script>

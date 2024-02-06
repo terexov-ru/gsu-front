@@ -11,12 +11,14 @@
 
     <div class="card__buttons">
 
-      <button
-          class="button button_dark"
-          @click="addToBasket()"
-      >
-        В корзину
-      </button>
+      <NuxtLink class="nuxt-link" to="/basket">
+        <button
+            class="button button_dark"
+            @click="addToBasket(course)"
+        >
+          Записаться
+        </button>
+      </NuxtLink>
 
       <NuxtLink class="nuxt-link" :to="`/courses/${course.id}`">
         <button class="button button_black-bordered">
@@ -45,8 +47,15 @@ export default {
     }
   },
   methods: {
-    addToBasket() {
-      this.basket.value = toValue(this.basket).push(this.course);
+    addToBasket(course) {
+      const basket = toValue(this.basket);
+      if (basket.length > 0) {
+        if (!basket.find((element) => element.id === course.id)) {
+          this.basket.value = basket.push(course);
+        }
+      } else {
+        this.basket.value = basket.push(course);
+      }
     }
   }
 }

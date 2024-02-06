@@ -67,7 +67,14 @@ export default {
   },
   methods: {
     addToBasket(course) {
-      this.basket.value = toValue(this.basket).push(course);
+      const basket = toValue(this.basket);
+      if (basket.length > 0) {
+        if (!basket.find((element) => element.id === course.id)){
+          this.basket.value = basket.push(course);
+        }
+      } else {
+        this.basket.value = basket.push(course);
+      }
     }
   }
 }
