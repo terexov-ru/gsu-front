@@ -6,67 +6,49 @@
     <GoBack
         class="back"
         :text="'Вернуться назад'"
-        :link="'/'"
+        :link="'/news'"
     />
 
     <div class="news">
       <div class="news__img-container">
-        <img class="news__img" src="~/assets/news_banner.png"/>
+        <img v-if="news && news.image" :src="news.image" alt="news">
+        <img v-else class="news__img" src="~/assets/news_banner.png"/>
       </div>
 
       <div class="news__content">
-        <div class="text text_h4">Для внесения сведений о прохождении аккредитации не требуется свидетельство об
-          аккредитации специалиста на бумажном носителе
+        <div class="text text_h4">
+          {{ news.annotation }}
         </div>
 
-        <div class="text text_caption text_accent">17 января 2023 • Новость</div>
+        <div class="text text_caption text_accent">{{ news.date }} • {{ news.type }}</div>
 
         <div class="text text_normal">
-          <p>
-            Уважаемые коллеги, обращаем ваше внимание, в соответствии с письмом Министерства здравоохранения
-            Российской
-            Федерации от 15.03.2022, адресованным руководителям органов исполнительной власти субъектов Российской
-            Федерации в сфере охраны здоровья, за подписью заместителя министра здравоохранения Т.В. Семеновой, лицо
-            считается прошедшим аккредитацию специалиста с момента внесения данных о прохождении аккредитации
-            специалиста
-            в единую государственную информационную систему в сфере здравоохранения (ЕГИСЗ).
-          </p>
-          <br>
-          <p>
-            Для осуществления профессиональной деятельности после прохождения аккредитации специалиста получение
-            свидетельства об аккредитации специалиста на бумажном носителе не требуется.
-          </p>
-          <br>
-          <p>
-            Минздрав России сообщает о недопустимости требования наличия свидетельства об аккредитации специалиста на
-            бумажном носителе у медицинских и фармацевтических работников, контроль исполнения возложен на
-            руководителей
-            органов исполнительной власти субъектов Российской Федерации в сфере охраны здоровья.
-          </p>
+          {{ news.text }}
         </div>
       </div>
     </div>
 
-    <div class="news-block">
+<!--    <div class="news-block">-->
 
-      <h4 class="text text_h4">Смотреть еще</h4>
-      <NewsCardList
-          class="news-list"
-      />
-    </div>
+<!--      <h4 class="text text_h4">Смотреть еще</h4>-->
+<!--      <NewsCardList-->
+<!--          class="news-list"-->
+<!--      />-->
+<!--    </div>-->
 
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    news: {
-      type: Object,
-      require: true
-    }
-  }
-}
+<script setup>
+import {toValue} from "vue";
+
+const route = useRoute();
+
+const {getNewsById: getNewsById} = useApi();
+const {data: data} = await getNewsById(route.params.id);
+
+const news = toValue(data).page;
+
 </script>
 
 <style lang="less" scoped>
@@ -114,6 +96,9 @@ export default {
   width: 100%;
   height: auto;
   flex-shrink: 0;
+
+  max-height: 560px;
+  border-radius: 8px;
 
   @media @min760 {
     width: 560px;

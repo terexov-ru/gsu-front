@@ -22,32 +22,36 @@
         />
       </div>
 
-      <div class="news-block">
-
-        <div v-if="bigNews" class="news__banner">
-
-          <div class="news__banner__img-container">
-            <img class="news__banner__img" :src="bigNews.image" alt="news_banner">
+      <div
+          class="news-block"
+      >
+        <NuxtLink class="news__banner" v-if="bigNews" :to="'news/' + bigNews.id">
+          <div class="news__banner"
+               @mouseenter="bigNewsActive = true"
+               @mouseleave="bigNewsActive = false"
+          >
+            <div class="news__banner__img-container">
+              <img class="news__banner__img" :src="bigNews.image" alt="news_banner">
+            </div>
+            <div class="text text_caption text_accent">{{ bigNews.date }} • {{ bigNews.type }}</div>
+            <div class="row">
+              <h2
+                  class="text text_h3"
+                  :class="{'text_accent': bigNewsActive}"
+              >
+                {{ bigNews.annotation }}
+              </h2>
+              <svg class="svg" width="25" height="28" viewBox="0 0 25 28" fill="none"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.66016 21L17.6602 11M17.6602 11H7.66016M17.6602 11V21" stroke="#101828" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="text text_normal">
+              {{ bigNews.text }}
+            </div>
           </div>
-
-
-          <div class="text text_caption text_accent">{{ bigNews.date }} • {{ bigNews.type }}</div>
-
-          <div class="row">
-            <h2 class="text text_h3">
-              {{ bigNews.annotation }}
-            </h2>
-            <svg class="svg" width="25" height="28" viewBox="0 0 25 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7.66016 21L17.6602 11M17.6602 11H7.66016M17.6602 11V21" stroke="#101828" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-
-          <div class="text text_normal">
-            {{ bigNews.text }}
-          </div>
-        </div>
-
+        </NuxtLink>
         <div v-for="item of news">
           <NewsCard
               :news="item"
@@ -58,9 +62,9 @@
 
       <div class="pagination">
         <PaginationBar
-            :page="1"
-            :size="8"
-            :count="25"
+            v-model:page="currentPage"
+            :size="amount"
+            :count="count"
         />
       </div>
     </div>
@@ -68,33 +72,43 @@
 </template>
 
 <script setup>
+import {toValue, watch} from "vue";
+
 const {getNews: getNews} = useApi();
 const viewport = useViewport();
+const amount = 5;
 
-const {data: data} = await getNews(0, 8);
+const {data: data} = await getNews(0, amount);
 
 const bigNews = ref(undefined);
+const bigNewsActive = ref(false);
 const news = ref([]);
 const page = ref(toValue(data).page);
 const selectedType = ref(undefined);
 const selectedYear = ref(undefined);
+// Pagination
+const currentPage = ref(1);
+const count = ref(toValue(page).total_news_amount);
 
 watch(selectedType, async (newValue) => {
-  const {data: data} = await getNews(0, 8, selectedYear, newValue.id);
+  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, selectedYear, newValue.id);
   page.value = toValue(data).page;
-  updateNews();
+  updateNews(true);
 })
 
 watch(selectedYear, async (newValue) => {
-  const {data: data} = await getNews(0, 8, newValue.id, selectedType);
+  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, newValue.id, selectedType);
   page.value = toValue(data).page;
-  updateNews();
+  updateNews(true);
 })
 
 const newsTypes = toValue(page).news_types;
 const newsYears = toValue(page).news_years;
 
-function updateNews() {
+function updateNews(updated) {
+  if (updated) {
+    count.value = 1;
+  }
   if (!viewport.isLessThan('mobile')) {
     bigNews.value = toValue(page).news.slice(0, 1)[0];
     news.value = toValue(page).news.slice(1);
@@ -102,6 +116,15 @@ function updateNews() {
     news.value = toValue(page).news;
   }
 }
+
+// Pagination
+watch(currentPage, async (newVal) => {
+  console.log(newVal);
+  currentPage.value = newVal;
+  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, newVal.id, selectedType);
+  page.value = toValue(data).page;
+  updateNews(false);
+})
 
 updateNews();
 </script>

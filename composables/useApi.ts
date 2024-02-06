@@ -1,6 +1,7 @@
 import {API} from "~/constants/index.js";
 
 const NEWS_PATH = "/page/news";
+const NEWS_ID_PATH = "/page/get_news";
 const REV_PATH = "/page/reviews";
 const TEAM_PATH = "/page/company_employees";
 
@@ -20,6 +21,15 @@ export const useApi = () => {
                 amount: amount,
                 year: year,
                 type: type
+            }
+        });
+    }
+
+    async function getNewsById(id: Number) {
+        return await useFetch(API + NEWS_ID_PATH, {
+            method: 'POST',
+            body: {
+                news_id: id
             }
         });
     }
@@ -49,6 +59,7 @@ export const useApi = () => {
         simpleGet,
         getNews,
         getRevs,
-        getTeam
+        getTeam,
+        getNewsById
     }
 }

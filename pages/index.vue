@@ -36,8 +36,6 @@ const {simpleGet: simpleGet} = useApi();
 const {data: data} = await simpleGet('/page/main');
 
 const page = toValue(data).page;
-console.log(page)
-
 </script>
 
 <style lang="less" scoped>
