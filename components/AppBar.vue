@@ -61,7 +61,10 @@
               >
 
               <NuxtLink to="/basket">
-                <img class="pointer" src="~/assets/svg/basket.svg" alt="basket">
+                <div class="row row_al-c">
+                  <img class="pointer" src="~/assets/svg/basket.svg" alt="basket">
+                  <div class="text text_dark">{{ basket.length }}</div>
+                </div>
               </NuxtLink>
             </div>
           </div>
@@ -313,6 +316,12 @@ export default {
       activeStudy: false,
       activeAbout: false,
       activeHelp: false,
+    }
+  },
+  setup() {
+    const basket = useState('basket', () => []);
+    return {
+      basket
     }
   },
   methods: {

@@ -3,7 +3,9 @@
 
     <MissionSlider class="mission-block"/>
 
-    <ProgramSearchBlock class="search-block"/>
+    <ProgramSearchBlock
+        class="search-block"
+    />
 
     <ReviewBlock
         class="review-block"

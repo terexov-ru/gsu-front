@@ -9,13 +9,16 @@
         <div class="basket-card__content__info">
 
           <div>
-            <div class="text text_semi-bold">Медицинская реабилитация как вид помощи при коронавирусной инфекции
-              Covid-19
+            <div class="text text_semi-bold">
+              {{ course.title }}
             </div>
-            <div class="text text_normal text_light">Артикул: 54896</div>
+            <div class="text text_normal text_light">Артикул: {{ course.id }}</div>
           </div>
 
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+              @click="deleteFromBasket(course.id)"
+              class="pointer"
+              width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 18L6 6" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"
                   stroke-linejoin="round"/>
             <path d="M18 6L6 18" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"
@@ -27,10 +30,10 @@
         <div class="basket-card__content__price">
           <SeeMore
               class="basket__link"
-              :href="'/'"
+              :href="'/courses/' + course.id"
           />
           <div>
-            <span class="text text_h4">20 000 ₽</span>
+            <span class="text text_h4">{{ course.price }} ₽</span>
             <span class="text text_semi-bold text_light text_margin">20 000 ₽</span>
           </div>
         </div>
@@ -56,10 +59,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "BasketCard",
+<script setup>
+import {toValue} from "vue";
 
+defineProps({
+  course: {
+    type: Object,
+    require: true
+  }
+})
+
+const basket = useState('basket');
+
+function deleteFromBasket(id) {
+  console.log(toValue(this.basket).filter((i) => i.id !== id))
+  basket.value = toValue(basket).filter((i) => i.id !== id);
 }
 </script>
 

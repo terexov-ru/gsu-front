@@ -26,12 +26,21 @@
           <div class="text text_h4">{{ course.price }} ₽</div>
         </div>
         <div class="buttons">
-          <div class="button course__info__sale__button button_black-bordered button_size">
-            <NuxtLink :to="`/courses/${course.id}`">
+          <NuxtLink :to="`/courses/${course.id}`">
+            <div class="button course__info__sale__button button_black-bordered button_size">
               Подробнее
-            </NuxtLink>
-          </div>
-          <div class="button course__info__sale__button button_gradient button_size">Записаться</div>
+            </div>
+          </NuxtLink>
+
+          <NuxtLink
+              to="/basket"
+              @click="addToBasket(course)"
+          >
+            <div class="button course__info__sale__button button_gradient button_size">
+              Записаться
+            </div>
+          </NuxtLink>
+
         </div>
       </div>
     </div>
@@ -40,6 +49,8 @@
 </template>
 
 <script>
+import {toValue} from "vue";
+
 export default {
   props: {
     course: {
@@ -48,7 +59,17 @@ export default {
       default: {}
     },
   },
-
+  setup() {
+    const basket = useState('basket');
+    return {
+      basket
+    }
+  },
+  methods: {
+    addToBasket(course) {
+      this.basket.value = toValue(this.basket).push(course);
+    }
+  }
 }
 </script>
 

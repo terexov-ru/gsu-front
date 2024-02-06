@@ -10,19 +10,25 @@
 
           <div class="column column_gap20">
             <div class="basket__info">
-              <div class="text basket__info__count text_normal text_light">В корзине 2 товара</div>
-              <div class="text basket__info__clean text_normal pointer">Очистить корзину</div>
+              <div class="text basket__info__count text_normal text_light">В корзине {{ basket.length }} товара</div>
+              <div
+                  class="text basket__info__clean text_normal pointer"
+                  @click="cleanBasket()"
+              >
+                Очистить корзину
+              </div>
             </div>
 
             <BasketCard
-
+                v-for="item in basket"
+                :key="item.id"
+                :course="item"
             />
 
-            <BasketCard
-
-            />
-
-            <div class="bill">
+            <div
+                class="bill"
+                :class="{'bill_active': basket.length > 0}"
+            >
               <div class="row row_jc-sb">
                 <div class="text text_normal">Скидка</div>
                 <div class="text text_semi-bold">0 ₽</div>
@@ -30,11 +36,13 @@
 
               <div class="row row_jc-sb">
                 <div class="text text_large text_accent">Итого</div>
-                <div class="text text_h3 text_accent">40 000 ₽</div>
+                <div class="text text_h3 text_accent">{{ getPrice() }} ₽</div>
               </div>
             </div>
 
-            <button class="button basket__button button_black-bordered">Добавить курсы</button>
+            <NuxtLink to="/courses">
+              <button class="button basket__button button_black-bordered">Добавить курсы</button>
+            </NuxtLink>
 
           </div>
 
@@ -51,6 +59,23 @@
 
   </main>
 </template>
+
+<script setup>
+import {toValue} from "vue";
+
+const basket = useState('basket');
+
+function cleanBasket() {
+  basket.value = [];
+}
+
+function getPrice() {
+  let counter = 0;
+  toValue(basket).forEach((i) => counter += parseInt(i.price));
+  return counter;
+}
+
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
@@ -92,7 +117,9 @@
   flex-direction: column;
   gap: 8px;
 
-  background: @LightBlueColor;
+  background: @LightGreyColor;
+  border-radius: 8px;
+
 
   @media @min580 {
     padding: 20px;
@@ -104,12 +131,20 @@
   }
 }
 
+.bill_active {
+  background: @LightBlueColor;
+}
+
 .basket__button {
   width: 100%;
   align-self: self-end;
 
   @media @min580 {
     width: 170px
+  }
+
+  @media @min1200 {
+    align-self: self-start;
   }
 
 }

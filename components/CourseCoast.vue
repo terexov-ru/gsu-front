@@ -61,19 +61,40 @@
     </div>
 
     <div class="course-coast__buttons course-coast__item_big">
-      <button class="button button_black-bordered button_fill">
-        Записаться
-      </button>
+      <NuxtLink
+          to="/basket"
+          @click="addToBasket(page)"
+          class="width"
+      >
+        <button class="button button_black-bordered button_fill">
+          Записаться
+        </button>
+      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script>
+import {toValue} from "vue";
+import ProgramCardTip from "./ProgramCardTip.vue";
+
 export default {
+  components: {ProgramCardTip},
   props: {
     page: {
       type: Object,
       require: true,
+    },
+  },
+  setup() {
+    const basket = useState('basket');
+    return {
+      basket
+    }
+  },
+  methods: {
+    addToBasket(course) {
+      this.basket.value = toValue(this.basket).push(course);
     }
   }
 }
@@ -81,6 +102,10 @@ export default {
 
 <style lang="less" scoped>
 @import "assets/core.less";
+
+.width {
+  width: 100%;
+}
 
 .course-coast {
   width: auto;

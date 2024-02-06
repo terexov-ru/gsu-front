@@ -47,10 +47,11 @@ import {API} from "~/constants/index.js";
 import {toValue} from "vue";
 
 const route = useRoute();
+const id = route.params.id;
 
 const {data: reqPage} = await useFetch(API + '/page/course', {
   method: 'POST',
-  body: {"course_id": route.params.id},
+  body: {"course_id": id},
 });
 
 const page = toValue(reqPage).page;

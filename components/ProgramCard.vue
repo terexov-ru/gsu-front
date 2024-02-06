@@ -10,11 +10,14 @@
     </h3>
 
     <div class="card__buttons">
-      <NuxtLink class="nuxt-link" :to="`/courses/${course.id}`">
-        <button class="button button_dark">
-          В корзину
-        </button>
-      </NuxtLink>
+
+      <button
+          class="button button_dark"
+          @click="addToBasket()"
+      >
+        В корзину
+      </button>
+
       <NuxtLink class="nuxt-link" :to="`/courses/${course.id}`">
         <button class="button button_black-bordered">
           Подробнее
@@ -25,12 +28,25 @@
 </template>
 
 <script>
+import {toValue} from "vue";
+
 export default {
   name: "ProgramCard",
   props: {
     course: {
       type: Object,
       require: true
+    }
+  },
+  setup() {
+    const basket = useState('basket')
+    return {
+      basket
+    }
+  },
+  methods: {
+    addToBasket() {
+      this.basket.value = toValue(this.basket).push(this.course);
     }
   }
 }
