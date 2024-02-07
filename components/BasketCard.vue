@@ -3,7 +3,21 @@
 
     <div class="basket-card__main">
 
-      <img class="basket-card__img" src="~/assets/basket.png" alt="basket">
+      <div class="basket-card__img-container">
+        <img
+            v-if="course.banner_image"
+            class="basket-card__img"
+            :src="course.banner_image"
+            alt="basket"
+        >
+        <img
+            v-else
+            class="basket-card__img"
+            src="~/assets/basket.png"
+            alt="basket"
+        >
+      </div>
+
       <div class="basket-card__content">
 
         <div class="basket-card__content__info">
@@ -127,6 +141,12 @@ function deleteFromBasket(id) {
 }
 
 .basket-card__img {
+  height: 100%;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.basket-card__img-container {
   display: none;
   width: 120px;
   height: 120px;

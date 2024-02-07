@@ -2,7 +2,21 @@
   <div class="wrapper">
     <div class="banner-block">
       <div class="banner">
-        <img class="banner__image" src="~/assets/banner.png" alt="banner">
+
+        <img
+            v-if="img"
+            class="banner__image"
+            :src="img"
+            alt="banner"
+        >
+
+        <img
+            v-else
+            class="banner__image"
+            src="~/assets/banner.png"
+            alt="banner"
+        >
+
         <div class="banner__background">
           <div class="banner__article">
             <span class="tip banner__tip tip_small">артикул 5434342</span>
@@ -36,6 +50,9 @@ export default {
       type: String,
       require: true,
       default: "Оказание медицинской помощи пациентам и лицам с подозрением на коронавирусную инфекцию",
+    },
+    img: {
+      type: String
     }
   }
 }

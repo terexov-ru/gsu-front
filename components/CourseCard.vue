@@ -1,7 +1,11 @@
 <template>
   <div class="course">
-    <div class="course__img">
-
+    <div class="course__img-container">
+      <img
+          v-if="course && course.banner_image"
+          :src="course.banner_image"
+          class="course__img"
+          alt="course">
     </div>
 
     <div class="course__info">
@@ -106,9 +110,20 @@ export default {
 }
 
 .course__img {
+  height: 100%;
+  width: auto;
+}
+
+.course__img-container {
   background: @DarkGreyColor;
   border-radius: 4px;
   flex-shrink: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
 
   width: 100%;
   height: 240px;

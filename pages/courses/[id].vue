@@ -4,6 +4,7 @@
     <BannerBlock
         class="banner-block"
         :title="page.title"
+        :img="page.banner_image"
     />
 
     <div class="wrapper course-content wrapper_paddings">
