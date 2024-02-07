@@ -14,7 +14,9 @@
 
       <div style="flex-basis: 100%"/>
 
-      <button class="button slider__button button_dark button_size">
+      <button
+          @click="this.$emit('clickButton')"
+          class="button slider__button button_dark button_size">
         Подать заявку
       </button>
 

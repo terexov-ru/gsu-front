@@ -1,7 +1,10 @@
 <template>
   <main class="home-page">
 
-    <MissionSlider class="mission-block"/>
+    <MissionSlider
+        class="mission-block"
+        @clickButton="formConActive = true"
+    />
 
     <ProgramSearchBlock
         class="search-block"
@@ -19,6 +22,7 @@
 
     <AdvantagesSlider
         class="advantages-block"
+        @clickButton="moreInfoActive = true"
     />
 
     <SummaryBlock
@@ -26,7 +30,37 @@
         :info="page.block_info"
     />
 
-    <QuestionSlider class="question-block"/>
+    <QuestionSlider
+        class="question-block"
+        @clickButton="sucActive = true"
+    />
+
+    <OverflowContainer
+        :active="formConActive"
+        @closeOverflow="formConActive = false"
+    >
+      <OverflowConsultation
+          @close="formConActive = false"
+      />
+    </OverflowContainer>
+
+    <OverflowContainer
+        :active="sucActive"
+        @closeOverflow="sucActive = false"
+    >
+      <OverflowSuccess
+          @close="sucActive = false"
+      />
+    </OverflowContainer>
+
+    <OverflowContainer
+        :active="moreInfoActive"
+        @closeOverflow="moreInfoActive = false"
+    >
+      <OverflowMoreInfo
+          @close="moreInfoActive = false"
+      />
+    </OverflowContainer>
 
   </main>
 </template>
@@ -34,6 +68,9 @@
 import {toValue} from "vue";
 
 const {simpleGet: simpleGet} = useApi();
+const formConActive = ref(false);
+const sucActive = ref(false);
+const moreInfoActive = ref(false);
 
 const {data: data} = await simpleGet('/page/main');
 

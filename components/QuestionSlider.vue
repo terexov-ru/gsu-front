@@ -14,11 +14,17 @@
           class="text slider__text text_h4">Наши консультанты помогут выбрать направление и расскажут о форматах</span>
 
       <div class="slider__container">
-        <form class="form">
+        <div class="form">
           <input class="input input_white text text_normal" placeholder="Имя" name="name" type="text">
           <input class="input input_white text text_normal" placeholder="Телефон" name="phone" type="text">
-          <button class="button button_dark">Отправить данные</button>
-        </form>
+
+          <button
+              @click="this.$emit('clickButton')"
+              class="button button_dark"
+          >
+            Отправить данные
+          </button>
+        </div>
         <!--            <div class="circle"/>-->
         <img class="slider__image" src="~/assets/quastions.png">
       </div>

@@ -19,18 +19,48 @@
             </div>
           </div>
 
-          <button class="button loyalty__card__button button_gradient">Подключиться</button>
+          <button
+              @click="formActive = true"
+              class="button loyalty__card__button button_gradient">
+            Подключиться
+          </button>
         </div>
 
       </div>
 
-      <QuestionSlider class="question-block"/>
+      <QuestionSlider
+          @clickButton="sucActive = true"
+          class="question-block"
+      />
 
     </div>
   </div>
+
+  <OverflowContainer
+      :active="formActive"
+      @closeOverflow="formActive = false"
+  >
+    <OverflowMoreInfo
+        @close="formActive = false"
+    />
+  </OverflowContainer>
+
+  <OverflowContainer
+      :active="sucActive"
+      @closeOverflow="sucActive = false"
+  >
+    <OverflowSuccess
+        @close="sucActive = false"
+    />
+  </OverflowContainer>
 </template>
 <script setup>
+import {ref} from "vue";
+
 const {simpleGet: simpleGet} = useApi();
+
+const formActive = ref(false);
+const sucActive = ref(false);
 
 const {data: data} = await simpleGet('/page/loyalties');
 const list = toValue(data).page.loyalties;

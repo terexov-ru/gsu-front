@@ -5,7 +5,7 @@
     </div>
 
     <VacanciesSlider
-
+      @clickButton="formActive = true"
     />
 
     <div class="wrapper wrapper_paddings">
@@ -30,6 +30,15 @@
     />
   </OverflowContainer>
 
+  <OverflowContainer
+      :active="formActive"
+      @closeOverflow="formActive = false"
+  >
+    <OverflowMoreInfo
+        @close="formActive = false"
+    />
+  </OverflowContainer>
+
 </template>
 
 <script setup>
@@ -40,6 +49,7 @@ const list = toValue(data).page.vacancies;
 
 const activeItem = ref({});
 const activeOverflow = ref(false);
+const formActive = ref(false);
 
 function selectActive(item) {
   activeItem.value = item;

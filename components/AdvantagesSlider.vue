@@ -9,7 +9,9 @@
       <div class="text slider__text text_h4">С нашей системой лояльности вы сможете сэкономить до 30% от стоимости</div>
 
       <div style="flex-basis: 100%"/>
-      <button class="button slider__button button_white button_size">
+      <button
+          @click="this.$emit('clickButton')"
+          class="button slider__button button_white button_size">
         Узнать больше
       </button>
 
