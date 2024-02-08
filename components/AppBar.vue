@@ -441,7 +441,11 @@ a {
 }
 
 .nav__icons {
-  gap: 20px;
+  gap: 8px;
+
+  @media @min760 {
+    gap: 20px;
+  }
   display: flex;
   justify-content: space-between;
   align-items: center;
