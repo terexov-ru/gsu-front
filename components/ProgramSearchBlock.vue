@@ -8,6 +8,7 @@
 
     <ProgramSearchBar
       @search="search()"
+      v-model:value="searchValue"
     />
 
     <SearchTipList
@@ -31,6 +32,7 @@ import {API} from '~/constants/index.js';
 
 const category = ref(NaN);
 const courses = ref([]);
+const searchValue = ref('');
 
 const firstRequestBody = {
   "start": 0,
@@ -44,6 +46,7 @@ async function search() {
     "amount": 3,
     "sort": 0,
     "category": toValue(category),
+    "search_value": toValue(searchValue),
   }
 
   const {data: page} = await useFetch(API + '/page/learning', {

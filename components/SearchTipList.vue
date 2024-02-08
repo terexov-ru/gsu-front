@@ -69,16 +69,16 @@ export default {
       }
     },
   },
-  // setup() {
-  //   const route = useRoute();
-  //   const activeTip = ref(route.query.id);
-  //
-  //   onBeforeRouteUpdate((to, from) => {
-  //     activeTip.value = to.query.id;
-  //   });
-  //
-  //   return {activeTip};
-  // },
+  setup() {
+    const route = useRoute();
+    const activeTip = ref(route.query.id);
+
+    onBeforeRouteUpdate((to, from) => {
+      activeTip.value = to.query.id;
+    });
+
+    return {activeTip};
+  },
   // watch: {
   //   activeTip(val, oldVal) {
   //     this.selectedTips = this.tips.filter((i) => i.id === parseInt(val))

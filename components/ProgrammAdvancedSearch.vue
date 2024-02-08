@@ -4,6 +4,7 @@
 
     <ProgramSearchBar
         @search="search()"
+        v-model:value="searchValue"
     />
 
     <SearchTipList
@@ -60,6 +61,11 @@ const category = ref(NaN);
 const courses = ref([]);
 const currentPage = ref(1);
 const amount = 5;
+const searchValue = ref('');
+
+watch(searchValue, async (newVal) => {
+  console.log(newVal);
+})
 
 /* search request */
 async function search(noUpdated = undefined) {
@@ -71,6 +77,7 @@ async function search(noUpdated = undefined) {
     "amount": amount,
     "sort": 0,
     "category": toValue(category),
+    "search_value": toValue(searchValue),
 
     "search_student_category": toValue(selectedStudentCategories).id,
     "search_spec": toValue(selectedSpec).id,

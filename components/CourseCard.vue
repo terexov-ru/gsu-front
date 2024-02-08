@@ -115,7 +115,6 @@ export default {
 }
 
 .course__img-container {
-  background: @DarkGreyColor;
   border-radius: 4px;
   flex-shrink: 0;
 

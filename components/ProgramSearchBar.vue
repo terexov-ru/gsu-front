@@ -53,23 +53,13 @@
           </div>
         </div>
 
-        <!--        <div class="search-drop__block">-->
-        <!--          <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>-->
-        <!--          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной-->
-        <!--            инфекции Covid-19-->
-        <!--          </div>-->
-        <!--          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной-->
-        <!--            инфекции Covid-19-->
-        <!--          </div>-->
-        <!--        </div>-->
-
       </div>
 
     </div>
 
 
     <button class="button button_size button_gradient"
-            @click="this.$emit('search')"
+            @click="search()"
     >Найти
     </button>
   </div>
@@ -77,33 +67,28 @@
 </template>
 
 <script setup>
-import {toValue, watch} from "vue";
+import {watch} from "vue";
 import {API} from "../constants/index.js";
 
 const active = ref(false);
-
 const pending = ref(null);
 const courses = ref(null);
 
-const searchValue = defineModel('searchValue');
+const emit = defineEmits(['search'])
+const searchValue = defineModel('value');
 
 watch(searchValue, async (newValue) => {
   const {pending: pendingData, data: coursesData} = await getCourseInfo(newValue);
   pending.value = pendingData.value;
-  courses.value = coursesData.value.page.courses;
-  // console.log(coursesData.value.page.courses)
+  courses.value = coursesData.value?.page.courses;
 })
-
-// watch(courses, (newCourses) => {
-//   console.log(toValue(newCourses).length);
-// })
-//
-// watch(pending, (newValue) => {
-//   console.log(toValue(newValue));
-// })
 
 function closeDropDown() {
   active.value = false;
+}
+
+function search() {
+  emit('search');
 }
 
 async function getCourseInfo(value) {
@@ -118,8 +103,6 @@ async function getCourseInfo(value) {
         }
   });
 }
-
-
 </script>
 
 <style lang="less" scoped>

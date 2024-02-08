@@ -1,5 +1,8 @@
 <template>
-  <div class="drop-down">
+  <div
+      class="drop-down"
+      v-click-outside="onClickOutside"
+  >
 
     <div @click="active = !active" class="text drop-down__box text_normal">
       <span>{{ selectedItem.title }}</span>
@@ -12,12 +15,20 @@
     <ul v-if="active"
         class="drop-down__list"
     >
+      <li
+          class="text drop-down__list__item text_light"
+          @click="selectOption({title: title, id: undefined})"
+      >
+        {{ title }}
+      </li>
+
       <li class="text drop-down__list__item text_normal"
           v-for="option in options"
           :key="option.text"
           @click="selectOption(option)">
-
-        {{ option.title }}
+        <span :class="{'text_accent': option.id === selectedItem.id}">
+          {{ option.title }}
+        </span>
       </li>
     </ul>
 
