@@ -1,12 +1,17 @@
 <template>
   <!--  TODO вынести input как отедльный компонент и добваить slot под icon-->
   <div class="search-container">
-    <div class="input-container">
+    <div
+        class="input-container"
+        v-click-outside="closeDropDown"
+    >
+
       <input
           @focus="active = true"
-          @focusout="active = false"
+          v-model="searchValue"
           class="input" :placeholder="!$viewport.isLessThan('desktop') ? 'Поиск по ключевым словам...' : 'Поиск'"
           type="text">
+
       <svg class="input-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             d="M21 21L16.6569 16.6569M16.6569 16.6569C18.1046 15.2091 19 13.2091 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C13.2091 19 15.2091 18.1046 16.6569 16.6569Z"
@@ -16,45 +21,48 @@
       <div class="search-drop"
            v-if="active"
       >
-        <div class="search-drop__block">
-          <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
-            инфекции Covid-19
-          </div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
-            инфекции Covid-19
+
+        <div
+            v-if="pending"
+            class="text text_h3 text_accent"
+        >
+          Загрузка...
+        </div>
+
+        <div v-else>
+          <div
+              v-for="course in courses"
+              :key="course.id"
+              class="search-drop__block"
+          >
+            <div class="text search-drop__title text_caption text_accent">
+            <span
+                v-for="spec in course.specs"
+                :key="spec"
+            >
+              {{ spec }};
+            </span>
+            </div>
+
+            <NuxtLink :to="`/courses/${course.id}`">
+              <div class="text search-drop__item text_normal">
+                {{ course.title }}
+              </div>
+            </NuxtLink>
+
           </div>
         </div>
 
-        <div class="search-drop__block">
-          <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
-            инфекции Covid-19
-          </div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
-            инфекции Covid-19
-          </div>
-        </div>
+        <!--        <div class="search-drop__block">-->
+        <!--          <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>-->
+        <!--          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной-->
+        <!--            инфекции Covid-19-->
+        <!--          </div>-->
+        <!--          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной-->
+        <!--            инфекции Covid-19-->
+        <!--          </div>-->
+        <!--        </div>-->
 
-        <div class="search-drop__block">
-          <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
-            инфекции Covid-19
-          </div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
-            инфекции Covid-19
-          </div>
-        </div>
-
-        <div class="search-drop__block">
-          <div class="text search-drop__title text_caption text_accent">лабораторная диагностика</div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
-            инфекции Covid-19
-          </div>
-          <div class="text search-drop__item text_normal">Медицинская реабилитация как вид помощи при коронавирусной
-            инфекции Covid-19
-          </div>
-        </div>
       </div>
 
     </div>
@@ -68,25 +76,50 @@
 
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      active: false,
-    }
-  },
-  methods: {
-    selectTip(tip) {
-      console.log(tip);
-    },
-    unselectTip(tip) {
-      console.log(tip);
-    },
-    search() {
+<script setup>
+import {toValue, watch} from "vue";
+import {API} from "../constants/index.js";
 
-    }
-  },
+const active = ref(false);
+
+const pending = ref(null);
+const courses = ref(null);
+
+const searchValue = defineModel('searchValue');
+
+watch(searchValue, async (newValue) => {
+  const {pending: pendingData, data: coursesData} = await getCourseInfo(newValue);
+  pending.value = pendingData.value;
+  courses.value = coursesData.value.page.courses;
+  // console.log(coursesData.value.page.courses)
+})
+
+// watch(courses, (newCourses) => {
+//   console.log(toValue(newCourses).length);
+// })
+//
+// watch(pending, (newValue) => {
+//   console.log(toValue(newValue));
+// })
+
+function closeDropDown() {
+  active.value = false;
 }
+
+async function getCourseInfo(value) {
+  return useLazyFetch(API + '/page/learning', {
+    method: 'POST',
+    body:
+        {
+          start: 0,
+          amount: 5,
+          sort: 0,
+          search_value: value
+        }
+  });
+}
+
+
 </script>
 
 <style lang="less" scoped>
