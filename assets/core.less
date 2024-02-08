@@ -1,6 +1,7 @@
 @BlueNewColor: #129DF4;
 @DarkBlueColor: #137CB2;
 @DarkGreyColor: #25292D;
+@GreyHoverColor: #535B65;
 @MidGreyColor: #B9BFC6;
 @LightBlueColor: #F0FAFE;
 @LightGreyColor: #F7F7F8;
@@ -267,6 +268,8 @@ a {
   border-radius: 6px;
   cursor: pointer;
 
+  transition: @dur150;
+
   @media @min580 {
     width: 100%;
   }
@@ -291,11 +294,21 @@ a {
   &_gradient {
     color: @WhiteColor;
     background: @BluButtonGradient;
+
+    &:hover {
+      box-shadow: 0 0 24px 0 #39B3F4CC;
+      transition: @dur150;
+    }
   }
 
   &_dark {
     background: @DarkGreyColor;
     color: @WhiteColor;
+
+    &:hover {
+      background: @GreyHoverColor;
+      transition: @dur150;
+    }
   }
 
   &_white {
@@ -307,6 +320,12 @@ a {
     background: none;
     color: @DarkGreyColor;
     border: 1px solid @DarkGreyColor;
+
+    &:hover {
+      background: @DarkGreyColor;
+      color: @WhiteColor;
+      transition: @dur150;
+    }
   }
 
   &_rounded {
