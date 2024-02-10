@@ -28,6 +28,9 @@ export default {
   position: fixed;
   top: 0;
 
+  box-sizing: border-box;
+  padding: 0 16px;
+
   display: flex;
   align-items: center;
   justify-content: center;

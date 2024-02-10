@@ -23,7 +23,7 @@ export default {
 
   overflow: hidden;
   box-sizing: border-box;
-  padding: 40px;
+  padding: 20px;
 
   border-radius: 12px;
   border: 1px solid @MidGreyColor;
@@ -31,6 +31,7 @@ export default {
 
   @media @min580 {
     width: 440px;
+    padding: 40px;
   }
 }
 </style>
