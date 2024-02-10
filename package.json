@@ -18,8 +18,10 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@vee-validate/nuxt": "^4.12.5",
     "click-outside-vue3": "^4.0.1",
     "less": "^4.2.0",
+    "maska": "^2.1.11",
     "vue-awesome-paginate": "^1.1.46"
   }
 }

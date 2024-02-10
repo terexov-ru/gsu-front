@@ -14,10 +14,11 @@
       Медицинская реабилитация как вид помощи при коронавирусной инфекции Covid-19
     </div>
 
-    <div class="form">
+    <Form class="form" @submit="onSubmit">
       <InputBlock
           :name="'ФИО'"
           :type="'text'"
+          v-model:value="nameValue"
           :placeholder="'Иванов Иван Иванович'"
       />
 
@@ -27,11 +28,13 @@
         <InputBlock
             :name="'Телефон'"
             :type="'text'"
+            v-model:value="phoneValue"
             :placeholder="'Номер телефона'"
         />
         <InputBlock
             :name="'E-mail'"
             :type="'text'"
+            v-model:value="mailValue"
             :placeholder="'Почта'"
         />
       </div>
@@ -41,21 +44,31 @@
         <textarea
             class="text text-area"
             :name="'Комментарий'"
+            v-model="commentValue"
             :type="'text'"
             :placeholder="'Ваш комментарий'"
         />
       </div>
 
-    </div>
+      <button class="button overflow-card__button button_gradient button_paddings">Получить консультацию</button>
 
-    <button class="button overflow-card__button button_gradient button_paddings">Получить консультацию</button>
+    </Form>
+
   </div>
 </template>
 
-<script>
-export default {
-  name: "request"
+<script setup>
+import {ref} from "vue";
+
+const nameValue = ref('');
+const phoneValue = ref('');
+const mailValue = ref('');
+const commentValue = ref('');
+
+function onSubmit(values) {
+  console.log(values, null, 2);
 }
+
 </script>
 
 <style scoped lang="less">

@@ -4,6 +4,12 @@ export default defineNuxtConfig({
     modules: [
         '@nuxtjs/google-fonts',
         'nuxt-viewport',
+        [
+            '@vee-validate/nuxt',
+            {
+                autoImports: true,
+            },
+        ]
     ],
     googleFonts: {
         families: {

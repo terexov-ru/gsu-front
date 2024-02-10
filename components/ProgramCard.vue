@@ -13,7 +13,7 @@
 
       <NuxtLink class="nuxt-link" to="/basket">
         <button
-            class="button button_dark"
+            class="button card__button button_dark"
             @click="addToBasket(course)"
         >
           Записаться
@@ -21,7 +21,7 @@
       </NuxtLink>
 
       <NuxtLink class="nuxt-link" :to="`/courses/${course.id}`">
-        <button class="button button_black-bordered">
+        <button class="button card__button button_black-bordered">
           Подробнее
         </button>
       </NuxtLink>
@@ -65,6 +65,10 @@ export default {
 @import "assets/core.less";
 
 .nuxt-link {
+  width: 100%;
+}
+
+.card__button {
   width: 100%;
 }
 
