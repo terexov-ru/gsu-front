@@ -316,6 +316,11 @@ a {
       background: @GreyHoverColor;
       transition: @dur150;
     }
+
+    &:disabled,
+    &[disabled] {
+      background: @TextColor;
+    }
   }
 
   &_white {
@@ -332,6 +337,13 @@ a {
       background: @DarkGreyColor;
       color: @WhiteColor;
       transition: @dur150;
+    }
+
+    &:disabled,
+    &[disabled] {
+      background: @WhiteColor;
+      border-color: @TextColor;
+      color: @TextColor;
     }
   }
 
