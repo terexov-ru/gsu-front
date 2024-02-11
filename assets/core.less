@@ -11,6 +11,7 @@
 @DangerColor: #FF3104;
 @RedOneColor: #FF1F00;
 @BluButtonGradient: linear-gradient(90deg, #40B9F5 0%, #0C90ED 100%);
+@BluButtonGradientDisabled: linear-gradient(90deg, #A3DDFA 0%, #69BCF7 100%);
 @BoxShadowEffect: 0px 0px 18px 0px #0077B51A;
 
 @dur250: 250ms;
@@ -299,6 +300,11 @@ a {
     &:hover {
       box-shadow: 0 0 24px 0 #39B3F4CC;
       transition: @dur150;
+    }
+
+    &:disabled,
+    &[disabled] {
+      background: @BluButtonGradientDisabled;
     }
   }
 

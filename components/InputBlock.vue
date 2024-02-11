@@ -1,22 +1,23 @@
 <template>
   <div class="input-block">
-    <div class="text text_normal">{{ name }}</div>
+    <div class="text text_normal">{{ title }}</div>
 
     <Field class="input"
            v-model="value"
            :name="name"
            :placeholder="placeholder"
            :type="'text'"
-           :rules="validateEmail"
-           v-maska data-maska="+7 (###) ###-##-##"
-           :class="[{'input text text_normal input_white' : white}, {'input_error' : validateEmail(value) !== true}]"
+           :rules="rule"
+           v-maska
+           :data-maska="mask"
+           :class="[
+               {'input text text_normal input_white' : white},
+
+           ]"
     />
 
-<!--    data-maska="A-A" data-maska-tokens="A:[A-Z]" data-maska-eager-->
-<!--    v-maska data-maska="+7 (###) ###-##-##"-->
-
     <ErrorMessage class="text text_error"
-        :name="name"
+                  :name="name"
     />
 
 
@@ -34,27 +35,16 @@ watch(value, async (newVal) => {
 
 defineProps({
   name: String,
+  title: String,
   placeholder: String,
   type: String,
+  rule: Function,
+  mask: String,
   white: {
     type: Boolean,
     default: false,
   },
 })
-
-function validateEmail(value) {
-  // if the field is empty
-  if (!value) {
-    return 'This field is required';
-  }
-  // if the field is not a valid email
-  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-  if (!regex.test(value)) {
-    return 'This field must be a valid email';
-  }
-  // All is good
-  return true;
-}
 
 </script>
 

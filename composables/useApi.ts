@@ -4,6 +4,7 @@ const NEWS_PATH = "/page/news";
 const NEWS_ID_PATH = "/page/get_news";
 const REV_PATH = "/page/reviews";
 const TEAM_PATH = "/page/company_employees";
+const FORM_PATH = "/api/make_request";
 
 export const useApi = () => {
 
@@ -55,11 +56,25 @@ export const useApi = () => {
         });
     }
 
+    async function sendForm(name: String, email: String, phone:String, title: String, text: String) {
+        return await useFetch(API + FORM_PATH, {
+            method: 'POST',
+            body: {
+                name: name,
+                email: email,
+                phone: phone,
+                title: title,
+                text: text,
+            }
+        });
+    }
+
     return {
         simpleGet,
         getNews,
         getRevs,
         getTeam,
-        getNewsById
+        getNewsById,
+        sendForm
     }
 }

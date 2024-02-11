@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-card">
+  <div v-if="!success" class="overflow-card">
 
     <svg
         class="overflow-card__close"
@@ -16,57 +16,85 @@
 
     <Form class="form" @submit="onSubmit">
       <InputBlock
-          :name="'ФИО'"
+          :name="'name'"
+          :title="'ФИО'"
           :type="'text'"
           v-model:value="nameValue"
           :placeholder="'Иванов Иван Иванович'"
+          :rule="validateName"
       />
 
-      <div
-          class="overflow-card__row row_gap24"
-      >
+      <div class="overflow-card__row row_gap24">
+
         <InputBlock
-            :name="'Телефон'"
+            :name="'phone'"
+            :title="'Телефон'"
             :type="'text'"
             v-model:value="phoneValue"
             :placeholder="'Номер телефона'"
+            :mask="phoneMask"
+            :rule="validatePhone"
         />
+
         <InputBlock
-            :name="'E-mail'"
+            :name="'email'"
+            :title="'E-mail'"
             :type="'text'"
             v-model:value="mailValue"
             :placeholder="'Почта'"
+            :rule="validateEmail"
         />
+
       </div>
 
       <div class="column column_gap8">
         <div class="text text_normal">Комментарий</div>
         <textarea
             class="text text-area"
-            :name="'Комментарий'"
+            :name="'text'"
             v-model="commentValue"
             :type="'text'"
             :placeholder="'Ваш комментарий'"
         />
       </div>
 
-      <button class="button overflow-card__button button_gradient button_paddings">Получить консультацию</button>
+      <button
+          :disabled="disabled"
+          class="button overflow-card__button button_gradient button_paddings"
+      >
+        Получить консультацию
+      </button>
 
     </Form>
 
   </div>
+
+  <OverflowSuccess
+    v-else
+  />
 </template>
 
 <script setup>
 import {ref} from "vue";
 
+const {validateEmail, validateName, validatePhone, phoneMask} = useValidate();
+const {sendForm} = useApi();
+
 const nameValue = ref('');
 const phoneValue = ref('');
 const mailValue = ref('');
 const commentValue = ref('');
+const success = ref(false);
+const disabled = ref(false);
 
-function onSubmit(values) {
-  console.log(values, null, 2);
+async function onSubmit(values) {
+  disabled.value = true;
+  const {data, status} = await sendForm(values.name, values.email, values.phone, 'Тестовый запрос', commentValue);
+  if (status.value === 'success' && data.value.status === 'ok') {
+    success.value = true;
+  }
+
+  disabled.value = false;
 }
 
 </script>
