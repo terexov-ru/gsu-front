@@ -43,9 +43,9 @@
 
     <div class="pagination">
       <PaginationBar
-          :size="5"
-          :count="42"
-          :page="1"
+          :size="itemsPerPage"
+          :count="amount"
+          v-model:page="pageNum"
       />
     </div>
 
@@ -61,14 +61,14 @@ const active = ref(0);
 
 const {data: data} = await getTeam(0, 10);
 const empl = ref(toValue(data).page.employees);
+const pageNum = ref(1);
+const itemsPerPage = 9;
+const amount = ref(data.value.page.total_employee_amount);
 
 watch(active, async (newValue) => {
-  const {data: data} = await getTeam(0, 10, newValue);
+  const {data: data} = await getTeam(pageNum.value * amount.value - amount.value, itemsPerPage, newValue);
   empl.value = toValue(data).page.employees;
 });
-
-
-
 
 </script>
 
