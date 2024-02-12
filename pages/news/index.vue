@@ -52,7 +52,7 @@
             </div>
           </div>
         </NuxtLink>
-        <div v-for="item of news">
+        <div v-for="item of news" :key="item.id">
           <NewsCard
               :news="item"
           />
@@ -91,13 +91,13 @@ const currentPage = ref(1);
 const count = ref(toValue(page).total_news_amount);
 
 watch(selectedType, async (newValue) => {
-  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, selectedYear, newValue.id);
+  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, selectedYear.id, newValue.id);
   page.value = toValue(data).page;
   updateNews(true);
 })
 
 watch(selectedYear, async (newValue) => {
-  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, newValue.id, selectedType);
+  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, newValue.id, selectedType.id);
   page.value = toValue(data).page;
   updateNews(true);
 })
