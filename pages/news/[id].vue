@@ -11,7 +11,7 @@
 
     <div class="news">
       <div class="news__img-container">
-        <img v-if="news && news.image" :src="news.image" alt="news">
+        <img class="news__img" v-if="news && news.image" :src="news.image" alt="news">
         <img v-else class="news__img" src="~/assets/news_banner.png"/>
       </div>
 
