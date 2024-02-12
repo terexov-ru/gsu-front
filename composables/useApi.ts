@@ -36,11 +36,12 @@ export const useApi = () => {
     }
 
     async function getRevs(start: Number = 0, amount: Number = 10, type: Number = 0) {
-        return await useFetch(API + REV_PATH, {
+        return await $fetch(API + REV_PATH, {
             method: 'POST',
             body: {
                 start: start,
                 amount: amount,
+                type: type
             }
         });
     }

@@ -97,10 +97,9 @@
 
       <div class="pagination">
         <PaginationBar
-            :size="5"
-            :count="42"
-            :page="1"
-            @ChangePage="changePage"
+            :size="amountPerPage"
+            :count="reviewsAmount"
+            v-model:page="pageNum"
         />
       </div>
 
@@ -149,8 +148,25 @@
 </template>
 
 <script setup>
+import {watch} from "vue";
+
 const {getRevs: getRevs} = useApi();
-const {data: data} = await getRevs(0, 10);
+const amountPerPage = 5;
+
+const data = await getRevs(0, amountPerPage);
+
+const page = ref(data.page);
+const reviews = ref(page.value.reviews);
+const reviewsAmount = ref(page.value.total_reviews_amount);
+const active = ref(0);
+const pageNum = ref(1);
+
+watch(pageNum, async (newVal) => {
+  console.log(newVal);
+  const data = await getRevs(pageNum.value * amountPerPage - amountPerPage, amountPerPage, 0);
+  page.value = data.page;
+  reviews.value = page.value.reviews;
+})
 
 const thanks = [
   {
@@ -174,13 +190,6 @@ const thanks = [
     job: 'Генеральный директор “Название компании”'
   }
 ]
-
-
-const page = ref(toValue(data).page);
-const reviews = ref(toValue(page).reviews);
-const active = ref(0);
-
-console.log(toValue(reviews));
 
 </script>
 
@@ -230,6 +239,7 @@ console.log(toValue(reviews));
 .reviews__card__info__img-container {
   width: 80px;
   height: 80px;
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
@@ -244,6 +254,7 @@ console.log(toValue(reviews));
 .reviews__card__info__img {
   width: auto;
   height: 100%;
+  flex-shrink: 0;
 }
 
 .reviews__card__text {
