@@ -89,7 +89,7 @@ const disabled = ref(false);
 
 async function onSubmit(values) {
   disabled.value = true;
-  const {data, status} = await sendForm(values.name, values.email, values.phone, 'Тестовый запрос', commentValue);
+  const {data, status} = await sendForm(values.name, values.email, values.phone, 'Оформление заказа', commentValue);
   if (status.value === 'success' && data.value.status === 'ok') {
     success.value = true;
   }

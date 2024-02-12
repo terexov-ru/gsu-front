@@ -1,53 +1,86 @@
 <template>
-  <div class="bill-form">
+  <Form class="bill-form" @submit="onSubmit">
 
     <div class="basket__bill">
       <div class="text text_large">Данные получателя</div>
 
       <InputBlock
+          :name="'name'"
+          :title="'ФИО'"
+          :type="'text'"
+          v-model:value="nameValue"
           :placeholder="'Иванов Иван Иванович'"
-          :type="'text'"
-          :name="'ФИО'"
-          v-model:value="name"
+          :rule="validateName"
           :white="true"
       />
 
       <InputBlock
-          :placeholder="'8(900) 000-90-90'"
+          :name="'phone'"
+          :title="'Телефон'"
           :type="'text'"
-          :name="'Телефон'"
-          v-model:value="phone"
+          v-model:value="phoneValue"
+          :placeholder="'Номер телефона'"
+          :mask="phoneMask"
+          :rule="validatePhone"
           :white="true"
       />
 
       <InputBlock
-          :placeholder="'mail@mail.ru'"
+          :name="'email'"
+          :title="'E-mail'"
           :type="'text'"
-          :name="'E-mail'"
-          v-model:value="mail"
+          v-model:value="mailValue"
+          :placeholder="'Почта'"
+          :rule="validateEmail"
           :white="true"
       />
-
-      {{ title }}
-
     </div>
 
-    <button class="button bill__button button_gradient button_size button_fill">Записаться на курс</button>
 
-  </div>
+    <div class="bill__button column column_gap8">
+      <button
+          :disabled="disabled"
+          class="button bill__button button_gradient button_size button_fill">Записаться на курс
+      </button>
+      <div class="text text_normal text_error text_center">{{ basketError }}</div>
+    </div>
+
+  </Form>
+
 </template>
 
-<script>
-export default {
-  setup() {
-    const name = ref('');
-    const phone = ref('');
-    const mail = ref('');
-    return {
-      name,
-      phone,
-      mail
+<script setup>
+import {ref} from "vue";
+
+const {validateEmail, validateName, validatePhone, phoneMask} = useValidate();
+const {sendForm} = useApi();
+const basket = useState('basket');
+
+const emit = defineEmits(['success'])
+const nameValue = ref('');
+const phoneValue = ref('');
+const mailValue = ref('');
+const commentValue = ref('');
+const basketError = ref('');
+const disabled = ref(false);
+
+async function onSubmit(values) {
+  if (basket.value.length > 0) {
+    basketError.value = ''
+    disabled.value = true;
+    const {data, status} = await sendForm(values.name, values.email, values.phone, 'Тестовый запрос', commentValue);
+
+    if (status.value === 'success' && data.value.status === 'ok') {
+      emit('success');
+      nameValue.value = '';
+      phoneValue.value = '';
+      mailValue.value = '';
+      basket.value = [];
     }
+
+    disabled.value = false;
+  } else {
+    basketError.value = 'Вы не можете отправить заявку, пока корзина пуста'
   }
 }
 </script>

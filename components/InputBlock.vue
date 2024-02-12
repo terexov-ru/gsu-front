@@ -16,8 +16,9 @@
            ]"
     />
 
-    <ErrorMessage class="text text_error"
-                  :name="name"
+    <ErrorMessage
+        class="text text_error"
+        :name="name"
     />
 
 
@@ -52,7 +53,7 @@ defineProps({
 @import "assets/core.less";
 
 .text_error {
-  color: red;
+  color: @RedOneColor;
   margin-top: 8px;
   font-size: 14px;
 }

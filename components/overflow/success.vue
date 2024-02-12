@@ -27,7 +27,7 @@
       </svg>
       <div class="column column_gap16">
         <div class="text text_h3 text_center">Заявка успешно отправлена!</div>
-        <div class="text text_normal text_center">Наш менеджер свяжется с вами в ближайшее время для уточнения данных.</div>
+        <div class="text text_normal text_center">Наш менеджер свяжется с вами в ближайшее время для уточнения деталей.</div>
       </div>
     </div>
   </Overflow>
