@@ -21,11 +21,22 @@
   </div>
 
   <OverflowContainer
-      :active="activeOverflow"
-      @closeOverflow="closeOverflow()"
+      :active="activeVac"
+      @closeOverflow="activeVac = false"
   >
     <OverflowVacancies
-        @close="closeOverflow()"
+        @close="activeVac = false"
+        @clickButton="openForm()"
+        :vacancy="activeItem"
+    />
+  </OverflowContainer>
+
+  <OverflowContainer
+      :active="activeVacForm"
+      @closeOverflow="activeVacForm = false"
+  >
+    <OverflowVacanciesForm
+        @close="activeVacForm = false"
         :vacancy="activeItem"
     />
   </OverflowContainer>
@@ -48,17 +59,18 @@ const {data: data} = await simpleGet('/page/vacancies');
 const list = toValue(data).page.vacancies;
 
 const activeItem = ref({});
-const activeOverflow = ref(false);
+const activeVac = ref(false);
+const activeVacForm = ref(false);
 const formActive = ref(false);
 
 function selectActive(item) {
   activeItem.value = item;
-  activeOverflow.value = true;
+  activeVac.value = true;
 }
 
-function closeOverflow() {
-  activeOverflow.value = false;
-  activeItem.value = {};
+function openForm() {
+  activeVac.value = false;
+  activeVacForm.value = true;
 }
 </script>
 

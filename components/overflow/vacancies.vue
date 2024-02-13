@@ -39,12 +39,13 @@
         </div>
       </div>
 
-      <button class="button overflow__button button_gradient button_size">
+      <button
+          @click="this.$emit('clickButton')"
+          class="button overflow__button button_gradient button_size"
+      >
         Откликнуться
       </button>
     </div>
-
-
   </div>
 </template>
 
@@ -79,7 +80,7 @@ export default {
   background: @WhiteColor;
 
   @media @min760 {
-    padding: 40px;
+    padding: 40px 22px 40px 40px;
   }
 }
 
@@ -110,7 +111,13 @@ export default {
 }
 
 .overflow__button {
+  width: 100%;
+  margin-top: 20px;
   align-self: flex-end;
+
+  @media @min580 {
+    width: initial;
+  }
 }
 
 .close {
