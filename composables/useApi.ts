@@ -7,6 +7,7 @@ const TEAM_PATH = "/page/company_employees";
 const FORM_PATH = "/api/make_request";
 const REGISTRY_PATH = "/page/company_registry";
 const REQUISITES_PATH = "/page/company_requisites";
+const LICENSE_PATH = "/page/company_license";
 
 export const useApi = () => {
 
@@ -16,7 +17,7 @@ export const useApi = () => {
         });
     }
 
-    async function getNews(start: Number, amount: Number, year: Number = 0, type:Number = 0) {
+    async function getNews(start: Number, amount: Number, year: Number = 0, type: Number = 0) {
         return await useFetch(API + NEWS_PATH, {
             method: 'POST',
             body: {
@@ -71,7 +72,13 @@ export const useApi = () => {
         })
     }
 
-    async function sendForm(name: String, email: String, phone:String, title: String, text: String) {
+    async function getLicense() {
+        return await useFetch(API + LICENSE_PATH, {
+            method: 'GET'
+        })
+    }
+
+    async function sendForm(name: String, email: String, phone: String, title: String, text: String) {
         return await useFetch(API + FORM_PATH, {
             method: 'POST',
             body: {
@@ -90,6 +97,7 @@ export const useApi = () => {
         getRevs,
         getTeam,
         getNewsById,
+        getLicense,
         getRegistry,
         getReq,
         sendForm

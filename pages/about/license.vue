@@ -1,58 +1,64 @@
 <template>
   <div class="wrapper license-page wrapper_paddings">
 
-    <h2 class="text text_h2">Лицензии и сертификаты</h2>
+    <h2 class="text text_h2">{{ page.title }}</h2>
 
     <div class="license-block">
 
       <div class="license-block__img-container">
-        <img class="license-block__img" src="~/assets/license.png" alt="License">
+        <NuxtLink v-if="page && page.image" :to="page.image" target="_blank">
+          <img class="license-block__img" :src="page.image" alt="License">
+        </NuxtLink>
+        <img v-else class="license-block__img" src="~/assets/license.png" alt="License">
       </div>
 
       <div class="license-block__description">
         <div>
-          <h3 class="text text_h3">Лицензия на осуществление образовательной деятельности</h3>
-          <p class="text text_normal">Проверить подлинность Лицензии образовательного учреждения
-            можно на официальном сайте Федеральной службы по надзору
-            в сфере образования и науки (Рособрнадзоре)</p>
+          <h3 class="text text_h3">{{ page.subtitle }}</h3>
+          <p class="text text_normal">
+            {{ page.text }}
+          </p>
         </div>
-        <p class="text text_normal text_accent">Выписка из реестра лицензий № 722021163</p>
+        <NuxtLink :to="page.file" target="_blank">
+          <p class="text text_normal text_accent">Выписка из реестра лицензий № 722021163</p>
+        </NuxtLink>
       </div>
     </div>
 
     <div class="delimiter license-page__delimiter delimiter_mid-grey"/>
 
     <div class="certificate">
-      <div class="certificate__card">
-        <img class="certificate__card__img" src="~/assets/certificate.png" alt="Certificate">
-        <div>
-          <h4 class="text text_h4">Разрешение</h4>
-          <p class="text text_normal">Разрешение на использование знака соответствия системы
-            сертификации "ПСК СОЮЗ ТЕСТ"</p>
-        </div>
-      </div>
+      <div class="certificate__card"
 
-      <div class="certificate__card">
-        <img class="certificate__card__img" src="~/assets/certificate.png" alt="Certificate">
-        <div>
-          <h4 class="text text_h4">Разрешение</h4>
-          <p class="text text_normal">Разрешение на использование знака соответствия системы
-            сертификации "ПСК СОЮЗ ТЕСТ"</p>
-        </div>
-      </div>
+           v-for="item in page.certificates"
+           :key="item.title"
+      >
 
-      <div class="certificate__card">
-        <img class="certificate__card__img" src="~/assets/certificate.png" alt="Certificate">
+        <NuxtLink v-if="item && item.image" :to="item.image" target="_blank">
+          <img :src="item.image" class="certificate__card__img" alt="Certificate">
+        </NuxtLink>
+        <img v-else class="certificate__card__img" src="~/assets/certificate.png" alt="Certificate">
+
         <div>
-          <h4 class="text text_h4">Разрешение</h4>
-          <p class="text text_normal">Разрешение на использование знака соответствия системы
-            сертификации "ПСК СОЮЗ ТЕСТ"</p>
+          <h4 class="text text_h4">{{ item.title }}</h4>
+          <p class="text text_normal">{{ item.text }}</p>
         </div>
       </div>
     </div>
 
   </div>
 </template>
+
+<script setup>
+const {getLicense} = useApi();
+
+const {data} = await getLicense();
+
+const page = data.value?.page;
+console.log(page);
+
+
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
