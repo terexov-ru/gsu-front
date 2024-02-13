@@ -132,7 +132,8 @@
                 <div class="text text_h4">{{ th.name }}</div>
                 <div class="row row_jc-sb">
                   <div class="text text_normal">{{ th.job }}</div>
-                  <div class="text text_normal text_light">{{ th.date }}</div>
+                  <!--TODO: remove inline style-->
+                  <div class="text text_normal text_light" style="align-self: self-end;">{{ th.date }}</div>
                 </div>
               </div>
             </div>
@@ -142,6 +143,15 @@
         </div>
 
       </div>
+
+      <div class="pagination">
+        <PaginationBar
+            :size="amountPerPage"
+            :count="reviewsAmount"
+            v-model:page="pageNum"
+        />
+      </div>
+
     </div>
 
   </div>
@@ -363,11 +373,16 @@ const thanks = [
 .thanks-card {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 
   box-sizing: border-box;
   padding: 20px;
 
   background: @LightGreyColor;
+
+  @media @min580 {
+    flex-direction: row;
+  }
 }
 
 .thanks-card__content {
@@ -376,17 +391,35 @@ const thanks = [
 }
 
 .thanks-card__img-container {
-  max-height: 360px;
-  max-width: 260px;
+  max-height: 270px;
+  max-width: 186px;
 
+  align-self: center;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  margin-bottom: 32px;
+
+  @media @min580 {
+    margin-bottom: 0;
+    align-self: initial;
+  }
+
+  @media @min1200 {
+    max-height: 360px;
+    max-width: 260px;
+  }
 }
 
 .thanks-card__img {
-  width: auto;
-  height: 100%;
+  width: 100%;
+  height: auto;
+
+  @media @min580 {
+    width: auto;
+    height: 100%;
+  }
 }
 
 .avatar__img-container {
