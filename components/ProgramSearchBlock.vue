@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import {toValue} from "vue";
+import {toValue, watch} from "vue";
 import {API} from '~/constants/index.js';
 
 const category = ref(NaN);
@@ -56,6 +56,11 @@ async function search() {
 
   courses.value = toValue(page).page.courses;
 }
+
+watch(category, async(newVal) => {
+  category.value = newVal;
+  await search();
+})
 
 const {data: page} = await useFetch(API + '/page/learning', {
   method: 'POST',

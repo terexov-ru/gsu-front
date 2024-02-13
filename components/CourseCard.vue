@@ -15,6 +15,7 @@
           <CardTipList
               class="course__info__card-list"
               :tips="course.specs"
+              :time="course.duration"
           />
         </div>
 

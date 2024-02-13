@@ -116,10 +116,15 @@ const studentCategories = toValue(page).page.student_categories;
 courses.value = toValue(page).page.courses;
 const count = ref(toValue(page).page.total_courses_amount);
 
-/* Pagination */
+/* Watchers */
 watch(currentPage, async (newVal) => {
   currentPage.value = newVal;
   await search(true);
+})
+
+watch(category, async (newVal) => {
+  category.value = newVal;
+  await search(false);
 })
 </script>
 

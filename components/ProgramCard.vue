@@ -3,6 +3,7 @@
 
     <CardTipList
         :tips="course.specs"
+        :time="course.duration"
     />
 
     <h3 class="card__title text text_h3 text_dark">
