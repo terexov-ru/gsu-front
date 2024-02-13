@@ -9,6 +9,7 @@ const REGISTRY_PATH = "/page/company_registry";
 const REQUISITES_PATH = "/page/company_requisites";
 const LICENSE_PATH = "/page/company_license";
 const ABOUT_PATH = "/page/company_info";
+const CONTACTS_PATH = "/page/company_info";
 
 export const useApi = () => {
 
@@ -84,6 +85,11 @@ export const useApi = () => {
             method: 'GET'
         })
     }
+    async function getContacts() {
+        return await useFetch(API + CONTACTS_PATH, {
+            method: 'GET'
+        })
+    }
 
     async function sendForm(name: String, email: String, phone: String, title: String, text: String) {
         return await useFetch(API + FORM_PATH, {
@@ -104,6 +110,7 @@ export const useApi = () => {
         getRevs,
         getTeam,
         getNewsById,
+        getContacts,
         getAbout,
         getLicense,
         getRegistry,

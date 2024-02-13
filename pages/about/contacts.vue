@@ -5,11 +5,11 @@
 
       <div class="contacts">
         <div class="contacts__column">
-          <p class="text text_h4">+7 (800) 550-40-48</p>
+          <p class="text text_h4">{{ page.phone }}</p>
           <h2 class="text text_normal">Контактный телефон</h2>
         </div>
         <div class="contacts__column">
-          <p class="text text_h4">info@gsu-prof.ru</p>
+          <p class="text text_h4">{{ page.email }}</p>
           <h2 class="text text_normal">Почта</h2>
         </div>
         <div class="contacts__row">
@@ -50,23 +50,27 @@
         <div class="map__info">
           <div class="map__info__item">
             <div>
-              <h3 class="text text_h3">г. Тюмень, ул. Мельникайте 112,
-                стр. 3 БЦ «СОЛАРИС»</h3>
-              <p class="text text_semi-bold text_light">4 этаж. офис 403, 404</p>
+              <h3 class="text text_h3">
+                {{ page.address }}
+              </h3>
+              <p class="text text_semi-bold text_light">{{ page.address_details }}</p>
             </div>
 
-            <div class="text text_semi-bold">Пн - Чт: 8:00-18:00 <br>
-              Пт: 8:00-17:00
+            <div class="text text_semi-bold">
+              {{ page.work_time }}
             </div>
-            <button class="button map__info_button button_dark">Перейти в карты</button>
+
+            <NuxtLink style="width: 100%" :to="page.map_link">
+              <button class="button map__info_button button_dark">
+                Перейти в карты
+              </button>
+            </NuxtLink>
           </div>
 
           <div class="map__info__item">
-            <h4 class="text text_h4">Гарант Сервис Университет</h4>
+            <h4 class="text text_h4">{{ page.title }}</h4>
             <p class="text text_semi-bold text_light">
-              ООО «Гарант Сервис Университет» - образовательная организация, осуществляющая деятельность в сфере
-              дополнительного профессионального образования, на основании Лицензии, выданной Службой по контролю и
-              надзору в сфере образования ХМАО-Югры.
+              {{ page.text }}
             </p>
           </div>
         </div>
@@ -81,6 +85,16 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const {getContacts} = useApi();
+
+const {data} = await getContacts();
+
+const page = data.value?.page;
+
+
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
@@ -188,7 +202,7 @@
 }
 
 .map__info_button {
-  width: auto;
+  width: 100%;
 
   @media @min580 {
     width: 360px;
