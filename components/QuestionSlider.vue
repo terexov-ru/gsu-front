@@ -7,8 +7,7 @@
         <div class="text-rotate">Задайте их нам</div>
       </h2>
 
-      <!--   TODO: Убрать инлайн стили   -->
-      <div style="flex-basis: 100%"/>
+      <div class="fill"/>
 
       <span
           class="text slider__text text_h4">Наши консультанты помогут выбрать направление и расскажут о форматах</span>
@@ -45,6 +44,10 @@
   @media (max-width: 580px) {
     height: auto;
   }
+}
+
+.fill {
+  flex-basis: 100%;
 }
 
 .slider__image-container {
