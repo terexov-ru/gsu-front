@@ -10,6 +10,7 @@ const REQUISITES_PATH = "/page/company_requisites";
 const LICENSE_PATH = "/page/company_license";
 const ABOUT_PATH = "/page/company_info";
 const CONTACTS_PATH = "/page/company_info";
+const FAQS_PATH = "/page/faqs";
 
 export const useApi = () => {
 
@@ -91,6 +92,12 @@ export const useApi = () => {
         })
     }
 
+    async function getFAQS() {
+        return await useFetch(API + FAQS_PATH, {
+            method: 'GET'
+        })
+    }
+
     async function sendForm(name: String, email: String, phone: String, title: String, text: String) {
         return await useFetch(API + FORM_PATH, {
             method: 'POST',
@@ -111,6 +118,7 @@ export const useApi = () => {
         getTeam,
         getNewsById,
         getContacts,
+        getFAQS,
         getAbout,
         getLicense,
         getRegistry,
