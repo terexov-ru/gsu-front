@@ -118,4 +118,15 @@ export default {
   text-decoration: underline;
   margin-top: 4px;
 }
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.review__tip {
+  align-self: flex-end;
+}
+
 </style>
