@@ -2,7 +2,7 @@
   <div class="wrapper wrapper_paddings">
     <div class="about-block">
 
-      <h1 class="text text_h2">О компании «Гарант сервис университет»</h1>
+      <h1 class="text text_h2">{{ page.title }}</h1>
 
       <div class="about-block__container">
         <div class="about-block__img-container">
@@ -10,15 +10,11 @@
         </div>
 
         <div class="about-block__description">
-          <h3 class="text text_h3">Наша миссия — сделать образование доступным и удобным</h3>
-          <p class="text text_normal">Гарант Сервис Университет - организация, осуществляющая деятельность в сфере
-            дополнительного профессионального образования и являющаяся официальным провайдером образовательных
-            мероприятий непрерывного медицинского и фармацевтического образования (НМиФО).
-          </p>
+          <h3 class="text text_h3">
+            {{ page.description.title }}
+          </h3>
           <p class="text text_normal">
-            Гарант Сервис Университет опирается на самые современные научные исследования, руководства, нормативные
-            правовые акты и предоставляет исключительно достоверную и актуальную информацию в сфере образования. В
-            организации обучается более 4000 медицинских учреждений и специалистов, перечень которых непрерывно растёт.
+            {{ page.description.text }}
           </p>
         </div>
       </div>
@@ -30,6 +26,15 @@
 
   </div>
 </template>
+
+<script setup>
+const {getAbout} = useApi();
+
+const {data} = await getAbout();
+
+const page = data.value?.page;
+
+</script>
 
 
 <style lang="less" scoped>

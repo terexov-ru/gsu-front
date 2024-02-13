@@ -45,7 +45,6 @@ const {getRegistry} = useApi();
 const {data} = await getRegistry();
 
 const page = data.value?.page;
-console.log(page);
 
 </script>
 
