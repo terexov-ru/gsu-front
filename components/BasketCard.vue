@@ -46,10 +46,15 @@
               class="basket__link"
               :href="'/courses/' + course.id"
           />
-          <div>
-            <span class="text text_h4">{{ course.price }} ₽</span>
-            <span class="text text_semi-bold text_light text_margin">20 000 ₽</span>
+          <div v-if="course.price_sale">
+            <span class="text text_h4">{{ course.price_sale }} ₽</span>
+            <span class="text text_semi-bold text_light text_margin text_through">{{ course.price }} ₽</span>
           </div>
+
+          <div v-else>
+            <span class="text text_h4">{{ course.price }} ₽</span>
+          </div>
+
         </div>
 
       </div>

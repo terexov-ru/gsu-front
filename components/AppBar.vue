@@ -61,9 +61,10 @@
               >
 
               <NuxtLink to="/basket">
-                <div class="row row_al-c">
+                <div class="row basket row_al-c">
                   <img class="pointer" src="~/assets/svg/basket.svg" alt="basket">
-                  <div class="text text_dark">{{ basket.length }}</div>
+
+                  <div v-if="basket.length > 0" class="basket__count">{{ basket.length }}</div>
                 </div>
               </NuxtLink>
             </div>
@@ -575,6 +576,29 @@ a {
 .info__body_help {
   margin-bottom: 0;
   margin-top: 16px;
+}
+
+.basket {
+  position: relative;
+}
+
+.basket__count {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 16px;
+  height: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: @WhiteColor;
+  background: @BlueNewColor;
+  font-size: 12px;
+
+  border-radius: 50%;
 }
 
 </style>

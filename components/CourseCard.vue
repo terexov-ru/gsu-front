@@ -28,7 +28,16 @@
       <div class="course__info__sale">
         <div class="price">
           <div class="text text_normal text_light">Стоимость курса</div>
-          <div class="text text_h4">{{ course.price }} ₽</div>
+
+          <div class="row row_gap10 row_al-c" v-if="course.price_sale">
+            <span class="text text_h4">{{ course.price_sale }} ₽</span>
+            <span class="text text_semi-bold text_light text_margin text_through">{{ course.price }} ₽</span>
+          </div>
+
+          <div v-else>
+            <span class="text text_h4">{{ course.price }} ₽</span>
+          </div>
+
         </div>
         <div class="buttons">
           <NuxtLink :to="`/courses/${course.id}`">

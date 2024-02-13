@@ -30,7 +30,7 @@
           >
             <div class="row row_jc-sb">
               <div class="text text_normal">Скидка</div>
-              <div class="text text_semi-bold">0 ₽</div>
+              <div class="text text_semi-bold">{{ getSale() }} ₽</div>
             </div>
 
             <div class="row row_jc-sb">
@@ -78,6 +78,12 @@ function cleanBasket() {
 function getPrice() {
   let counter = 0;
   toValue(basket).forEach((i) => counter += parseInt(i.price));
+  return counter;
+}
+
+function getSale() {
+  let counter = 0;
+  toValue(basket).forEach((i) => counter += i.price - (i.price_sale ? parseInt(i.price_sale) : 0));
   return counter;
 }
 
