@@ -132,25 +132,12 @@ export const useApi = () => {
     }
 
     async function reg(phone: String, email: String) {
-        $fetch(API + REG_PATH, {
+        await $fetch(API + REG_PATH, {
             method: 'POST',
             body: {
                 phone: phone,
                 email: email
             }
-        }).then(res => {
-            const data = res.data.value
-            const error = res.error.value
-            console.log(res);
-            if (error) {
-                // dealing error
-                console.log(error)
-            } else {
-                console.log(data)
-            }
-        }, error => {
-            console.log('exception...')
-            console.log(error)
         });
 
         // if (data.value?.status !== 'ok') {

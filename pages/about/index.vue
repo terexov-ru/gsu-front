@@ -11,16 +11,19 @@
 
         <div class="about-block__description">
           <h3 class="text text_h3">
-            {{ page.description.title }}
+            {{ page?.block_info.title }}
           </h3>
           <p class="text text_normal">
-            {{ page.description.text }}
+            {{ page?.block_info.text }}
           </p>
         </div>
       </div>
     </div>
 
-    <SummaryCard class="summary"/>
+    <SummaryCard
+        :list="page?.block_info.items"
+        class="summary"
+    />
 
     <QuestionSlider class="questions"/>
 
