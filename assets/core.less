@@ -165,6 +165,10 @@ a {
   &_right {
     text-align: right;
   }
+
+  &_left {
+    text-align: left;
+  }
 }
 
 //Containers and wrappers
@@ -182,6 +186,11 @@ a {
     @media @min1200 {
       padding: 0;
     }
+  }
+
+  &_margins {
+    margin-top: 60px;
+    margin-bottom: 120px;
   }
 }
 
@@ -371,6 +380,14 @@ a {
   &_paddings {
     padding: 12px 56px;
     width: fit-content;
+  }
+
+  &_170 {
+    width: 100%;
+
+    @media @min580 {
+      width: 170px;
+    }
   }
 }
 
