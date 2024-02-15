@@ -6,7 +6,7 @@
            v-model="value"
            :name="name"
            :placeholder="placeholder"
-           :type="'text'"
+           :type="type"
            :rules="rule"
            v-maska
            :data-maska="mask"

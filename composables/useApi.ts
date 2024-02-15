@@ -11,17 +11,19 @@ const LICENSE_PATH = "/page/company_license";
 const ABOUT_PATH = "/page/company_info";
 const CONTACTS_PATH = "/page/company_info";
 const FAQS_PATH = "/page/faqs";
+const LOGIN_PATH = "/auth/login";
+const REG_PATH = "/auth/register";
 
 export const useApi = () => {
 
     async function simpleGet(path: String) {
-        return await useFetch(API + path, {
+        return useFetch(API + path, {
             method: 'GET',
         });
     }
 
     async function getNews(start: Number, amount: Number, year: Number = 0, type: Number = 0) {
-        return await useFetch(API + NEWS_PATH, {
+        return useFetch(API + NEWS_PATH, {
             method: 'POST',
             body: {
                 start: start,
@@ -33,7 +35,7 @@ export const useApi = () => {
     }
 
     async function getNewsById(id: Number) {
-        return await useFetch(API + NEWS_ID_PATH, {
+        return useFetch(API + NEWS_ID_PATH, {
             method: 'POST',
             body: {
                 news_id: id
@@ -53,7 +55,7 @@ export const useApi = () => {
     }
 
     async function getTeam(start: Number = 0, amount: Number = 10, category: Number = 0) {
-        return await useFetch(API + TEAM_PATH, {
+        return useFetch(API + TEAM_PATH, {
             method: 'POST',
             body: {
                 start: start,
@@ -64,42 +66,43 @@ export const useApi = () => {
     }
 
     async function getRegistry() {
-        return await useFetch(API + REGISTRY_PATH, {
+        return useFetch(API + REGISTRY_PATH, {
             method: 'GET'
         })
     }
 
     async function getReq() {
-        return await useFetch(API + REQUISITES_PATH, {
+        return useFetch(API + REQUISITES_PATH, {
             method: 'GET'
         })
     }
 
     async function getLicense() {
-        return await useFetch(API + LICENSE_PATH, {
+        return useFetch(API + LICENSE_PATH, {
             method: 'GET'
         })
     }
 
     async function getAbout() {
-        return await useFetch(API + ABOUT_PATH, {
+        return useFetch(API + ABOUT_PATH, {
             method: 'GET'
         })
     }
+
     async function getContacts() {
-        return await useFetch(API + CONTACTS_PATH, {
+        return useFetch(API + CONTACTS_PATH, {
             method: 'GET'
         })
     }
 
     async function getFAQS() {
-        return await useFetch(API + FAQS_PATH, {
+        return useFetch(API + FAQS_PATH, {
             method: 'GET'
         })
     }
 
     async function sendForm(name: String, email: String, phone: String, title: String, text: String) {
-        return await useFetch(API + FORM_PATH, {
+        return useFetch(API + FORM_PATH, {
             method: 'POST',
             body: {
                 name: name,
@@ -109,6 +112,76 @@ export const useApi = () => {
                 text: text,
             }
         });
+    }
+
+    async function login(login: String, pass: String) {
+        const {data: data} = await useFetch(API + LOGIN_PATH, {
+            method: 'POST',
+            body: {
+                credential: login,
+                password: pass,
+            }
+        });
+
+        if (data.value?.token) {
+            setTokenCookie(data.value?.token);
+            return true;
+        }
+
+        return false;
+    }
+
+    async function reg(phone: String, email: String) {
+        $fetch(API + REG_PATH, {
+            method: 'POST',
+            body: {
+                phone: phone,
+                email: email
+            }
+        }).then(res => {
+            const data = res.data.value
+            const error = res.error.value
+            console.log(res);
+            if (error) {
+                // dealing error
+                console.log(error)
+            } else {
+                console.log(data)
+            }
+        }, error => {
+            console.log('exception...')
+            console.log(error)
+        });
+
+        // if (data.value?.status !== 'ok') {
+
+            // const message = error.value;
+            // console.log(error);
+            // console.log(data);
+            //
+            // if (message.includes('email') && message.includes('phone')) {
+            //     return 'Данный номер телефона и почта уже используются'
+            // } else if (message.includes('email')){
+            //     return 'Данная почта уже используется'
+            // }
+            // else if (message.includes('phone')) {
+            //     return 'Данный номер телефона уже используется'
+            // } else {
+            //     return 'Ошибка при регистрации'
+            // }
+        // }
+
+        return false;
+    }
+
+
+    function getTokenCookie(): string | undefined {
+        return useCookie('token')?.value;
+    }
+
+    function setTokenCookie(token: string): void {
+        const tokenRef = useCookie('token');
+        tokenRef.value = token;
     }
 
     return {
@@ -123,6 +196,8 @@ export const useApi = () => {
         getLicense,
         getRegistry,
         getReq,
-        sendForm
+        sendForm,
+        login,
+        reg
     }
 }

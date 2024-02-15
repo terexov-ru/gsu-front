@@ -294,7 +294,7 @@
         :active="logActive"
         @closeOverflow="logActive = false"
     >
-      <OverflowLogin
+      <OverflowAuth
           @close="logActive = false"
       />
     </OverflowContainer>

@@ -1,38 +1,63 @@
 <template>
   <Overflow>
     <img class="close"
-         @click="this.$emit('close')"
+         @click="emits('close')"
          src="~/assets/svg/close.svg"
          alt="close"
     >
 
     <div class="text text_h2 text_center">Вход</div>
 
-    <div class="form">
+    <Form class="form" @submit="onSubmit">
       <InputBlock
-          :name="'Введите номер телефона'"
+          :title="'Введите e-mail или телефон'"
+          :name="'phone'"
           :type="'text'"
-          :placeholder="'Номер телефона'"
+          v-model:value="loginValue"
       />
       <InputBlock
-          :name="'Введите пароль'"
+          :title="'Введите пароль'"
+          :name="'pass'"
           :type="'password'"
+          v-model:value="passValue"
       />
-      <div class="text text_normal text_accent text_right">Забыли пароль?</div>
-    </div>
-    <div class="column column_gap8">
-      <button class="button overflow-card__button button_gradient">Войти</button>
-      <button class="button overflow-card__button button_black-bordered">Зарегистрироваться</button>
-    </div>
+      <div class="text text_normal text_accent text_right pointer"
+           @click="emits('openPass')"
+      >Забыли пароль?
+      </div>
+
+      <div class="column column_gap8">
+        <div class="text text_error text_center">{{ errorMessage }}</div>
+        <button class="button overflow-card__button button_gradient">Войти</button>
+        <button class="button overflow-card__button button_black-bordered"
+                @click="emits('openReg');"
+        >Зарегистрироваться
+        </button>
+      </div>
+    </Form>
   </Overflow>
 </template>
+<script setup>
+const {login} = useApi();
+const errorMessage = ref('');
+
+const emits = defineEmits(['close', 'openReg', 'openPass'])
+
+async function onSubmit(value) {
+  if (await login(value.phone, value.pass)) {
+    navigateTo('/account');
+    emits('close');
+  } else {
+    errorMessage.value = 'Неверный логин или пароль'
+  }
+}
+</script>
+
 <style scoped lang="less">
 @import "assets/core.less";
 
-
 .form {
   margin-top: 60px;
-  margin-bottom: 40px;
 
   display: flex;
   flex-direction: column;
