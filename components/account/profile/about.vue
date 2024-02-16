@@ -4,7 +4,8 @@
 
     <div class="about__image">
       <div class="text text_normal">Фотография профиля</div>
-      <div class="about__image__drop">
+
+      <div v-if="!$viewport.isLessThan('desktop')" class="about__image__drop">
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
               d="M20 19.3782C21.6714 19.3782 23.2743 18.7142 24.4561 17.5324C25.6379 16.3506 26.3019 14.7477 26.3019 13.0763C26.3019 11.4049 25.6379 9.80202 24.4561 8.62019C23.2743 7.43836 21.6714 6.77441 20 6.77441C18.3286 6.77441 16.7257 7.43836 15.5439 8.62019C14.3621 9.80202 13.6981 11.4049 13.6981 13.0763C13.6981 14.7477 14.3621 16.3506 15.5439 17.5324C16.7257 18.7142 18.3286 19.3782 20 19.3782ZM20 22.1469C11.6213 22.1469 6.25 26.7707 6.25 29.0219V33.2257H33.75V29.0219C33.75 26.2994 28.665 22.1469 20 22.1469Z"
@@ -15,6 +16,16 @@
           <span class="text_accent pointer">загрузите с компьютера</span>
         </div>
       </div>
+
+      <div v-else class="about__image__button">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+              d="M20 19.3782C21.6714 19.3782 23.2743 18.7142 24.4561 17.5324C25.6379 16.3506 26.3019 14.7477 26.3019 13.0763C26.3019 11.4049 25.6379 9.80202 24.4561 8.62019C23.2743 7.43836 21.6714 6.77441 20 6.77441C18.3286 6.77441 16.7257 7.43836 15.5439 8.62019C14.3621 9.80202 13.6981 11.4049 13.6981 13.0763C13.6981 14.7477 14.3621 16.3506 15.5439 17.5324C16.7257 18.7142 18.3286 19.3782 20 19.3782ZM20 22.1469C11.6213 22.1469 6.25 26.7707 6.25 29.0219V33.2257H33.75V29.0219C33.75 26.2994 28.665 22.1469 20 22.1469Z"
+              fill="#B9BFC6"/>
+        </svg>
+        <div class="text text_normal text_accent">Загрузить</div>
+      </div>
+
     </div>
 
     <Form class="about__edit-profile">
@@ -119,7 +130,7 @@ export default {
   width: 496px;
   height: 120px;
 
-  margin-top: 4px;
+  margin-top: 8px;
 
   display: flex;
   flex-direction: column;
@@ -129,6 +140,22 @@ export default {
 
 
   border: 1px dashed @MidGreyColor;
+}
+
+.about__image__button {
+  box-sizing: border-box;
+  width: 116px;
+  height: 116px;
+
+  margin-top: 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background: @LightGreyColor;
 }
 
 .about__edit-profile {
@@ -141,7 +168,20 @@ export default {
 
 .about__edit-profile__row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   column-gap: inherit;
+
+  grid-template-columns: 1fr;
+
+  @media @min580 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+
+  @media @min760 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+
+
 }
 </style>

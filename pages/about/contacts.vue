@@ -88,8 +88,6 @@
         <div class="map__img-container">
           <img class="map__img" src="~/assets/map.png" alt="Map">
         </div>
-
-
       </div>
 
     </div>

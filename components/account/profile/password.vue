@@ -44,7 +44,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+@import "assets/core";
+
 .password {
   display: flex;
   flex-direction: column;
@@ -60,7 +62,16 @@ export default {
 .password__form__row {
   display: grid;
   gap: 24px;
-  grid-template-columns: 1fr 1fr 1fr;
+
+  grid-template-columns: 1fr;
+
+  @media @min580 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media @min760 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 .password__form__button {

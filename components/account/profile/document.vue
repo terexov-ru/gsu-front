@@ -31,7 +31,7 @@
         сертификаты по специальности
       </div>
 
-      <div class="row row_gap10 mt-20">
+      <div class="document__load row row_gap10 mt-20">
         <div class="button document__add button_dark">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -40,7 +40,7 @@
           </svg>
           <div class="text text_normal">Прикрепить документ об образовании</div>
         </div>
-        <div class="column row_jc-sb">
+        <div class="column row_jc-sb row_al-c">
           <div class="text text_normal text_light">2 / 10</div>
           <div class="text text_normal text_light">PNG, JPEG, PDF</div>
         </div>
@@ -123,10 +123,13 @@ export default {
 }
 
 .document__add {
-  width: auto;
-  max-width: 363px;
+  width: 100%;
   gap: 8px;
   padding: 10px 16px 10px 12px;
+
+  @media @min580 {
+    max-width: 363px;
+  }
 }
 
 .document__list {
@@ -147,6 +150,17 @@ export default {
   border-radius: 4px;
 
   background: @LightGreyColor;
+}
+
+.document__load {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+
+  @media @min580 {
+    flex-direction: row;
+  }
 }
 
 .document__save {

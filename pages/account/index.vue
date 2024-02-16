@@ -63,11 +63,16 @@ function logOut() {
 @import "assets/core";
 
 .account {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 40px;
+  display: flex;
+  flex-direction: column;
 
+  gap: 40px;
   margin-top: 40px;
+
+  @media @min1200 {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+  }
 }
 
 .account__nav {
