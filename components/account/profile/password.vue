@@ -2,46 +2,86 @@
   <div class="password">
     <div class="text text_large">Смена пароля</div>
 
-    <Form class="password__form">
+    <Form class="password__form" @submit="onSubmit">
 
       <div class="password__form__row">
         <InputBlock
-            :name="'name'"
+            :name="'oldValue'"
             :title="'Старый пароль'"
-            :type="'text'"
-            v-model:value="nameValue"
-            :rule="validateName"
+            :type="'password'"
+            v-model:value="oldValue"
         />
       </div>
 
       <div class="password__form__row">
         <InputBlock
-            :name="'sename'"
+            :name="'newFirValue'"
             :title="'Новый пароль'"
-            :type="'text'"
-            v-model:value="senameValue"
-            :mask="phoneMask"
-            :rule="validatePhone"
+            :type="'password'"
+            v-model:value="newFirValue"
+            :rule="passRule"
         />
 
         <InputBlock
-            :name="'lastName'"
+            :name="'newSecValue'"
             :title="'Новый пароль еще раз'"
-            :type="'text'"
-            v-model:value="lastNameValue"
-            :rule="validateEmail"
+            :type="'password'"
+            v-model:value="newSecValue"
         />
       </div>
 
-      <button class="button password__form__button button_gradient button_170">Обновить пароль</button>
+      <div>
+        <div class="text text_error">{{ textError }}</div>
+        <div v-if="success" class="text text_accent">Данные успешно изменены</div>
+        <button
+            :disabled="disabled"
+            @click="onSubmit"
+            class="button password__form__button button_gradient button_170">Обновить пароль
+        </button>
+      </div>
     </Form>
   </div>
 </template>
 
-<script>
-export default {
-  name: "password"
+<script setup>
+const {setPass} = useApi();
+
+const oldValue = ref('');
+const newFirValue = ref('');
+const newSecValue = ref('');
+
+const textError = ref('');
+const disabled = ref(false);
+const success = ref(false);
+
+function passRule() {
+  if (newFirValue.value !== newSecValue.value) {
+    return 'Пароли не совпадают'
+  } else {
+    return ''
+  }
 }
+
+async function onSubmit() {
+  console.log('ТУТ')
+  disabled.value = true;
+
+  const password = {password: newFirValue.value};
+
+  const data = await setPass(password);
+
+  console.log(data);
+
+  if (data === true) {
+    success.value = true;
+    textError.value = '';
+  } else {
+    textError.value = data;
+  }
+
+  disabled.value = false;
+}
+
 </script>
 
 <style lang="less" scoped>

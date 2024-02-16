@@ -17,6 +17,7 @@ const LOGIN_PATH = "/auth/login";
 const REG_PATH = "/auth/register";
 const PROFILE_PATH = "/profile";
 const SET_INFO_PATH = "/profile/set_info";
+const SET_PASS_PATH = "/profile/set_password";
 
 export const useApi = () => {
 
@@ -186,6 +187,24 @@ export const useApi = () => {
         return true;
     }
 
+    async function setPass(password: Object) {
+        const response = await fetch(API + SET_PASS_PATH, {
+            method: 'POST',
+            body: JSON.stringify(password),
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            }
+        });
+
+        const message = await response.json();
+
+        if(message.status === 'error') {
+            return 'Произошла ошибка'
+        }
+
+        return true;
+    }
+
     async function getUser() {
         const response = await fetch(API + PROFILE_PATH, {
             headers: {
@@ -217,9 +236,10 @@ export const useApi = () => {
         getRegistry,
         getReq,
         sendForm,
-        setInfo,
         login,
         reg,
-        getUser
+        getUser,
+        setInfo,
+        setPass,
     }
 }
