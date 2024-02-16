@@ -28,7 +28,7 @@
 
     </div>
 
-    <Form class="about__edit-profile">
+    <Form class="about__edit-profile" @submit="onSubmit">
 
       <div class="about__edit-profile__row">
         <InputBlock
@@ -44,8 +44,7 @@
             :title="'Отчество'"
             :type="'text'"
             v-model:value="senameValue"
-            :mask="phoneMask"
-            :rule="validatePhone"
+            :rule="validateName"
         />
 
         <InputBlock
@@ -53,7 +52,7 @@
             :title="'Фамилия'"
             :type="'text'"
             v-model:value="lastNameValue"
-            :rule="validateEmail"
+            :rule="validateName"
         />
       </div>
 
@@ -85,8 +84,8 @@
             :type="'text'"
             v-model:value="pasportValue"
             :placeholder="'00 00 000000'"
-            :mask="phoneMask"
-            :rule="validatePhone"
+            :mask="passportMask"
+            :rule="validatePassport"
         />
 
         <InputBlock
@@ -94,23 +93,84 @@
             :title="'Снилс'"
             :type="'text'"
             v-model:value="snilsValue"
-            :rule="validateEmail"
+            :mask="snilsMask"
+            :rule="validateSnils"
         />
       </div>
 
-      <button class="button button_gradient button_170">
+
+      <div class="text text_error">{{ textError }}</div>
+      <div v-if="success" class="text text_accent">Данные успешно отправлены</div>
+      <button
+          :disabled="disabled"
+          class="button button_gradient button_170">
         Сохранить
       </button>
 
     </Form>
 
   </div>
+
 </template>
 
-<script>
-export default {
-  name: "about"
+<script setup>
+import {ref} from "vue";
+
+const props = defineProps({
+  profile: Object
+})
+
+const {setInfo} = useApi();
+
+const {
+  validateEmail,
+  validateName,
+  validatePhone,
+  phoneMask,
+  snilsMask,
+  passportMask,
+  validateSnils,
+  validatePassport
+} = useValidate();
+
+const nameValue = ref(props?.profile.name);
+const senameValue = ref(props?.profile.last_name);
+const lastNameValue = ref(props?.profile.surname);
+const phoneValue = ref(props?.profile.phone);
+const mailValue = ref(props?.profile.email);
+const snilsValue = ref(props?.profile.snils);
+const pasportValue = ref(props?.profile.passport_number);
+const textError = ref('');
+const success = ref(false);
+const disabled = ref(false);
+
+async function onSubmit() {
+  disabled.value = true;
+
+  const profile = {
+    name: nameValue.value,
+    last_name: senameValue.value,
+    surname: lastNameValue.value,
+    phone: phoneValue.value,
+    email: mailValue.value,
+    passport_series: pasportValue.value,
+    passport_number: pasportValue.value,
+    snils: snilsValue.value,
+  }
+
+  const data = await setInfo(profile);
+
+  if (data === true) {
+    success.value = true;
+    textError.value = '';
+  } else {
+    textError.value = data;
+  }
+
+  disabled.value = false;
 }
+
+
 </script>
 
 <style lang="less" scoped>
@@ -169,6 +229,7 @@ export default {
 .about__edit-profile__row {
   display: grid;
   column-gap: inherit;
+  gap: inherit;
 
   grid-template-columns: 1fr;
 
@@ -180,7 +241,6 @@ export default {
   @media @min760 {
     grid-template-columns: 1fr 1fr 1fr;
   }
-
 
 
 }

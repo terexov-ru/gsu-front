@@ -55,7 +55,7 @@
               />
 
               <img class="pointer" v-if="!$viewport.isLessThan('mobile')"
-                   @click="logActive = !logActive"
+                   @click="login()"
                    src="~/assets/svg/profile.svg"
                    alt="profile"
               >
@@ -329,6 +329,18 @@ export default {
     closeOverflow() {
       this.reqActive = false
     },
+    login() {
+      const {getTokenCookie} = useUtils();
+
+      console.log(getTokenCookie());
+
+      if (getTokenCookie() === undefined || getTokenCookie() === '' || getTokenCookie() === null) {
+        this.logActive = !this.logActive;
+      } else {
+        navigateTo('/account');
+      }
+
+    }
   }
 }
 </script>

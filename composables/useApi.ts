@@ -11,8 +11,12 @@ const LICENSE_PATH = "/page/company_license";
 const ABOUT_PATH = "/page/company_info";
 const CONTACTS_PATH = "/page/company_contacts";
 const FAQS_PATH = "/page/faqs";
+
+/* AUTH */
 const LOGIN_PATH = "/auth/login";
 const REG_PATH = "/auth/register";
+const PROFILE_PATH = "/profile";
+const SET_INFO_PATH = "/profile/set_info";
 
 export const useApi = () => {
 
@@ -114,6 +118,9 @@ export const useApi = () => {
         });
     }
 
+    /* AUTH */
+    const {getTokenCookie, setTokenCookie} = useUtils();
+
     async function login(login: String, pass: String) {
         const {data: data} = await useFetch(API + LOGIN_PATH, {
             method: 'POST',
@@ -142,34 +149,60 @@ export const useApi = () => {
 
         // if (data.value?.status !== 'ok') {
 
-            // const message = error.value;
-            // console.log(error);
-            // console.log(data);
-            //
-            // if (message.includes('email') && message.includes('phone')) {
-            //     return 'Данный номер телефона и почта уже используются'
-            // } else if (message.includes('email')){
-            //     return 'Данная почта уже используется'
-            // }
-            // else if (message.includes('phone')) {
-            //     return 'Данный номер телефона уже используется'
-            // } else {
-            //     return 'Ошибка при регистрации'
-            // }
+        // const message = error.value;
+        // console.log(error);
+        // console.log(data);
+        //
+        // if (message.includes('email') && message.includes('phone')) {
+        //     return 'Данный номер телефона и почта уже используются'
+        // } else if (message.includes('email')){
+        //     return 'Данная почта уже используется'
+        // }
+        // else if (message.includes('phone')) {
+        //     return 'Данный номер телефона уже используется'
+        // } else {
+        //     return 'Ошибка при регистрации'
+        // }
         // }
 
         return false;
     }
 
+    async function setInfo(profile: Object) {
+        const response = await fetch(API + SET_INFO_PATH, {
+            method: 'POST',
+            body: JSON.stringify(profile),
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            }
+        });
 
-    function getTokenCookie(): string | undefined {
-        return useCookie('token')?.value;
+        const message = await response.json();
+
+        if(message.status === 'error') {
+            return 'Произошла ошибка'
+        }
+
+        return true;
     }
 
-    function setTokenCookie(token: string): void {
-        const tokenRef = useCookie('token');
-        tokenRef.value = token;
+    async function getUser() {
+        const response = await fetch(API + PROFILE_PATH, {
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            },
+        });
+
+        const message = await response.json();
+        console.log(message);
+
+        if (message.message === 'unauthorized') {
+            navigateTo('/');
+        }
+
+        return message;
     }
+
 
     return {
         simpleGet,
@@ -184,7 +217,9 @@ export const useApi = () => {
         getRegistry,
         getReq,
         sendForm,
+        setInfo,
         login,
-        reg
+        reg,
+        getUser
     }
 }

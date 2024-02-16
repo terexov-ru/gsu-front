@@ -3,6 +3,7 @@
 
   <AccountProfileAbout
     class="about-block"
+    :profile="profile"
   />
 
   <AccountProfileDocument
@@ -17,7 +18,10 @@
 
 <script>
 export default {
-  name: "profile"
+  name: "profile",
+  props: {
+    profile: Object,
+  }
 }
 </script>
 

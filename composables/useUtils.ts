@@ -1,6 +1,22 @@
 export const useUtils = () => {
-    const sayHello = () => console.log("Hello");
+
+    function getTokenCookie(): string | undefined {
+        return useCookie('token')?.value;
+    }
+
+    function setTokenCookie(token: string): void {
+        const tokenRef = useCookie('token');
+        tokenRef.value = token;
+    }
+
+    function deleteTokenCookie(token: string): void {
+        const tokenRef = useCookie('token');
+        tokenRef.value = undefined;
+    }
+
     return {
-        sayHello
+        getTokenCookie,
+        setTokenCookie,
+        deleteTokenCookie,
     }
 }

@@ -29,6 +29,7 @@
       <div>
         <AccountProfile
             v-if="activeComponent === COMPONENTS[0]"
+            :profile="profile"
         />
 
         <AccountPrograms
@@ -45,7 +46,8 @@
 </template>
 
 <script setup>
-import {ref, markRaw} from "vue";
+import { ref } from "vue";
+const {deleteTokenCookie} = useUtils();
 
 const COMPONENTS = [
   'AccountProfile',
@@ -54,8 +56,14 @@ const COMPONENTS = [
 ]
 const activeComponent = ref(COMPONENTS[0]);
 
+const { getUser } = useApi();
+
+const data = await getUser();
+const profile = ref(data.profile);
+
 function logOut() {
-  console.log('Log out');
+  deleteTokenCookie();
+  navigateTo('/');
 }
 </script>
 

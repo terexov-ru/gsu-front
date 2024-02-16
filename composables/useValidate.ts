@@ -1,6 +1,8 @@
 export const useValidate = () => {
 
     const phoneMask = '+7 (###) ###-##-##';
+    const snilsMask = '###-###-### ##';
+    const passportMask = '## ## ######';
 
     function validateEmail(value: string): boolean | string {
         // if the field is empty
@@ -30,14 +32,26 @@ export const useValidate = () => {
         return true;
     }
 
-    function validatePhone(phoneNumber: string): boolean | string {
-        const digitsOnly = phoneNumber.replace(/\D/g, '');
+    function validateLength(value: String, count: Number) {
+        const digitsOnly = value.replace(/\D/g, '');
 
-        if (digitsOnly.length !== 11) {
-            return 'Номер телефона не заполнен до конца';
+        if (digitsOnly.length !== count) {
+            return 'Поле не заполнено';
         }
 
         return true;
+    }
+
+    function validatePhone(phoneNumber: string): boolean | string {
+        return validateLength(phoneNumber, 11);
+    }
+
+    function validatePassport(value: string): boolean | string {
+        return validateLength(value, 10);
+    }
+
+    function validateSnils(value: string): boolean | string {
+        return validateLength(value, 11);
     }
 
     function validateComment(value: string): boolean | string {
@@ -57,6 +71,10 @@ export const useValidate = () => {
         validateName,
         validateComment,
         validatePhone,
+        validatePassport,
+        validateSnils,
         phoneMask,
+        snilsMask,
+        passportMask
     }
 }
