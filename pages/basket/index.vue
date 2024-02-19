@@ -55,21 +55,21 @@
 
   </div>
 
-  <OverflowContainer
-      :active="success"
-      @closeOverflow="success = false"
-  >
-    <OverflowSuccess
-        @close="success = false"
-    />
-  </OverflowContainer>
+<!--  <OverflowContainer-->
+<!--      :active="success"-->
+<!--      @closeOverflow="success = false"-->
+<!--  >-->
+<!--    <OverflowSuccess-->
+<!--        @close="success = false"-->
+<!--    />-->
+<!--  </OverflowContainer>-->
 </template>
 
 <script setup>
-import {ref, toValue} from "vue";
+import {ref, toValue, watch} from "vue";
 
 const basket = useState('basket');
-const success = ref(false)
+const success = ref(false);
 
 function cleanBasket() {
   basket.value = [];
@@ -87,6 +87,10 @@ function getSale() {
   return counter;
 }
 
+watch(success, async(newVal) => {
+  useState('mainSuccess', () => true);
+  await navigateTo('/');
+})
 </script>
 
 <style lang="less" scoped>

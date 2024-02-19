@@ -46,10 +46,10 @@
 
     <OverflowContainer
         :active="sucActive"
-        @closeOverflow="sucActive = false"
+        @closeOverflow="closeSuccess()"
     >
       <OverflowSuccess
-          @close="sucActive = false"
+          @close="closeSuccess()"
       />
     </OverflowContainer>
 
@@ -75,6 +75,19 @@ const moreInfoActive = ref(false);
 const {data: data} = await simpleGet('/page/main');
 
 const page = toValue(data).page;
+
+
+/* SUCCESS from store (use with redirect)*/
+const success = useState('mainSuccess');
+if (success.value !== null && success.value !== undefined && success.value === true) {
+  sucActive.value = true;
+}
+function closeSuccess() {
+  sucActive.value = false;
+  success.value = false;
+
+}
+
 </script>
 
 <style lang="less" scoped>
