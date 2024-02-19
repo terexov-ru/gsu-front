@@ -1,17 +1,34 @@
 <template>
   <div class="course">
-    <div class="course__img-container">
-      <img
-          v-if="course && course.banner_image"
-          :src="course.banner_image"
-          class="course__img"
-          alt="course">
-    </div>
+    <NuxtLink :to="`/courses/${course.id}`">
+      <div class="course__img-container">
+        <img
+            v-if="course && course.banner_image"
+            :src="course.banner_image"
+            class="course__img"
+            alt="course">
+
+        <div
+            v-if="course && course.tag"
+            class="course__tag-container"
+        >
+          <div :style="{background: course.tag.color}" class="text course__tag text_semi-bold">
+            {{ course.tag.title }}
+          </div>
+          <!--        <div class="text course__tag text_semi-bold">-->
+          <!--          Скидка-->
+          <!--        </div>-->
+        </div>
+
+      </div>
+    </NuxtLink>
 
     <div class="course__info">
       <div>
         <div>
-          <div class="text text_h3">{{ course.title }}</div>
+          <NuxtLink :to="`/courses/${course.id}`">
+            <div class="text course__info__title text_h3">{{ course.title }}</div>
+          </NuxtLink>
           <CardTipList
               class="course__info__card-list"
               :tips="course.specs"
@@ -83,7 +100,7 @@ export default {
     addToBasket(course) {
       const basket = toValue(this.basket);
       if (basket.length > 0) {
-        if (!basket.find((element) => element.id === course.id)){
+        if (!basket.find((element) => element.id === course.id)) {
           this.basket.value = basket.push(course);
         }
       } else {
@@ -125,6 +142,7 @@ export default {
 }
 
 .course__img-container {
+  position: relative;
   border-radius: 4px;
   flex-shrink: 0;
 
@@ -153,6 +171,15 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.course__info__title {
+  transition: @dur150;
+
+  &:hover {
+    color: @BlueNewColor;
+    transition: @dur150;
+  }
 }
 
 .details {
@@ -205,6 +232,36 @@ export default {
     width: 170px;
     height: 44px;
     font-size: 16px;
+  }
+}
+
+.course__tag-container {
+  width: auto;
+  position: absolute;
+
+  display: flex;
+  gap: 8px;
+
+  bottom: 12px;
+  left: 12px;
+}
+
+.course__tag {
+  width: auto;
+  height: auto;
+
+  box-sizing: border-box;
+  padding: 4px 16px;
+
+  border-radius: 60px;
+
+  color: @WhiteColor;
+  background: @BlueNewColor;
+
+  @media @min760 {
+    padding: 4px 24px;
+    bottom: 20px;
+    left: 20px;
   }
 }
 </style>
