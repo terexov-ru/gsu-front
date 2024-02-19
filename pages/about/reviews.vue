@@ -72,11 +72,12 @@
                     <path
                         d="M123.267 2.25662C123.498 1.54633 124.502 1.54633 124.733 2.25662L126.521 7.75908C126.624 8.07673 126.92 8.2918 127.254 8.2918H133.04C133.787 8.2918 134.097 9.24748 133.493 9.68646L128.812 13.0872C128.542 13.2835 128.429 13.6315 128.532 13.9491L130.32 19.4516C130.551 20.1619 129.738 20.7525 129.134 20.3135L124.453 16.9128C124.183 16.7165 123.817 16.7165 123.547 16.9128L118.866 20.3135C118.262 20.7525 117.449 20.1619 117.68 19.4516L119.468 13.9491C119.571 13.6315 119.458 13.2835 119.188 13.0872L114.507 9.68646C113.903 9.24748 114.213 8.2918 114.96 8.2918H120.746C121.08 8.2918 121.376 8.07673 121.479 7.75908L123.267 2.25662Z"
                         v-if="rev.star_rating > 4"
-                        fill="#A0A09F"/>
+                        fill="#F7D41B"/>
                     <path
                         d="M123.267 2.25662C123.498 1.54633 124.502 1.54633 124.733 2.25662L126.521 7.75908C126.624 8.07673 126.92 8.2918 127.254 8.2918H133.04C133.787 8.2918 134.097 9.24748 133.493 9.68646L128.812 13.0872C128.542 13.2835 128.429 13.6315 128.532 13.9491L130.32 19.4516C130.551 20.1619 129.738 20.7525 129.134 20.3135L124.453 16.9128C124.183 16.7165 123.817 16.7165 123.547 16.9128L118.866 20.3135C118.262 20.7525 117.449 20.1619 117.68 19.4516L119.468 13.9491C119.571 13.6315 119.458 13.2835 119.188 13.0872L114.507 9.68646C113.903 9.24748 114.213 8.2918 114.96 8.2918H120.746C121.08 8.2918 121.376 8.07673 121.479 7.75908L123.267 2.25662Z"
                         v-else
                         fill="#A0A09F"/>
+
                   </svg>
                 </div>
               </div>
@@ -126,7 +127,8 @@
 
             <div class="row row_gap10">
               <div class="avatar__img-container">
-                <img class="avatar__img" src="~/assets/reviews.png">
+                <img v-if="th.image" class="avatar__img" :src="th.image">
+                <img v-else class="avatar__img" src="~/assets/reviews.png">
               </div>
               <div class="column row_jc-sb row_fill">
                 <div class="text text_h4">{{ th.name }}</div>
@@ -147,8 +149,8 @@
       <div class="pagination">
         <PaginationBar
             :size="amountPerPage"
-            :count="reviewsAmount"
-            v-model:page="pageNum"
+            :count="thanksTotal"
+            v-model:page="thanksPage"
         />
       </div>
 
@@ -164,6 +166,11 @@ const {getRevs: getRevs} = useApi();
 const amountPerPage = 5;
 
 const data = await getRevs(0, amountPerPage);
+const thanksData = await getRevs(0, amountPerPage, true);
+const thanks = ref(thanksData.page.reviews);
+const thanksTotal = thanksData.page.total_reviews_amount;
+const thanksPage = ref('1');
+
 
 const page = ref(data.page);
 const reviews = ref(page.value.reviews);
@@ -173,33 +180,15 @@ const pageNum = ref(1);
 
 watch(pageNum, async (newVal) => {
   console.log(newVal);
-  const data = await getRevs(pageNum.value * amountPerPage - amountPerPage, amountPerPage, 0);
+  const data = await getRevs(pageNum.value * amountPerPage - amountPerPage, amountPerPage);
   page.value = data.page;
   reviews.value = page.value.reviews;
 })
 
-const thanks = [
-  {
-    id: 0,
-    title: 'Заголовок',
-    text: 'В этом университете меня поразил высокий профессионализм преподавателей и медицинских экспертов, которые вели наши занятия. Они обладали огромным опытом и глубоким знанием в своей области, и их преподавательский стиль позволял нам легко усваивать сложные медицинские концепции. Особенно мне запомнились практические занятия. В этом университете меня поразил высокий профессионализм преподавателей и медицинских экспертов, которые вели наши занятия.  Они обладали огромным опытом и глубоким знанием в своей области, и их преподавательский стиль позволял нам легко усваивать сложные медицинские концепции. Особенно мне запомнились практические занятия.',
-    name: 'Анастасия Ж.',
-    image: '',
-    imageSer: '',
-    date: '28.03.2022',
-    job: 'Генеральный директор “Название компании”'
-  },
-  {
-    id: 2,
-    title: 'Заголовок',
-    text: 'В этом университете меня поразил высокий профессионализм преподавателей и медицинских экспертов, которые вели наши занятия. Они обладали огромным опытом и глубоким знанием в своей области, и их преподавательский стиль позволял нам легко усваивать сложные медицинские концепции. Особенно мне запомнились практические занятия. В этом университете меня поразил высокий профессионализм преподавателей и медицинских экспертов, которые вели наши занятия.  Они обладали огромным опытом и глубоким знанием в своей области, и их преподавательский стиль позволял нам легко усваивать сложные медицинские концепции. Особенно мне запомнились практические занятия.',
-    name: 'Анастасия Ж.',
-    image: '',
-    imageSer: '',
-    date: '28.03.2022',
-    job: 'Генеральный директор “Название компании”'
-  }
-]
+watch(thanksPage, async (newVal) => {
+  const data = await getRevs(thanksPage.value * amountPerPage - amountPerPage, amountPerPage, true);
+  thanks.value = data.page.reviews;
+})
 
 </script>
 
@@ -388,6 +377,7 @@ const thanks = [
 .thanks-card__content {
   max-width: 800px;
   margin-left: 20px;
+  justify-content: space-between;
 }
 
 .thanks-card__img-container {
@@ -429,7 +419,7 @@ const thanks = [
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 
   border-radius: 50%;
 
@@ -439,9 +429,8 @@ const thanks = [
 }
 
 .avatar__img {
-  width: 100%;
-  height: auto;
-
+  width: auto;
+  height: 100%;
 }
 
 </style>
