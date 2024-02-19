@@ -21,6 +21,66 @@
       </div>
     </div>
 
+    <div class="video-list" ref="block">
+
+      <div class="video-card">
+        <div class="column column_gap16">
+          <div class="video-container">
+            <img class="video" src="~/assets/video.png" alt="">
+          </div>
+
+          <div class="row row_gap10">
+            <div class="avatar__img-container avatar__img-container_40">
+              <img class="avatar__img" src="~/assets/reviews.png">
+            </div>
+            <div class="column row_jc-sb">
+              <div class="text video-title text_caption">Анастасия Ж.</div>
+              <div class="text video-title text_caption">Генеральный директор “Название компании”</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div v-for="i in 5" class="video-card">
+        <div class="column column_gap16">
+          <div class="video-container">
+            <img class="video" src="~/assets/video.png" alt="">
+          </div>
+
+          <div class="row row_gap10">
+            <div class="avatar__img-container avatar__img-container_40">
+              <img class="avatar__img" src="~/assets/reviews.png">
+            </div>
+            <div class="column row_jc-sb">
+              <div class="text video-title text_caption">Анастасия Ж.</div>
+              <div class="text video-title text_caption">Генеральный директор “Название компании”</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div v-if="!viewport.isLessThan('desktop')" class="video-controller">
+      <div class="row row_gap24">
+        <svg
+            class="pointer"
+            @click="left()"
+            width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="16" fill="#F7F7F8"/>
+          <path d="M17 11L12 16L17 21" stroke="#89939F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <svg
+            class="pointer"
+            @click="right()"
+            width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="16" fill="#F7F7F8"/>
+          <path d="M14 21L19 16L14 11" stroke="#89939F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
     <div v-if="active === 0">
       <div class="reviews">
 
@@ -160,7 +220,7 @@
 </template>
 
 <script setup>
-import {watch} from "vue";
+import {onMounted, watch} from "vue";
 
 const {getRevs: getRevs} = useApi();
 const amountPerPage = 5;
@@ -189,6 +249,23 @@ watch(thanksPage, async (newVal) => {
   const data = await getRevs(thanksPage.value * amountPerPage - amountPerPage, amountPerPage, true);
   thanks.value = data.page.reviews;
 })
+const viewport = useViewport();
+
+const block = ref(null);
+
+function left() {
+  if (!viewport.isLessThan('tablet')) {
+    block.value.scrollTo(block.value.scrollLeft - 405, 0)
+  } else
+    block.value.scrollTo(block.value.scrollLeft - 320, 0)
+}
+
+function right() {
+  if (!viewport.isLessThan('tablet')) {
+    block.value.scrollTo(block.value.scrollLeft + 405, 0)
+  } else
+    block.value.scrollTo(block.value.scrollLeft + 320, 0)
+}
 
 </script>
 
@@ -357,6 +434,8 @@ watch(thanksPage, async (newVal) => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  margin-top: 60px;
 }
 
 .thanks-card {
@@ -426,11 +505,76 @@ watch(thanksPage, async (newVal) => {
   flex-shrink: 0;
 
   background: @DarkGreyColor;
+
+  &_40 {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .avatar__img {
   width: auto;
   height: 100%;
+}
+
+.video-title {
+  font-size: 10px;
+}
+
+.video-list {
+  width: 100%;
+  height: auto;
+  padding-bottom: 10px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+
+  @media @min990 {
+    overflow-x: hidden;
+  }
+}
+
+.video-card {
+  max-width: 320px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+
+  @media @min1200 {
+    max-width: 385px;
+  }
+}
+
+.video-container {
+  max-width: inherit;
+  height: 180px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 5px;
+
+  @media @min1200 {
+    max-width: 385px;
+    height: 215px;
+  }
+}
+
+.video {
+  width: 100%;
+  height: auto;
+}
+
+.video-controller {
+  width: 100%;
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
 }
 
 </style>
