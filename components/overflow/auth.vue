@@ -16,6 +16,7 @@
   <OverflowPass
       v-if="activeOverflow === 'pass'"
       @openLogin="activeOverflow = 'login'"
+      @openReg="activeOverflow = 'reg'"
       @close="this.$emit('close')"
   />
 </template>

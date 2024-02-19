@@ -147,33 +147,32 @@ export const useApi = () => {
     }
 
     async function reg(phone: String, email: String) {
-        await $fetch(API + REG_PATH, {
+        const body = {
+            phone: phone,
+            email: email
+        }
+
+        const response = await fetch(API + REG_PATH, {
             method: 'POST',
-            body: {
-                phone: phone,
-                email: email
-            }
+            body: JSON.stringify(body),
         });
 
-        // if (data.value?.status !== 'ok') {
+        const message = await response.json();
 
-        // const message = error.value;
-        // console.log(error);
-        // console.log(data);
-        //
-        // if (message.includes('email') && message.includes('phone')) {
-        //     return 'Данный номер телефона и почта уже используются'
-        // } else if (message.includes('email')){
-        //     return 'Данная почта уже используется'
-        // }
-        // else if (message.includes('phone')) {
-        //     return 'Данный номер телефона уже используется'
-        // } else {
-        //     return 'Ошибка при регистрации'
-        // }
-        // }
+        if (message.status === 'error') {
+            if (message.message.includes('email') && message.message.includes('phone')) {
+                return 'Данный номер телефона и почта уже используются'
+            } else if (message.message.includes('email')){
+                return 'Данная почта уже используется'
+            }
+            else if (message.message.includes('phone')) {
+                return 'Данный номер телефона уже используется'
+            } else {
+                return 'Произошла ошибка'
+            }
+        }
 
-        return false;
+        return true;
     }
 
     async function setInfo(profile: Object) {
@@ -187,7 +186,7 @@ export const useApi = () => {
 
         const message = await response.json();
 
-        if(message.status === 'error') {
+        if (message.status === 'error') {
             return 'Произошла ошибка'
         }
 
@@ -205,7 +204,7 @@ export const useApi = () => {
 
         const message = await response.json();
 
-        if(message.status === 'error') {
+        if (message.status === 'error') {
             return 'Произошла ошибка'
         }
 

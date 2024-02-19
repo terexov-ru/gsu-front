@@ -33,13 +33,16 @@
       </div>
 
       <div class="column column_gap8">
-        <button class="button overflow-card__button button_gradient"
-          :disabled="disabled"
+        <div class="text text_error text_center">{{ errorMessage }}</div>
 
-        >Зарегистрироваться</button>
+        <button class="button overflow-card__button button_gradient"
+                :disabled="disabled"
+        >Зарегистрироваться
+        </button>
         <button class="button overflow-card__button button_black-bordered"
                 @click="this.$emit('openLogin')"
-        >Войти</button>
+        >Войти
+        </button>
       </div>
     </Form>
   </Overflow>
@@ -58,12 +61,15 @@ const errorMessage = ref('');
 const success = ref(false);
 const disabled = ref(false);
 
+const emits = defineEmits(['openLogin']);
+
 async function onSubmit(values) {
   disabled.value = true;
 
   const data = await reg(values.phone, values.email);
+  console.log(data);
   if (data === true) {
-    this.$emit('openLogin');
+    emits('openLogin');
   } else {
     errorMessage.value = data;
   }

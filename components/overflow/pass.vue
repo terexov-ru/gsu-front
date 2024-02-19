@@ -16,12 +16,12 @@
     <Form class="form">
       <InputBlock
           :title="'Введите e-mail или телефон'"
-          :name="'value'"
+          :name="'mail'"
           :type="'text'"
-          v-model:value="phoneValue"
+          v-model:value="value"
       />
 
-      <div class="text text_normal text_accent text_center pointer">
+      <div @click="this.$emit('openReg')" class="text text_normal text_accent text_center pointer">
         Я не помню эти данные или они не доступны
       </div>
 
@@ -40,10 +40,12 @@
   </Overflow>
 </template>
 
-<script>
-export default {
-  name: "pass"
-}
+<script setup>
+import {ref} from "vue";
+
+const value = ref('');
+
+
 </script>
 
 <style scoped lang="less">
