@@ -7,6 +7,7 @@ const TEAM_PATH = "/page/company_employees";
 const FORM_PATH = "/api/make_request";
 const REGISTRY_PATH = "/page/company_registry";
 const REQUISITES_PATH = "/page/company_requisites";
+const DETAILS_PATH = "/page/company_details";
 const LICENSE_PATH = "/page/company_license";
 const ABOUT_PATH = "/page/company_info";
 const CONTACTS_PATH = "/page/company_contacts";
@@ -78,6 +79,12 @@ export const useApi = () => {
 
     async function getReq() {
         return useFetch(API + REQUISITES_PATH, {
+            method: 'GET'
+        })
+    }
+
+    async function getDetails() {
+        return useFetch(API + DETAILS_PATH, {
             method: 'GET'
         })
     }
@@ -235,6 +242,7 @@ export const useApi = () => {
         getLicense,
         getRegistry,
         getReq,
+        getDetails,
         sendForm,
         login,
         reg,

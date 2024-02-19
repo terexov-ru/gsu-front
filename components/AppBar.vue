@@ -137,6 +137,11 @@
                     </NuxtLink>
                   </li>
                   <li>
+                    <NuxtLink to="/about/details">
+                      Сведения об организации
+                    </NuxtLink>
+                  </li>
+                  <li>
                     <NuxtLink to="/about/register">
                       Государственный реестр ФИС ФРДО
                     </NuxtLink>
@@ -226,6 +231,9 @@
               </div>
               <div>
                 <NuxtLink to="/about/requisites" @click="menuActive = false">Реквизиты</NuxtLink>
+              </div>
+              <div>
+                <NuxtLink to="/about/details" @click="menuActive = false">Сведения об организации</NuxtLink>
               </div>
               <div>
                 <NuxtLink to="/about/register" @click="menuActive = false">Государственный реестр ФИС ФРДО</NuxtLink>
