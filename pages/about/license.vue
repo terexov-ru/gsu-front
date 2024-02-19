@@ -19,8 +19,8 @@
             {{ page.text }}
           </p>
         </div>
-        <NuxtLink :to="page.file" target="_blank">
-          <p class="text text_normal text_accent">Выписка из реестра лицензий № 722021163</p>
+        <NuxtLink :to="page.file.link" target="_blank">
+          <p class="text text_normal text_accent">{{ page.file.name }}</p>
         </NuxtLink>
       </div>
     </div>
