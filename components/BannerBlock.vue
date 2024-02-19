@@ -2,28 +2,15 @@
   <div class="wrapper">
     <div class="banner-block">
       <div class="banner">
-
-
-        <!--        <img-->
-        <!--            v-if="img"-->
-        <!--            class="banner__image"-->
-        <!--            :src="img"-->
-        <!--            alt="banner"-->
-        <!--        >-->
-
-        <!--        <img-->
-        <!--            v-else-->
-        <!--            class="banner__image"-->
-        <!--            src="~/assets/banner.png"-->
-        <!--            alt="banner"-->
-        <!--        >-->
-
-
-
         <div class="banner__background">
           <div class="column column_gap16">
-            <div class="banner__article">
-              <span class="tip banner__tip tip_small">артикул 5434342</span>
+
+            <div
+                @click="copyText(articul)"
+                class="banner__article pointer">
+              <input ref="copyInput" type="text" style="opacity: 0; position: absolute; z-index: -1">
+
+              <span class="tip banner__tip tip_small">артикул {{ articul }}</span>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M13 21L4 21C3.44772 21 3 20.5523 3 20L3 7C3 6.44772 3.44772 6 4 6L9.58579 6C9.851 6 10.1054 6.10536 10.2929 6.29289L13.7071 9.70711C13.8946 9.89464 14 10.149 14 10.4142V20C14 20.5523 13.5523 21 13 21Z"
@@ -38,6 +25,7 @@
                       stroke-linejoin="round"/>
               </svg>
             </div>
+
             <div class="text banner__text text_h2">
               {{ title }}
             </div>
@@ -50,12 +38,12 @@
           </Form>
 
           <div class="banner__img-container">
-                      <img
-                          v-if="img"
-                          class="banner__image"
-                          :src="img"
-                          alt="banner"
-                      >
+            <img
+                v-if="img"
+                class="banner__image"
+                :src="img"
+                alt="banner"
+            >
           </div>
 
         </div>
@@ -76,6 +64,19 @@ export default {
     },
     img: {
       type: String
+    },
+    articul: {
+      type: String,
+      default: 'A001'
+    }
+  },
+  methods: {
+    copyText(value) {
+      let textarea = this.$refs.copyInput;
+      textarea.value = value;
+      textarea.focus()
+      textarea.select()
+      document.execCommand("copy")
     }
   }
 }
