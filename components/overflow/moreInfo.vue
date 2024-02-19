@@ -38,7 +38,7 @@
             :disabled="disabled"
             class="button overflow-card__button button_dark"
         >
-          Узнать больше
+          Получить консультацию
         </button>
       </div>
     </Form>

@@ -293,7 +293,7 @@
         :active="reqActive"
         @closeOverflow="reqActive = false"
     >
-      <OverflowRequest
+      <OverflowMoreInfo
           @close="reqActive = false"
       />
     </OverflowContainer>

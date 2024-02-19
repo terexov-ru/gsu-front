@@ -13,6 +13,7 @@
           :name="'email'"
           :title="'E-mail'"
           :type="'text'"
+          :placeholder="'mail@mail.com'"
           v-model:value="mailValue"
           :rule="validateEmail"
       />
