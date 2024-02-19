@@ -126,6 +126,18 @@ watch(category, async (newVal) => {
   category.value = newVal;
   await search(false);
 })
+
+/* Filters */
+watch(selectedSpec, async (newVal) => {
+  await search(false);
+})
+watch(selectedDuration, async (newVal) => {
+  await search(false);
+})
+watch(selectedStudentCategories, async (newVal) => {
+  await search(false);
+})
+
 </script>
 
 <style lang="less" scoped>
