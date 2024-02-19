@@ -21,63 +21,74 @@
       </div>
     </div>
 
-    <div class="video-list" ref="block">
 
-      <div class="video-card">
-        <div class="column column_gap16">
-          <div class="video-container">
-            <img class="video" src="~/assets/video.png" alt="">
-          </div>
+    <!--  VIDEO / ВИДЕО  -->
+    <div v-if="videoRevs !== null && videoRevs !== undefined && videoRevs.length > 0">
+      <div class="video-list" ref="block">
 
-          <div class="row row_gap10">
-            <div class="avatar__img-container avatar__img-container_40">
-              <img class="avatar__img" src="~/assets/reviews.png">
+        <div v-for="rev in videoRevs" :key="rev.id" class="video-card">
+          <div class="column column_gap16">
+            <div class="video-container">
+              <video
+                  :src="rev.video"
+                  playsinline
+                  controls
+              />
+              <!--            <img class="video" src="~/assets/video.png" alt="">-->
             </div>
-            <div class="column row_jc-sb">
-              <div class="text video-title text_caption">Анастасия Ж.</div>
-              <div class="text video-title text_caption">Генеральный директор “Название компании”</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div v-for="i in 5" class="video-card">
-        <div class="column column_gap16">
-          <div class="video-container">
-            <img class="video" src="~/assets/video.png" alt="">
-          </div>
-
-          <div class="row row_gap10">
-            <div class="avatar__img-container avatar__img-container_40">
-              <img class="avatar__img" src="~/assets/reviews.png">
-            </div>
-            <div class="column row_jc-sb">
-              <div class="text video-title text_caption">Анастасия Ж.</div>
-              <div class="text video-title text_caption">Генеральный директор “Название компании”</div>
+            <div class="row row_gap10">
+              <div class="avatar__img-container avatar__img-container_40">
+                <img class="avatar__img" :src="rev.image">
+              </div>
+              <div class="column row_jc-sb">
+                <div class="text video-title text_caption">{{ rev.name }}</div>
+                <div class="text video-title text_caption">Генеральный директор “Название компании”</div>
+              </div>
             </div>
           </div>
         </div>
+
+        <div v-for="i in 5" class="video-card">
+          <div class="column column_gap16">
+            <div class="video-container">
+              <img class="video" src="~/assets/video.png" alt="">
+            </div>
+
+            <div class="row row_gap10">
+              <div class="avatar__img-container avatar__img-container_40">
+                <img class="avatar__img" src="~/assets/reviews.png">
+              </div>
+              <div class="column row_jc-sb">
+                <div class="text video-title text_caption">Анастасия Ж.</div>
+                <div class="text video-title text_caption">Генеральный директор “Название компании”</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-    </div>
+      <div v-if="!viewport.isLessThan('desktop')" class="video-controller">
+        <div class="row row_gap24">
+          <svg
+              class="pointer"
+              @click="left()"
+              width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="16" fill="#F7F7F8"/>
+            <path d="M17 11L12 16L17 21" stroke="#89939F" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
 
-    <div v-if="!viewport.isLessThan('desktop')" class="video-controller">
-      <div class="row row_gap24">
-        <svg
-            class="pointer"
-            @click="left()"
-            width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="32" height="32" rx="16" fill="#F7F7F8"/>
-          <path d="M17 11L12 16L17 21" stroke="#89939F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-
-        <svg
-            class="pointer"
-            @click="right()"
-            width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="32" height="32" rx="16" fill="#F7F7F8"/>
-          <path d="M14 21L19 16L14 11" stroke="#89939F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+          <svg
+              class="pointer"
+              @click="right()"
+              width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="16" fill="#F7F7F8"/>
+            <path d="M14 21L19 16L14 11" stroke="#89939F" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+        </div>
       </div>
     </div>
 
@@ -231,7 +242,8 @@ const thanks = ref(thanksData.page.reviews);
 const thanksTotal = thanksData.page.total_reviews_amount;
 const thanksPage = ref('1');
 
-
+const videoRevs = ref(data?.page.video_reviews);
+console.log(videoRevs);
 const page = ref(data.page);
 const reviews = ref(page.value.reviews);
 const reviewsAmount = ref(page.value.total_reviews_amount);
@@ -552,8 +564,6 @@ function right() {
   height: 180px;
 
   display: flex;
-  align-items: center;
-  justify-content: center;
 
   overflow: hidden;
 
