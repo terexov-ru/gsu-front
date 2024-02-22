@@ -32,7 +32,7 @@
 
     <QuestionSlider
         class="question-block"
-        @clickButton="sucActive = true"
+        @success="sucActive = true"
     />
 
     <OverflowContainer

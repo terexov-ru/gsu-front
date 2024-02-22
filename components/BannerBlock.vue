@@ -31,35 +31,11 @@
             </div>
           </div>
 
-          <Form class="form"
-                @submit="onSubmit"
-                v-slot="{ errors }"
-          >
-
-            <Field class="input input_white text text_normal"
-                   placeholder="Имя"
-                   name="name"
-                   type="text"
-                   v-model="name"
-                   :rules="validateName"
-                   v-slot="{errorMessage}"
-                   :class="{'input_error': errors.name}"
-            />
-
-            <Field class="input input_white text text_normal"
-                   placeholder="Телефон"
-                   name="phone"
-                   type="text"
-                   v-model="phone"
-                   :rules="validatePhone"
-                   v-maska
-                   :data-maska="phoneMask"
-                   v-slot="{ errors, errorMessage }"
-                   :class="{'input_error': errors.phone}"
-            />
-
-            <button :disabled="disabled" class="button button_gradient">Получить консультацию</button>
-          </Form>
+          <FormSlider
+              :buttonClasses="'button button_gradient'"
+              :buttonText="'Получить консультацию'"
+              @success="this.$emit('success')"
+          />
 
           <div class="banner__img-container">
             <img

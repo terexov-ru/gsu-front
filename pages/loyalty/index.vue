@@ -29,7 +29,7 @@
       </div>
 
       <QuestionSlider
-          @clickButton="sucActive = true"
+          @success="sucActive = true"
           class="question-block"
       />
 

@@ -15,13 +15,25 @@
 
     <QuestionSlider
         class="questions-slider"
+        @success="sucActive = true"
     />
 
   </div>
+
+  <OverflowContainer
+      :active="sucActive"
+      @closeOverflow="sucActive = false"
+  >
+    <OverflowSuccess
+        @close="sucActive = false"
+    />
+  </OverflowContainer>
+
 </template>
 
 <script setup>
 const {getFAQS} = useApi();
+const sucActive = ref(false);
 
 const {data} = await getFAQS();
 

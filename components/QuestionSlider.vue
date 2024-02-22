@@ -13,29 +13,19 @@
           class="text slider__text text_h4">Наши консультанты помогут выбрать направление и расскажут о форматах</span>
 
       <div class="slider__container">
-        <div class="form">
-          <input class="input input_white text text_normal" placeholder="Имя" name="name" type="text">
-          <input class="input input_white text text_normal" placeholder="Телефон" name="phone" type="text">
 
-          <button
-              @click="this.$emit('clickButton')"
-              class="button button_dark"
-          >
-            Отправить данные
-          </button>
-        </div>
+        <FormSlider
+          :buttonClasses="'button button_dark'"
+          :buttonText="'Получить консультацию'"
+          @success="this.$emit('success')"
+        />
+
         <!--            <div class="circle"/>-->
         <img class="slider__image" src="~/assets/quastions.png">
       </div>
     </div>
   </div>
 </template>
-
-<!--<script>-->
-<!--export default {-->
-<!--  name: "QuestionSlider"-->
-<!--}-->
-<!--</script>-->
 
 <style lang="less" scoped>
 @import "assets/core.less";
