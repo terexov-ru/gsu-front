@@ -84,7 +84,8 @@ function getSale() {
 }
 
 watch(success, async (newVal) => {
-  useState('mainSuccess', () => true);
+  const mainSuccess = useState('mainSuccess');
+  mainSuccess.value = true;
   await navigateTo('/');
 })
 </script>

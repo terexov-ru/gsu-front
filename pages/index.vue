@@ -65,7 +65,7 @@
   </main>
 </template>
 <script setup>
-import {toValue} from "vue";
+import {onMounted, toValue} from "vue";
 
 const {simpleGet: simpleGet} = useApi();
 const formConActive = ref(false);
@@ -79,13 +79,13 @@ const page = toValue(data).page;
 
 /* SUCCESS from store (use with redirect)*/
 const success = useState('mainSuccess');
-if (success.value !== null && success.value !== undefined && success.value === true) {
+if (success.value === true) {
   sucActive.value = true;
 }
+
 function closeSuccess() {
   sucActive.value = false;
   success.value = false;
-
 }
 
 </script>
