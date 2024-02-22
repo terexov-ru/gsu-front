@@ -30,7 +30,7 @@
           </div>
 
           <svg
-              @click="this.$emit('deleteCourse')"
+              @click="emits('deleteCourse')"
               class="pointer"
               width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 18L6 6" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"
@@ -87,6 +87,8 @@ defineProps({
     require: true
   }
 })
+
+const emits = defineEmits(['deleteCourse']);
 
 const basket = useState('basket');
 
