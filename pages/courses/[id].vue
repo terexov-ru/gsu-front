@@ -1,48 +1,55 @@
 <template>
-  <main>
 
-    <BannerBlock
-        class="banner-block"
-        :title="page.title"
-        :img="page.banner_image"
-        :articul="page.articul"
-    />
+  <BannerBlock
+      class="banner-block"
+      :title="page.title"
+      :img="page.banner_image"
+      :articul="page.articul"
+      @success="success = true"
+  />
 
-    <div class="wrapper course-content wrapper_paddings">
+  <div class="wrapper course-content wrapper_paddings">
 
-      <div class="course-content__left">
+    <div class="course-content__left">
 
-        <div class="text-block">
-          <h4 class="text text_h4">Описание курса</h4>
-          <div class="text text-block__text text_normal">
-            {{ page.description }}
-          </div>
+      <div class="text-block">
+        <h4 class="text text_h4">Описание курса</h4>
+        <div class="text text-block__text text_normal">
+          {{ page.description }}
         </div>
-
-        <ModulesBlock
-            :modules="page.program"
-            :planLink="page.learning_plan"
-        />
-
-
-        <div class="text-block">
-          <h4 class="text text_h4">
-            {{ page.finals_info.title }}
-          </h4>
-          <div class="text text-block__text text_normal">
-            {{ page.finals_info.description }}
-          </div>
-        </div>
-
       </div>
 
-      <CourseCoast
-          :page="page"
+      <ModulesBlock
+          :modules="page.program"
+          :planLink="page.learning_plan"
       />
+
+
+      <div class="text-block">
+        <h4 class="text text_h4">
+          {{ page.finals_info.title }}
+        </h4>
+        <div class="text text-block__text text_normal">
+          {{ page.finals_info.description }}
+        </div>
+      </div>
+
     </div>
 
+    <CourseCoast
+        :page="page"
+    />
+  </div>
 
-  </main>
+  <OverflowContainer
+      :active="success"
+      @closeOverflow="success = false"
+  >
+    <OverflowSuccess
+        @close="success = false"
+    />
+  </OverflowContainer>
+
 </template>
 <script setup>
 import {API} from "~/constants/index.js";
@@ -50,6 +57,7 @@ import {toValue} from "vue";
 
 const route = useRoute();
 const id = route.params.id;
+const success = ref(false);
 
 const {data: reqPage} = await useFetch(API + '/page/course', {
   method: 'POST',

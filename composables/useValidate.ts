@@ -19,23 +19,30 @@ export const useValidate = () => {
     }
 
     function validateName(value: string): boolean | string {
-        const nameRegex = /^[а-яА-ЯёЁ\s]+$/;
+        if (value !== '' && value) {
+            const nameRegex = /^[а-яА-ЯёЁ\s]+$/;
 
-        if (value.trim() === '') {
+            if (value.trim() === '') {
+                return 'Имя не может быть пустым';
+            }
+
+            if (!nameRegex.test(value)) {
+                return 'Имя может содержать только буквы и пробелы';
+            }
+        } else {
             return 'Имя не может быть пустым';
-        }
-
-        if (!nameRegex.test(value)) {
-            return 'Имя может содержать только буквы и пробелы';
         }
 
         return true;
     }
 
     function validateLength(value: String, count: Number) {
-        const digitsOnly = value.replace(/\D/g, '');
-
-        if (digitsOnly.length !== count) {
+        if (value !== '' && value) {
+            const digitsOnly = value.replace(/\D/g, '');
+            if (digitsOnly.length !== count) {
+                return 'Поле не заполнено';
+            }
+        } else {
             return 'Поле не заполнено';
         }
 
