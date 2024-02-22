@@ -55,7 +55,7 @@ import {ref} from "vue";
 const {validateEmail, validateName, validatePhone, phoneMask} = useValidate();
 const {reg} = useApi();
 
-const emits = defineEmits(['close', 'openLogin', 'openReg']);
+const emits = defineEmits(['close', 'openLogin']);
 
 const phoneValue = ref('');
 const mailValue = ref('');
@@ -63,8 +63,6 @@ const errorMessage = ref('');
 
 const success = ref(false);
 const disabled = ref(false);
-
-const emits = defineEmits(['openLogin']);
 
 async function onSubmit(values) {
   disabled.value = true;
