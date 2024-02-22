@@ -551,6 +551,11 @@ a {
 
   box-sizing: border-box;
   padding: 24px;
+
+  @media @min760 {
+    top: 90px;
+  }
+
 }
 
 .burger-menu__block {

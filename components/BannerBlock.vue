@@ -31,10 +31,27 @@
             </div>
           </div>
 
-          <Form class="form">
-            <input class="input input_white text text_normal" placeholder="Имя" name="name" type="text">
-            <input class="input input_white text text_normal" placeholder="Телефон" name="phone" type="text">
-            <button class="button button_gradient">Получить консультацию</button>
+          <Form class="form" @submit="onSubmit">
+
+            <Field class="input input_white text text_normal"
+                   placeholder="Имя"
+                   name="name"
+                   type="text"
+                   :rules="rule"
+                   v-maska
+                   :data-maska="mask"
+            />
+
+            <Field class="input input_white text text_normal"
+                   placeholder="Телефон"
+                   name="phone"
+                   type="text"
+                   :rules="rule"
+                   v-maska
+                   :data-maska="mask"
+            />
+
+            <button :disabled="disabled" class="button button_gradient">Получить консультацию</button>
           </Form>
 
           <div class="banner__img-container">
@@ -70,6 +87,11 @@ export default {
       default: 'A001'
     }
   },
+  data() {
+    return {
+      disabled: false,
+    }
+  },
   methods: {
     copyText(value) {
       let textarea = this.$refs.copyInput;
@@ -77,6 +99,23 @@ export default {
       textarea.focus()
       textarea.select()
       document.execCommand("copy")
+    },
+    async onSubmit(value) {
+      this.disabled = true;
+      const {data, status} = await this.sendForm(values.name, undefined, values.phone, 'Тестовый запрос', undefined);
+
+      if (status.value === 'success' && data.value.status === 'ok') {
+        console.log(data);
+      }
+
+      this.disabled = false;
+    },
+
+  },
+  setup() {
+    const {sendForm} = useApi();
+    return {
+      sendForm
     }
   }
 }

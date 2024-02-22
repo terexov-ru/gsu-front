@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     viewport: {
         breakpoints: {
             desktop: 990,
-            tablet: 760,
+            tablet: 769,
             mobile: 580,
         },
     },
