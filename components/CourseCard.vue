@@ -80,8 +80,6 @@
 </template>
 
 <script>
-import {toValue} from "vue";
-
 export default {
   props: {
     course: {
@@ -91,23 +89,11 @@ export default {
     },
   },
   setup() {
-    const basket = useState('basket');
+    const { addToBasket } = useUtils();
     return {
-      basket
+      addToBasket
     }
   },
-  methods: {
-    addToBasket(course) {
-      const basket = toValue(this.basket);
-      if (basket.length > 0) {
-        if (!basket.find((element) => element.id === course.id)) {
-          this.basket.value = basket.push(course);
-        }
-      } else {
-        this.basket.value = basket.push(course);
-      }
-    }
-  }
 }
 </script>
 

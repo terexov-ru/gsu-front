@@ -64,7 +64,9 @@
                 <div class="row basket row_al-c">
                   <img class="pointer" src="~/assets/svg/basket.svg" alt="basket">
 
-                  <div v-if="basket.length > 0" class="basket__count">{{ basket.length }}</div>
+                  <ClientOnly>
+                    <div v-if="basket.length > 0" class="basket__count">{{ basket.length }}</div>
+                  </ClientOnly>
                 </div>
               </NuxtLink>
             </div>
@@ -325,12 +327,16 @@ export default {
       activeStudy: false,
       activeAbout: false,
       activeHelp: false,
+      basket: [],
     }
   },
-  setup() {
-    const basket = useState('basket', () => []);
-    return {
-      basket
+  mounted() {
+    const {getBasket} = useUtils();
+    this.basket = getBasket();
+  },
+  watch: {
+    basket(newVal) {
+      console.log(newVal);
     }
   },
   methods: {

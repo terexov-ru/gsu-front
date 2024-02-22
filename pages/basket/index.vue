@@ -6,47 +6,49 @@
     <div class="basket block_margin-bottom">
 
       <div class="basket__container">
+        <ClientOnly>
+          <div class="column column_gap20">
+            <div class="basket__info">
+              <div class="text basket__info__count text_normal text_light">В корзине {{ basket.length }} товара</div>
+              <div
+                  class="text basket__info__clean text_normal pointer"
+                  @click="cleanBasket()"
+              >
+                Очистить корзину
+              </div>
+            </div>
 
-        <div class="column column_gap20">
-          <div class="basket__info">
-            <div class="text basket__info__count text_normal text_light">В корзине {{ basket.length }} товара</div>
+            <BasketCard
+                v-for="item in basket"
+                :key="item.id"
+                :course="item"
+                @deleteCourse="deleteFromBasket(item)"
+            />
+
             <div
-                class="text basket__info__clean text_normal pointer"
-                @click="cleanBasket()"
+                class="bill"
+                :class="{'bill_active': basket.length > 0}"
             >
-              Очистить корзину
+              <div class="row row_jc-sb">
+                <div class="text text_normal">Скидка</div>
+                <div class="text text_semi-bold">{{ getSale() }} ₽</div>
+              </div>
+
+              <div class="row row_jc-sb">
+                <div class="text text_large text_accent">Итого</div>
+                <div class="text text_h3 text_accent">{{ getPrice() }} ₽</div>
+              </div>
             </div>
+
+            <NuxtLink to="/courses">
+              <button class="button basket__button button_black-bordered">Добавить курсы</button>
+            </NuxtLink>
+
           </div>
-
-          <BasketCard
-              v-for="item in basket"
-              :key="item.id"
-              :course="item"
-          />
-
-          <div
-              class="bill"
-              :class="{'bill_active': basket.length > 0}"
-          >
-            <div class="row row_jc-sb">
-              <div class="text text_normal">Скидка</div>
-              <div class="text text_semi-bold">{{ getSale() }} ₽</div>
-            </div>
-
-            <div class="row row_jc-sb">
-              <div class="text text_large text_accent">Итого</div>
-              <div class="text text_h3 text_accent">{{ getPrice() }} ₽</div>
-            </div>
-          </div>
-
-          <NuxtLink to="/courses">
-            <button class="button basket__button button_black-bordered">Добавить курсы</button>
-          </NuxtLink>
-
-        </div>
+        </ClientOnly>
 
         <BillCard
-          @success="success = true"
+            @success="success = true"
         />
 
       </div>
@@ -54,40 +56,34 @@
     </div>
 
   </div>
-
-<!--  <OverflowContainer-->
-<!--      :active="success"-->
-<!--      @closeOverflow="success = false"-->
-<!--  >-->
-<!--    <OverflowSuccess-->
-<!--        @close="success = false"-->
-<!--    />-->
-<!--  </OverflowContainer>-->
 </template>
 
 <script setup>
 import {ref, toValue, watch} from "vue";
 
-const basket = useState('basket');
+const {cleanBasket, getBasket, deleteFromBasket} = useUtils();
+
+const basket = getBasket();
 const success = ref(false);
 
-function cleanBasket() {
-  basket.value = [];
-}
-
 function getPrice() {
-  let counter = 0;
-  toValue(basket).forEach((i) => counter += parseInt(i.price));
-  return counter;
+  let sum = 0;
+  toValue(basket).forEach((i) => {
+    if (i.price_sale) {
+      sum += parseInt(i.price_sale)
+    } else
+      sum += parseInt(i.price)
+  });
+  return sum;
 }
 
 function getSale() {
   let counter = 0;
-  toValue(basket).forEach((i) => counter += i.price - (i.price_sale ? parseInt(i.price_sale) : 0));
+  toValue(basket).forEach((i) => counter += i.price - (i.price_sale ? parseInt(i.price_sale) : i.price));
   return counter;
 }
 
-watch(success, async(newVal) => {
+watch(success, async (newVal) => {
   useState('mainSuccess', () => true);
   await navigateTo('/');
 })
@@ -162,7 +158,6 @@ watch(success, async(newVal) => {
   @media @min1200 {
     align-self: self-start;
   }
-
 }
 
 </style>
