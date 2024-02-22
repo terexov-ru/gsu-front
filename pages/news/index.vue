@@ -119,7 +119,6 @@ function updateNews(updated) {
 
 // Pagination
 watch(currentPage, async (newVal) => {
-  console.log(newVal);
   currentPage.value = newVal;
   const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, newVal.id, selectedType);
   page.value = toValue(data).page;

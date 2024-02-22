@@ -63,14 +63,11 @@ function passRule() {
 }
 
 async function onSubmit() {
-  console.log('ТУТ')
   disabled.value = true;
 
   const password = {password: newFirValue.value};
 
   const data = await setPass(password);
-
-  console.log(data);
 
   if (data === true) {
     success.value = true;

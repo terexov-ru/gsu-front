@@ -1,7 +1,7 @@
 <template>
   <Overflow>
     <img class="close"
-         @click="this.$emit('close')"
+         @click="emits('close')"
          src="~/assets/svg/close.svg"
          alt="close"
     >
@@ -41,7 +41,7 @@
         >Зарегистрироваться
         </button>
         <button class="button overflow-card__button button_black-bordered"
-                @click="this.$emit('openLogin')"
+                @click="emits('openLogin')"
         >Войти
         </button>
       </div>
@@ -54,6 +54,8 @@ import {ref} from "vue";
 
 const {validateEmail, validateName, validatePhone, phoneMask} = useValidate();
 const {reg} = useApi();
+
+const emits = defineEmits(['close', 'openLogin', 'openReg']);
 
 const phoneValue = ref('');
 const mailValue = ref('');
@@ -68,7 +70,6 @@ async function onSubmit(values) {
   disabled.value = true;
 
   const data = await reg(values.phone, values.email);
-  console.log(data);
   if (data === true) {
     emits('openLogin');
   } else {
@@ -76,7 +77,6 @@ async function onSubmit(values) {
   }
 
   disabled.value = false;
-  console.log(values);
 }
 
 </script>

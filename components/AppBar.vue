@@ -334,11 +334,6 @@ export default {
     const {getBasket} = useUtils();
     this.basket = getBasket();
   },
-  watch: {
-    basket(newVal) {
-      console.log(newVal);
-    }
-  },
   methods: {
     closeOverflow() {
       this.reqActive = false

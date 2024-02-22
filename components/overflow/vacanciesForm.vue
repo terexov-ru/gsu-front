@@ -3,12 +3,12 @@
 
     <OverflowSuccess
         v-if="success"
-        @close="this.$emit('close'); success = false;"
+        @close="emits('close'); success = false;"
     />
 
     <div v-else class="overflow">
       <img class="close"
-           @click="this.$emit('close')"
+           @click="emits('close')"
            src="~/assets/svg/close.svg"
            alt="close"
       >
@@ -62,6 +62,7 @@ import {ref} from "vue";
 
 const {validateName, validatePhone, phoneMask} = useValidate();
 const {sendForm} = useApi();
+const emits = defineEmits(['close']);
 
 const props = defineProps({
   vacancy: Object

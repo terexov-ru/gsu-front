@@ -55,8 +55,6 @@ const {getLicense} = useApi();
 const {data} = await getLicense();
 
 const page = data.value?.page;
-console.log(page);
-
 
 </script>
 

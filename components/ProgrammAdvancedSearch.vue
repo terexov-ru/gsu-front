@@ -63,10 +63,6 @@ const currentPage = ref(1);
 const amount = 5;
 const searchValue = ref('');
 
-watch(searchValue, async (newVal) => {
-  console.log(newVal);
-})
-
 /* search request */
 async function search(noUpdated = undefined) {
   if (!noUpdated)

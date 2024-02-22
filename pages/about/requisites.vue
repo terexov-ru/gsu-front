@@ -37,7 +37,6 @@ const {getReq} = useApi();
 const {data} = await getReq();
 
 const page = data.value?.page;
-console.log(page);
 
 </script>
 

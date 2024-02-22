@@ -66,8 +66,6 @@ const {data: reqPage} = await useFetch(API + '/page/course', {
 
 const page = toValue(reqPage).page;
 
-
-// console.log(toValue(reqPage).page);
 </script>
 
 <style lang="less" scoped>

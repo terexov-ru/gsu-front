@@ -30,10 +30,6 @@ import {watch} from "vue";
 
 const value = defineModel('value');
 
-watch(value, async (newVal) => {
-  console.log(newVal);
-})
-
 defineProps({
   name: String,
   title: String,

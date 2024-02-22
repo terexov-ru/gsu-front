@@ -100,8 +100,6 @@ const {getContacts} = useApi();
 const {data} = await getContacts();
 
 const page = data.value?.page;
-console.log(page);
-console.log(data.value);
 
 
 </script>

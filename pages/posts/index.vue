@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const {data: posts, pending} = await useLazyFetch('https://jsonplaceholder.typicode.com/posts');
 
-console.log(posts);
-
 </script>
 <template>
 

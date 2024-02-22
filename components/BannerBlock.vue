@@ -86,7 +86,6 @@ export default {
       document.execCommand("copy")
     },
     async onSubmit(value, actions) {
-      console.log(actions);
       this.disabled = true;
       const {data, status} = await this.sendForm(value.name, undefined, value.phone, 'Тестовый запрос', undefined);
 

@@ -1,7 +1,7 @@
 <template>
   <Overflow>
     <img class="close"
-         @click="this.$emit('close')"
+         @click="emits('close')"
          src="~/assets/svg/close.svg"
          alt="close"
     >
@@ -21,7 +21,7 @@
           v-model:value="value"
       />
 
-      <div @click="this.$emit('openReg')" class="text text_normal text_accent text_center pointer">
+      <div @click="emits('openReg')" class="text text_normal text_accent text_center pointer">
         Я не помню эти данные или они не доступны
       </div>
 
@@ -30,7 +30,7 @@
           Далее
         </button>
         <button class="button overflow-card__button button_black-bordered"
-                @click="this.$emit('openLogin')"
+                @click="emits('openLogin')"
         >
           Назад
         </button>
@@ -42,10 +42,8 @@
 
 <script setup>
 import {ref} from "vue";
-
+const emits = defineEmits(['close', 'openLogin', 'openReg']);
 const value = ref('');
-
-
 </script>
 
 <style scoped lang="less">

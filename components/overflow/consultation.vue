@@ -3,7 +3,7 @@
     v-if="!success"
   >
     <img class="close"
-         @click="this.$emit('close')"
+         @click="emits('close')"
          src="~/assets/svg/close.svg"
          alt="close"
     >
@@ -74,6 +74,8 @@ const mailValue = ref('');
 
 const success = ref(false);
 const disabled = ref(false);
+
+const emits = defineEmits(['close']);
 
 async function onSubmit(values) {
   disabled.value = true;

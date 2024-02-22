@@ -219,7 +219,6 @@ export const useApi = () => {
         });
 
         const message = await response.json();
-        console.log(message);
 
         if (message.message === 'unauthorized') {
             navigateTo('/');

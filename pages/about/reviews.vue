@@ -158,7 +158,7 @@
             </div>
           </div>
           <div class="reviews__card__text">
-            <div class="text reviews__card__text__title text_h3">Заголовок</div>
+            <div class="text reviews__card__text__title text_h3">{{ rev.title }}</div>
             <div class="text text_normal">
               {{ rev.text }}
             </div>
@@ -243,7 +243,7 @@ const thanksTotal = thanksData.page.total_reviews_amount;
 const thanksPage = ref('1');
 
 const videoRevs = ref(data?.page.video_reviews);
-console.log(videoRevs);
+
 const page = ref(data.page);
 const reviews = ref(page.value.reviews);
 const reviewsAmount = ref(page.value.total_reviews_amount);
@@ -251,7 +251,7 @@ const active = ref(0);
 const pageNum = ref(1);
 
 watch(pageNum, async (newVal) => {
-  console.log(newVal);
+
   const data = await getRevs(pageNum.value * amountPerPage - amountPerPage, amountPerPage);
   page.value = data.page;
   reviews.value = page.value.reviews;

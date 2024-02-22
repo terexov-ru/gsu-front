@@ -86,7 +86,6 @@ export default {
   // },
   watch: {
     activeTip(val, oldVal) {
-      // console.log(val);
       this.selectedTipId = toValue(val);
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <Overflow>
     <img class="close"
-         @click="this.$emit('close')"
+         @click="emits('close')"
          src="~/assets/svg/close.svg"
          alt="close"
     >
@@ -32,6 +32,10 @@
     </div>
   </Overflow>
 </template>
+
+<script setup>
+const emits = defineEmits(['close']);
+</script>
 
 <style scoped lang="less">
 @import "assets/core.less";
