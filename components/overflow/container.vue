@@ -1,6 +1,6 @@
 <template>
-  <div v-if="active" @click="this.$emit('closeOverflow')" >
-    <div class="overflow" @click.stop>
+  <div class="overflow" v-if="active" @click="this.$emit('closeOverflow')">
+    <div class="container" @click.stop>
       <slot>
 
       </slot>
