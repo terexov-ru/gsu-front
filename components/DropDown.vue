@@ -19,7 +19,7 @@
           class="text drop-down__list__item text_light"
           @click="selectOption({title: title, id: undefined})"
       >
-        {{ title }}
+        Не выбрано
       </li>
 
       <li class="text drop-down__list__item text_normal"

@@ -12,7 +12,7 @@
             </li>
             <li class="text nav__list__item text_semi-bold">
               <NuxtLink to="/about" class="link link_white">
-                ОБ УНИВЕРСИТЕТЕ
+                УНИВЕРСИТЕТ
               </NuxtLink>
             </li>
             <li class="text nav__list__item text_semi-bold">
@@ -39,10 +39,10 @@
             </li>
           </ul>
           <ul class="nav__list">
-            <li class="text nav__list__item text_semi-bold">
-              <NuxtLink to="/" class="link link_white">
+            <li class="text nav__list__item text_semi-bold" @click="login()">
+              <span class="link link_white pointer">
                 ЛИЧНЫЙ КАБИНЕТ
-              </NuxtLink>
+              </span>
             </li>
             <li class="text nav__list__item text_semi-bold">
               <NuxtLink to="/basket" class="link link_white">
@@ -61,13 +61,21 @@
 
         <div class="contacts">
           <div class="contacts__info">
-            <div class="text contacts__info__address text_semi-bold">г. Тюмень, ул. Мельникайте 112, стр. 3 БЦ
-              «СОЛАРИС», 4 эт. офис 403,404
+
+            <div class="text contacts__info__address text_semi-bold">
+              <span v-if="pending">г. Тюмень, ул. Мельникайте 112, стр. 3 БЦ
+              «СОЛАРИС», 4 эт. офис 403,404</span>
+              <span v-else>{{ page.page.address }}</span>
             </div>
+
             <div>
               <div class="text contacts__info__number text_semi-bold">+7 (800) 550-40-48</div>
-              <div class="text contacts__info__mail text_semi-bold">info@gsu-prof.ru</div>
+              <div class="text contacts__info__mail text_semi-bold">
+                <span v-if="pending">info@gsu-prof.ru</span>
+                <span v-else>{{ page.page.email }}</span>
+              </div>
             </div>
+
             <div>
               <div class="text text_normal">Способ оплаты</div>
 
@@ -81,9 +89,15 @@
           </div>
 
           <div class="contacts__social-media">
-            <img src="~/assets/svg/phone.svg" alt="phone">
-            <img src="~/assets/svg/whatsapp.svg" alt="whatsapp">
-            <img src="~/assets/svg/telegram.svg" alt="telegram">
+            <NuxtLink :to="pending ? '/' : 'tel:' + page.page.phone" target="_blank" external>
+              <img src="~/assets/svg/phone.svg" alt="phone">
+            </NuxtLink>
+            <NuxtLink :to="pending ? '/' : page.page.whatsapp" target="_blank" external>
+              <img src="~/assets/svg/whatsapp.svg" alt="whatsapp">
+            </NuxtLink>
+            <NuxtLink :to="pending ? '/' : page.page.telegram" target="_blank" external>
+              <img src="~/assets/svg/telegram.svg" alt="telegram">
+            </NuxtLink>
           </div>
         </div>
 
@@ -96,8 +110,52 @@
 
       </div>
     </div>
+
+    <OverflowContainer
+        :active="logActive"
+        @closeOverflow="logActive = false"
+    >
+      <OverflowAuth
+          @close="logActive = false"
+      />
+    </OverflowContainer>
   </footer>
 </template>
+
+<script setup>
+import {API} from "~/constants/index.js";
+import {ref, watch} from "vue";
+
+const FOOTER_PATH = '/page/footer';
+
+const logActive = ref(false);
+
+const {pending, data: page} = useLazyFetch(API + FOOTER_PATH, {
+  methods: 'GET',
+})
+
+function login() {
+  const {getTokenCookie} = useUtils();
+
+  console.log(getTokenCookie());
+
+  if (getTokenCookie() === undefined || getTokenCookie() === '' || getTokenCookie() === null) {
+    this.logActive = !this.logActive;
+  } else {
+    navigateTo('/account');
+  }
+
+}
+
+// console.log(data.value.page);
+
+watch(page, (newPage) => {
+  // console.log(newData);
+  // page.value = newData.value.page;
+  // console.log(page.value);
+})
+
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

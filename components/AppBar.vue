@@ -278,7 +278,7 @@
       <div class="delimiter delimiter_gradient"/>
 
       <div class="burger-menu__block">
-        <div @click="logActive = true" class="row row_gap10 row_al-c">
+        <div @click="login()" class="row row_gap10 row_al-c">
           <img class="pointer" src="~/assets/svg/profile.svg" alt="profile">
           <div class="text text_caption">
             Профиль

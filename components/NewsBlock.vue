@@ -45,11 +45,13 @@ export default {
   grid-template-columns: 320px 320px 320px;
   gap: 12px;
   overflow-y: scroll;
+  padding-bottom: 10px;
 
   @media @min990 {
     overflow: auto;
     gap: 40px;
     grid-template-columns: 1fr 1fr 1fr;
+    padding-bottom: 0;
   }
 }
 

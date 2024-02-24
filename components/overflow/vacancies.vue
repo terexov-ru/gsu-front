@@ -1,51 +1,49 @@
 <template>
-  <div class="wrapper wrapper_paddings">
-    <div class="overflow">
-      <img class="close"
-           @click="this.$emit('close')"
-           src="~/assets/svg/close.svg"
-           alt="close"
-      >
+  <div class="overflow">
+    <img class="close"
+         @click="this.$emit('close')"
+         src="~/assets/svg/close.svg"
+         alt="close"
+    >
 
-      <div class="text text_h3">
-        {{ vacancy.title }}
-      </div>
-
-      <div class="overflow__content">
-        <div class="row row_al-c row_gap60">
-          <div class="column">
-            <div class="text text_normal text_light">Опыт</div>
-            <div class="text text_normal">{{ vacancy.experience }} года</div>
-          </div>
-          <div class="column">
-            <div class="text text_normal text_light">Зарплата</div>
-            <div class="text text_normal">{{ vacancy.payment }}</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="text overflow__content__h4 text_h4">Обязанности</div>
-          <div>{{ vacancy.obligations }}</div>
-        </div>
-
-        <div>
-          <div class="text overflow__content__h4 text_h4">Требования</div>
-          <div>{{ vacancy.requirements }}</div>
-        </div>
-
-        <div>
-          <div class="text overflow__content__h4 text_h4">Условия</div>
-          <div>{{ vacancy.conditions }}</div>
-        </div>
-      </div>
-
-      <button
-          @click="this.$emit('clickButton')"
-          class="button overflow__button button_gradient button_size"
-      >
-        Откликнуться
-      </button>
+    <div class="text text_h3">
+      {{ vacancy.title }}
     </div>
+
+    <div class="overflow__content">
+      <div class="row row_al-c row_gap60">
+        <div class="column">
+          <div class="text text_normal text_light">Опыт</div>
+          <div class="text text_normal">{{ vacancy.experience }} года</div>
+        </div>
+        <div class="column">
+          <div class="text text_normal text_light">Зарплата</div>
+          <div class="text text_normal">{{ vacancy.payment }}</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="text overflow__content__h4 text_h4">Обязанности</div>
+        <div>{{ vacancy.obligations }}</div>
+      </div>
+
+      <div>
+        <div class="text overflow__content__h4 text_h4">Требования</div>
+        <div>{{ vacancy.requirements }}</div>
+      </div>
+
+      <div>
+        <div class="text overflow__content__h4 text_h4">Условия</div>
+        <div>{{ vacancy.conditions }}</div>
+      </div>
+    </div>
+
+    <button
+        @click="this.$emit('clickButton')"
+        class="button overflow__button button_gradient button_size"
+    >
+      Откликнуться
+    </button>
   </div>
 </template>
 
@@ -78,6 +76,8 @@ export default {
   border-radius: 12px;
   border: 1px solid @MidGreyColor;
   background: @WhiteColor;
+
+  min-width: 60vw;
 
   @media @min760 {
     padding: 40px 22px 40px 40px;

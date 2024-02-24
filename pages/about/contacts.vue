@@ -43,7 +43,7 @@
             </div>
           </NuxtLink>
 
-          <NuxtLink :to="page.telegram" target="_blank">
+          <NuxtLink :to="page.telegram" target="_blank" external>
             <div class="contacts__icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -70,7 +70,7 @@
               {{ page.work_time }}
             </div>
 
-            <NuxtLink style="width: 100%" :to="page.map_link">
+            <NuxtLink style="width: 100%" :to="page.map_link" target="_blank">
               <button class="button map__info_button button_dark">
                 Перейти в карты
               </button>

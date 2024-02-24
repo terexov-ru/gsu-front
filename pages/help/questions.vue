@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper questions-block wrapper_paddings">
-    <h2 class="text text_h2">Помощь</h2>
+    <h2 class="text text_h2">Ответы на вопросы</h2>
 
     <ul class="questions">
       <!--  TODO transitions    -->

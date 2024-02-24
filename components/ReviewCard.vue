@@ -2,7 +2,7 @@
   <div class="review">
     <div class="review__profile">
       <div class="info">
-        <div class="text text_h4">{{ item.name }}</div>
+        <div class="text text_h4 text_right">{{ item.name }}</div>
         <div class="tip review__tip tip_accent tip_small">{{ item.spec }}</div>
       </div>
       <div class="avatar">

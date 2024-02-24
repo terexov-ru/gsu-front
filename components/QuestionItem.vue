@@ -1,9 +1,9 @@
 <template>
-  <li class="questions__item">
+  <li class="questions__item pointer" @click="active = !active">
 
     <div class="questions__item__title">
       <div class="text text_large">{{ item.title }}</div>
-      <svg @click="active = !active" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
            xmlns="http://www.w3.org/2000/svg">
         <path d="M12 22V2" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"/>
         <path d="M2 12L22 12" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"/>

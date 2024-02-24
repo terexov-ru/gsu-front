@@ -43,11 +43,13 @@ export default {
   grid-template-columns: 320px 320px 320px 320px;
   grid-template-rows: 272px;
   overflow-y: scroll;
+  padding-bottom: 10px;
 
   @media @min990 {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 256px;
     overflow: auto;
+    padding-bottom: 0;
   }
 }
 

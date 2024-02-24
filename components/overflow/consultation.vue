@@ -59,6 +59,7 @@
 
   <OverflowSuccess
       v-else
+      @close="emits('close')"
   />
 </template>
 

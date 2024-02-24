@@ -8,6 +8,7 @@
       </h2>
 
       <div style="flex-basis: 100%"/>
+
       <button
           @click="this.$emit('clickButton')"
           class="button slider__button button_white button_size">

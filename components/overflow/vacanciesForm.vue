@@ -1,59 +1,56 @@
 <template>
-  <div class="wrapper wrapper_paddings">
+  <OverflowSuccess
+      v-if="success"
+      @close="emits('close'); success = false;"
+  />
 
-    <OverflowSuccess
-        v-if="success"
-        @close="emits('close'); success = false;"
-    />
+  <div v-else class="overflow">
+    <img class="close"
+         @click="emits('close')"
+         src="~/assets/svg/close.svg"
+         alt="close"
+    >
 
-    <div v-else class="overflow">
-      <img class="close"
-           @click="emits('close')"
-           src="~/assets/svg/close.svg"
-           alt="close"
-      >
-
-      <div class="text text_h3">
-        {{ vacancy.title }}
-      </div>
-
-      <div class="overflow__content">
-        <Form class="form" @submit="onSubmit">
-
-          <InputBlock
-              :name="'name'"
-              :title="'ФИО'"
-              :type="'text'"
-              v-model:value="nameValue"
-              :placeholder="'Иванов Иван Иванович'"
-              :rule="validateName"
-          />
-
-          <InputBlock
-              :name="'phone'"
-              :title="'Телефон'"
-              :type="'text'"
-              v-model:value="phoneValue"
-              :placeholder="'Номер телефона'"
-              :mask="phoneMask"
-              :rule="validatePhone"
-          />
-
-          <div>
-            <div class="text text_normal text_center text_light">Оставляя данные в этой форме Вы даете </div>
-            <div class="text text_normal text_center text_accent">Согласие на обработку персональных данных</div>
-          </div>
-
-          <button
-              :disabled="disabled"
-              class="button button_gradient button_fill"
-          >
-            Отправить
-          </button>
-        </Form>
-      </div>
-
+    <div class="text text_h3">
+      {{ vacancy.title }}
     </div>
+
+    <div class="overflow__content">
+      <Form class="form" @submit="onSubmit">
+
+        <InputBlock
+            :name="'name'"
+            :title="'ФИО'"
+            :type="'text'"
+            v-model:value="nameValue"
+            :placeholder="'Иванов Иван Иванович'"
+            :rule="validateName"
+        />
+
+        <InputBlock
+            :name="'phone'"
+            :title="'Телефон'"
+            :type="'text'"
+            v-model:value="phoneValue"
+            :placeholder="'Номер телефона'"
+            :mask="phoneMask"
+            :rule="validatePhone"
+        />
+
+        <div>
+          <div class="text text_normal text_center text_light">Оставляя данные в этой форме Вы даете</div>
+          <div class="text text_normal text_center text_accent">Согласие на обработку персональных данных</div>
+        </div>
+
+        <button
+            :disabled="disabled"
+            class="button button_gradient button_fill"
+        >
+          Отправить
+        </button>
+      </Form>
+    </div>
+
   </div>
 </template>
 
@@ -104,6 +101,8 @@ async function onSubmit(values) {
   border-radius: 12px;
   border: 1px solid @MidGreyColor;
   background: @WhiteColor;
+
+  min-width: 60vw;
 
   @media @min760 {
     padding: 40px 22px 40px 40px;
