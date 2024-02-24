@@ -18,7 +18,6 @@
           :title="'Введите e-mail или телефон'"
           :name="'mail'"
           :type="'text'"
-          v-model:value="value"
       />
 
       <div @click="emits('openReg')" class="text text_normal text_accent text_center pointer">

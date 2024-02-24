@@ -13,13 +13,11 @@
           :title="'Введите e-mail или телефон'"
           :name="'phone'"
           :type="'text'"
-          v-model:value="loginValue"
       />
       <InputBlock
           :title="'Введите пароль'"
           :name="'pass'"
           :type="'password'"
-          v-model:value="passValue"
       />
       <div class="text text_normal text_accent text_right pointer"
            @click="emits('openPass')"

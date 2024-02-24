@@ -137,10 +137,8 @@ const {pending, data: page} = useLazyFetch(API + FOOTER_PATH, {
 function login() {
   const {getTokenCookie} = useUtils();
 
-  console.log(getTokenCookie());
-
   if (getTokenCookie() === undefined || getTokenCookie() === '' || getTokenCookie() === null) {
-    this.logActive = !this.logActive;
+    logActive.value = !logActive.value;
   } else {
     navigateTo('/account');
   }
@@ -187,6 +185,7 @@ watch(page, (newPage) => {
 .nav {
   display: flex;
   justify-content: space-between;
+  gap: 20px;
 
   @media @max760 {
     flex-direction: column;
