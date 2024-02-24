@@ -14,6 +14,7 @@
                {'input text text_normal input_white' : white},
 
            ]"
+           autocomplete="on"
     />
 
     <ErrorMessage
