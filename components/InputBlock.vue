@@ -22,7 +22,6 @@
         :name="name"
     />
 
-
   </div>
 </template>
 

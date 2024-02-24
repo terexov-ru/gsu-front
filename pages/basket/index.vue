@@ -18,6 +18,18 @@
               </div>
             </div>
 
+            <NuxtLink to="/courses" @mouseover="active = true" @mouseout="active = false">
+              <div class="error-container">
+                <img src="/assets/svg/sad_smile.svg" alt="error">
+                <div class="text text_normal text_center">
+                  <span class="error__text"
+                  :class="{'error__text_active' : active}"
+                  >У вас не выбрно ни одного курса</span>
+                </div>
+              </div>
+            </NuxtLink>
+
+
             <BasketCard
                 v-for="item in basket"
                 :key="item.id"
@@ -65,6 +77,7 @@ const {cleanBasket, getBasket, deleteFromBasket} = useUtils();
 
 const basket = getBasket();
 const success = ref(false);
+const active = ref(false);
 
 function getPrice() {
   let sum = 0;
@@ -159,6 +172,21 @@ watch(success, async (newVal) => {
   @media @min1200 {
     align-self: self-start;
   }
+}
+
+.error-container {
+  height: 30vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.error__text_active {
+  transition: @dur150;
+  color: @BlueNewColor;
 }
 
 </style>
