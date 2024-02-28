@@ -30,6 +30,8 @@
         <AccountProfile
             v-if="activeComponent === COMPONENTS[0]"
             :profile="profile"
+            :documents="documents"
+            @updateDocs="updateDocs()"
         />
 
         <AccountPrograms
@@ -60,6 +62,12 @@ const { getUser } = useApi();
 
 const data = await getUser();
 const profile = ref(data.profile);
+const documents = ref(data.documents);
+
+async function updateDocs() {
+  const data = await getUser();
+  documents.value = data.documents;
+}
 
 function logOut() {
   deleteTokenCookie();

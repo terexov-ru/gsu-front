@@ -32,52 +32,56 @@
       </div>
 
       <div class="document__load row row_gap10 mt-20">
-        <div class="button document__add button_dark">
+
+        <button class="button document__add button_dark" @click="uploadFile">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M21 10.9696L12.9628 18.5497C11.9782 19.4783 10.6427 20 9.25028 20C7.85782 20 6.52239 19.4783 5.53777 18.5497C4.55315 17.6211 4 16.3616 4 15.0483C4 13.7351 4.55315 12.4756 5.53777 11.547L13.575 3.96687C14.2314 3.34779 15.1217 3 16.05 3C16.9783 3 17.8686 3.34779 18.525 3.96687C19.1814 4.58595 19.5502 5.4256 19.5502 6.30111C19.5502 7.17662 19.1814 8.01628 18.525 8.63535L10.479 16.2154C10.1508 16.525 9.70569 16.6989 9.24154 16.6989C8.77738 16.6989 8.33224 16.525 8.00403 16.2154C7.67583 15.9059 7.49144 15.4861 7.49144 15.0483C7.49144 14.6106 7.67583 14.1907 8.00403 13.8812L15.429 6.88674"
                 stroke="#F7F7F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <div class="text text_normal">Прикрепить документ об образовании</div>
-        </div>
+          <div class="text text_normal">
+            <span v-if="fileName && fileName !== ''">{{ fileName }}</span>
+            <span v-else>Прикрепить документ об образовании</span>
+          </div>
+          <input
+              ref="inputFile"
+              id="file" type="file"
+              style="display: none;"
+              accept="image/jpeg,image/png,application/pdf"
+              @change="previewFiles"
+          >
+        </button>
         <div class="column row_jc-sb row_al-c">
-          <div class="text text_normal text_light">2 / 10</div>
+          <div class="text text_normal text_light">{{ documents.length }} / 10</div>
           <div class="text text_normal text_light">PNG, JPEG, PDF</div>
         </div>
       </div>
 
       <div class="document__list mt-20">
-        <div class="document__list__item">
 
-          <div class="row row_gap10">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                  d="M7 21C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H14L19 8V19C19 20.1046 18.1046 21 17 21H7Z"
-                  stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M13 3V9H19" stroke="#14181F" stroke-width="1.5" stroke-linejoin="round"/>
-            </svg>
-            <div class="text text_normal">Диплом.pdf</div>
-          </div>
+        <div
+            v-for="doc in documents"
+            :key="doc.id"
+            class="document__list__item"
+        >
 
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 18L6 6" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18 6L6 18" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+          <NuxtLink :to="doc.file.link" target="_blank">
+            <div class="row row_gap10">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M7 21C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H14L19 8V19C19 20.1046 18.1046 21 17 21H7Z"
+                    stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13 3V9H19" stroke="#14181F" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              <div class="text text_normal">{{ doc.file.name }}</div>
+            </div>
+          </NuxtLink>
 
-        <div class="document__list__item">
-
-          <div class="row row_gap10">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                  d="M7 21C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H14L19 8V19C19 20.1046 18.1046 21 17 21H7Z"
-                  stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M13 3V9H19" stroke="#14181F" stroke-width="1.5" stroke-linejoin="round"/>
-            </svg>
-            <div class="text text_normal">Диплом.pdf</div>
-          </div>
-
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+              @click="delFile(doc.id)"
+              class="pointer"
+              width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+          >
             <path d="M18 18L6 6" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M18 6L6 18" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -85,16 +89,75 @@
 
       </div>
 
-      <button class="button document__save button_gradient button_170">Сохранить</button>
+      <button
+          @click="save()"
+          class="button document__save button_gradient button_170"
+      >Сохранить
+      </button>
     </div>
 
   </div>
 </template>
 
-<script>
-export default {
-  name: "document"
+<script setup>
+import {ref} from "vue";
+
+const {sendFile, deleteFile, saveFiles} = useApi();
+
+const fileName = ref('');
+const inputFile = ref(null);
+
+const delFiles = [];
+const addedFiles = [];
+
+const props = defineProps({
+  documents: {
+    type: Array,
+    required: true
+  }
+})
+
+const emits = defineEmits(['updateDocs']);
+
+function uploadFile() {
+  inputFile.value.click();
 }
+
+async function previewFiles(event) {
+  fileName.value = event.target.files[0].name;
+
+  let file = event.target.files[0];
+  let reader = new FileReader();
+
+  reader.readAsDataURL(file);
+  reader.onload = async function () {
+    addedFiles.push({name: fileName.value, data: reader.result})
+    const data = await sendFile(fileName.value, reader.result);
+    console.log(data);
+    if (data.status === 'ok') {
+      emits('updateDocs');
+    }
+  };
+  reader.onerror = function (error) {
+    console.log('Error: ', error);
+  };
+}
+
+async function delFile(id) {
+  delFiles.push({id: id});
+  const data = await deleteFile(id);
+  emits('updateDocs');
+  console.log(data);
+}
+
+// async function save() {
+//   console.log(addedFiles);
+//   console.log(delFiles);
+//
+//   const data = await saveFiles(addedFiles, delFiles);
+//   console.log(data);
+// }
+
 </script>
 
 <style lang="less" scoped>

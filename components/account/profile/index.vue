@@ -8,6 +8,8 @@
 
   <AccountProfileDocument
       class="document-block"
+      :documents="documents"
+      @updateDocs="this.$emit('updateDocs')"
   />
 
   <AccountProfilePassword
@@ -21,7 +23,8 @@ export default {
   name: "profile",
   props: {
     profile: Object,
-  }
+    documents: Object,
+  },
 }
 </script>
 

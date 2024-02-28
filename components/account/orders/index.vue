@@ -1,7 +1,7 @@
 <template>
   <h3 class="text text_h3">Мои заказы</h3>
 
-  <div class="order">
+  <div class="order-list">
     <div class="order-card">
 
       <div class="row row_jc-sb">
@@ -103,6 +103,14 @@ export default {
 
 .order__buttons {
   align-self: flex-end;
+}
+
+.order-list {
+  margin-top: 40px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .order__button {

@@ -20,6 +20,8 @@ const PROFILE_PATH = "/profile";
 const SET_INFO_PATH = "/profile/set_info";
 const SET_PASS_PATH = "/profile/set_password";
 const GET_COURSES_PATH = "/profile/courses";
+const GET_ORDERS_PATH = "/profile/orders";
+const UPLOAD_DOC_PATH = "/profile/manage_files";
 
 export const useApi = () => {
 
@@ -244,6 +246,80 @@ export const useApi = () => {
         return message;
     }
 
+    async function sendFile(name: String, file: String) {
+        const data = {
+            upload: [
+                {
+                    name: name,
+                    data: file
+                }
+            ]
+        }
+
+        return  $fetch(API + UPLOAD_DOC_PATH, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            },
+            body: data
+        });
+    }
+
+    async function deleteFile(id: String) {
+        const data = {
+            delete: [
+                {
+                    id: id,
+                }
+            ]
+        }
+
+        return  $fetch(API + UPLOAD_DOC_PATH, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            },
+            body: data
+        });
+    }
+
+    async function saveFiles(addFiles, delFiles) {
+        const data = {
+            upload: addFiles,
+            delete: delFiles,
+        }
+
+        return  $fetch(API + UPLOAD_DOC_PATH, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            },
+            body: data
+        });
+    }
+
+
+
+
+
+    // async function getAccOrders() {
+    //     const response = await useLazyFetch(API + GET_COURSES_PATH, {
+    //         headers: {
+    //             'Authorization': `Bearer ${getTokenCookie()}`
+    //         },
+    //     });
+    //
+    //     const message = await response.json();
+    //
+    //     if (message.message === 'unauthorized') {
+    //         navigateTo('/');
+    //     }
+    //
+    //     return message;
+    // }
+
+
+
 
     return {
         simpleGet,
@@ -265,5 +341,8 @@ export const useApi = () => {
         setInfo,
         setPass,
         getAccCourses,
+        sendFile,
+        deleteFile,
+        saveFiles
     }
 }
