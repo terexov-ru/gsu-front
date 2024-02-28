@@ -17,6 +17,7 @@ export default {
 
 .overflow {
   position: relative;
+  left: 0;
 
   width: 340px;
   height: auto;

@@ -1,6 +1,7 @@
 <template>
   <div class="card__tip-list">
     <ProgramCardTip
+        v-if="time"
         :text="`${time} ${getTimeWord()}`"
         class="tip_active"
 

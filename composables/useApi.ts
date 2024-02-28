@@ -19,6 +19,7 @@ const REG_PATH = "/auth/register";
 const PROFILE_PATH = "/profile";
 const SET_INFO_PATH = "/profile/set_info";
 const SET_PASS_PATH = "/profile/set_password";
+const GET_COURSES_PATH = "/profile/courses";
 
 export const useApi = () => {
 
@@ -227,6 +228,22 @@ export const useApi = () => {
         return message;
     }
 
+    async function getAccCourses() {
+        const response = await fetch(API + GET_COURSES_PATH, {
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            },
+        });
+
+        const message = await response.json();
+
+        if (message.message === 'unauthorized') {
+            navigateTo('/');
+        }
+
+        return message;
+    }
+
 
     return {
         simpleGet,
@@ -247,5 +264,6 @@ export const useApi = () => {
         getUser,
         setInfo,
         setPass,
+        getAccCourses,
     }
 }
