@@ -129,18 +129,24 @@ import {ref, watch} from "vue";
 const FOOTER_PATH = '/page/footer';
 
 const logActive = ref(false);
+const {getUser} = useApi();
 
 const {pending, data: page} = useLazyFetch(API + FOOTER_PATH, {
   methods: 'GET',
 })
 
-function login() {
+async function login() {
   const {getTokenCookie} = useUtils();
 
   if (getTokenCookie() === undefined || getTokenCookie() === '' || getTokenCookie() === null) {
     logActive.value = !logActive.value;
   } else {
-    navigateTo('/account');
+    const data = await getUser();
+    if (data.profile) {
+      navigateTo('/account');
+    } else {
+      this.logActive = !this.logActive;
+    }
   }
 
 }

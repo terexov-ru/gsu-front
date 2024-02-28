@@ -334,11 +334,17 @@ export default {
     const {getBasket} = useUtils();
     this.basket = getBasket();
   },
+  setup() {
+    const {getUser} = useApi();
+    return {
+      getUser
+    }
+  },
   methods: {
     closeOverflow() {
       this.reqActive = false
     },
-    login() {
+    async login() {
       const {getTokenCookie} = useUtils();
 
       console.log(getTokenCookie());
@@ -346,7 +352,12 @@ export default {
       if (getTokenCookie() === undefined || getTokenCookie() === '' || getTokenCookie() === null) {
         this.logActive = !this.logActive;
       } else {
-        navigateTo('/account');
+        const data = await this.getUser();
+        if (data.profile) {
+          navigateTo('/account');
+        } else {
+          this.logActive = !this.logActive;
+        }
       }
 
     }
