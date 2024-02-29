@@ -4,8 +4,8 @@
 
     <Loader v-if="pending"/>
 
-    <div v-else class="program__list">
-      <div v-if="courses.length > 0">
+    <div v-else>
+      <div v-if="courses.length > 0" class="program__list">
         <div class="course" v-for="course in courses" :key="course.id">
           <div class="course__img-container">
             <img

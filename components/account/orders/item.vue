@@ -6,7 +6,7 @@
         <div class="text text_semi-bold">Заказ {{ order.number }}</div>
         <div class="text text_normal text_light">от {{ order.date }}</div>
       </div>
-      <div class="tip tip_accent tip_small">{{ order.status.title }}</div>
+      <div class="tip tip_small" :class="getTipClass(order.status.id)">{{ order.status.title }}</div>
     </div>
 
     <div
@@ -49,27 +49,34 @@
           <div class="text text_semi-bold" style="flex-shrink: 0">{{ course.price }} ₽</div>
         </div>
 
-                    <!--  СКИДКА  -->
-        <!--        <div class="row row_jc-sb">-->
-        <!--          <div class="text text_normal">Скидка</div>-->
-        <!--          <div class="text text_semi-bold">0 ₽</div>-->
-        <!--        </div>-->
+        <div class="row row_jc-sb">
+          <div class="text text_normal">Скидка</div>
+          <div class="text text_semi-bold">{{ order.sale_sum }} ₽</div>
+        </div>
       </div>
 
       <div class="row order__buttons row_gap10">
 
-        <button class="button order__button button_gradient">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#F7F7F8" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-            <path d="M6 20H18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>Скачать договор</span>
-        </button>
+        <NuxtLink v-if="order.agreement" :to="order.agreement" target="_blank">
+          <button class="button order__button button_gradient">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#F7F7F8" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <path d="M6 20H18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Скачать договор</span>
+          </button>
+        </NuxtLink>
 
-        <button class="button order__button button_gradient">Оплатить</button>
+        <div v-else class="row order__buttons row_gap10">
+          <NuxtLink :to="order.payment_link" target="_blank">
+            <button class="button order__button button_gradient">Оплатить</button>
+          </NuxtLink>
+          <NuxtLink :to="order.subscribe_agreement_link" target="_blank">
+            <button class="button order__button button_black-bordered">Подписать договор</button>
+          </NuxtLink>
+        </div>
 
-        <button class="button order__button button_black-bordered">Подписать договор</button>
       </div>
     </div>
 
@@ -87,6 +94,13 @@ const props = defineProps({
 })
 
 const active = ref(false);
+
+function getTipClass(id) {
+  if (id < 2) return 'tip_active'
+  else if (id === 3) return 'tip_accent'
+  else if (id === 4) return 'tip_danger'
+  else return 'tip_dark-fill'
+}
 </script>
 
 <style lang="less" scoped>
@@ -131,7 +145,7 @@ const active = ref(false);
 
 .order-card__list {
   max-height: 2px;
-  transition: opacity 0.5s, max-height 0.5s cubic-bezier(0, 1, 0, 1) ;
+  transition: opacity 0.5s, max-height 0.5s cubic-bezier(0, 1, 0, 1);
   overflow: hidden;
   opacity: 0;
 }

@@ -22,33 +22,33 @@
         class="order-status__list"
     >
       <div class="column column_gap12">
-        <div class="tip tip_active tip_small">Обработка</div>
-        <div class="text text_normal">Ожидает обработки заказа менеджером</div>
+        <div class="tip tip_active tip_small">{{ data.statuses[0].title }}</div>
+        <div class="text text_normal">{{ data.statuses[0].description }}</div>
       </div>
 
       <div class="column column_gap12">
-        <div class="tip tip_danger tip_small">Отменен</div>
-        <div class="text text_normal">Заказ отменен по каким-либо причинам</div>
+        <div class="tip tip_danger tip_small">{{ data.statuses[3].title }}</div>
+        <div class="text text_normal">{{ data.statuses[3].description }}</div>
       </div>
 
       <div class="column column_gap12">
-        <div class="tip tip_active tip_small">Ожидает оплаты</div>
-        <div class="text text_normal">В ожидании поступления средств на расчетный счет организации</div>
+        <div class="tip tip_active tip_small">{{ data.statuses[1].title }}</div>
+        <div class="text text_normal">{{ data.statuses[1].description }}</div>
       </div>
 
       <div class="column column_gap12">
-        <div class="tip tip_dark-fill tip_small">Оплачено</div>
-        <div class="text text_normal">Заказ оплачен, доступ к материалам будет открыт в течении суток</div>
+        <div class="tip tip_dark-fill tip_small">{{ data.statuses[4].title }}</div>
+        <div class="text text_normal">{{ data.statuses[4].description }}</div>
       </div>
 
       <div class="column column_gap12">
-        <div class="tip tip_accent tip_small">Проверка документов</div>
-        <div class="text text_normal">Проверяются загруженные докмуенты</div>
+        <div class="tip tip_accent tip_small">{{ data.statuses[2].title }}</div>
+        <div class="text text_normal">{{ data.statuses[2].description }}</div>
       </div>
 
       <div class="column column_gap12">
-        <div class="tip tip_dark-fill tip_small">Обучение</div>
-        <div class="text text_normal">Открытый доступ к учебному материалу</div>
+        <div class="tip tip_dark-fill tip_small">{{ data.statuses[5].title }}</div>
+        <div class="text text_normal">{{ data.statuses[5].description }}</div>
       </div>
     </div>
   </div>
@@ -57,8 +57,10 @@
       v-if="pending"
   />
 
-  <div v-else class="order-list">
-    <div v-if="data.orders.length > 0">
+  <div v-else>
+    <div v-if="data.orders.length > 0"
+         class="order-list"
+    >
       <AccountOrdersItem
           v-for="ord in data.orders"
           :key="ord.id"
@@ -71,7 +73,6 @@
     >
       У вас пока нет активных заказов
     </div>
-
   </div>
 
 </template>
