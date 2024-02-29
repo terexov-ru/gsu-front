@@ -75,12 +75,13 @@ const mailValue = ref('');
 
 const success = ref(false);
 const disabled = ref(false);
+const url = useRequestURL();
 
 const emits = defineEmits(['close']);
 
 async function onSubmit(values) {
   disabled.value = true;
-  const {data, status} = await sendForm(values.name, values.email, values.phone, 'Получить консультацию', undefined);
+  const {data, status} = await sendForm(values.name, values.email, values.phone, 'Получить консультацию', undefined, url.href);
   if (status.value === 'success' && data.value.status === 'ok') {
     success.value = true;
   }

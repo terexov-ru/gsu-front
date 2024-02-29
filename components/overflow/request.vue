@@ -86,10 +86,11 @@ const mailValue = ref('');
 const commentValue = ref('');
 const success = ref(false);
 const disabled = ref(false);
+const url = useRequestURL();
 
 async function onSubmit(values) {
   disabled.value = true;
-  const {data, status} = await sendForm(values.name, values.email, values.phone, 'Оформление заказа', commentValue);
+  const {data, status} = await sendForm(values.name, values.email, values.phone, 'Оформление заказа', commentValue, url.href);
   if (status.value === 'success' && data.value.status === 'ok') {
     success.value = true;
   }

@@ -45,7 +45,8 @@ export default {
   methods: {
     async onSubmit(value, actions) {
       this.disabled = true;
-      const {data, status} = await this.sendForm(value.name, undefined, value.phone, 'Тестовый запрос', undefined);
+      const url = useRequestURL();
+      const {data, status} = await this.sendForm(value.name, undefined, value.phone, 'Тестовый запрос', undefined, url.href);
 
       if (status.value === 'success' && data.value.status === 'ok') {
         this.$emit('success');

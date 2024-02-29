@@ -117,7 +117,7 @@ export const useApi = () => {
         })
     }
 
-    async function sendForm(name: String, email: String, phone: String, title: String, text: String) {
+    async function sendForm(name: String, email: String, phone: String, title: String, text: String, page: String) {
         return useFetch(API + FORM_PATH, {
             method: 'POST',
             body: {
@@ -126,6 +126,7 @@ export const useApi = () => {
                 phone: phone,
                 title: title,
                 text: text,
+                page_from: page
             }
         });
     }

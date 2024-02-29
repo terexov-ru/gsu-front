@@ -70,11 +70,12 @@ const phoneValue = ref('');
 
 const success = ref(false);
 const disabled = ref(false);
+const url = useRequestURL();
 
 async function onSubmit(values) {
   disabled.value = true;
 
-  const {data, status} = await sendForm(values.name, '', values.phone, props?.vacancy.title, '');
+  const {data, status} = await sendForm(values.name, '', values.phone, props?.vacancy.title, '', url.href);
   if (status.value === 'success' && data.value.status === 'ok') {
     success.value = true;
   }

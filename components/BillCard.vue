@@ -55,27 +55,27 @@ import {ref} from "vue";
 const {validateEmail, validateName, validatePhone, phoneMask} = useValidate();
 const {sendForm} = useApi();
 const basket = useState('basket');
+const url = useRequestURL();
+
 
 const emit = defineEmits(['success'])
 const nameValue = ref('');
 const phoneValue = ref('');
 const mailValue = ref('');
-const commentValue = ref('');
 const basketError = ref('');
 const disabled = ref(false);
+const {cleanBasket} = useUtils();
 
-async function onSubmit(values) {
+async function onSubmit(values, actions) {
   if (basket.value.length > 0) {
     basketError.value = ''
     disabled.value = true;
-    const {data, status} = await sendForm(values.name, values.email, values.phone, 'Тестовый запрос', commentValue);
+    const {data, status} = await sendForm(values.name, values.email, values.phone, 'Оформление заказа', '', url.href);
 
     if (status.value === 'success' && data.value.status === 'ok') {
       emit('success');
-      nameValue.value = '';
-      phoneValue.value = '';
-      mailValue.value = '';
-      basket.value = [];
+      actions.resetForm();
+      cleanBasket();
     }
 
     disabled.value = false;
