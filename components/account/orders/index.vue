@@ -58,11 +58,20 @@
   />
 
   <div v-else class="order-list">
-    <AccountOrdersItem
-        v-for="ord in data.orders"
-        :key="ord.id"
-        :order="ord"
-    />
+    <div v-if="data.orders.length > 0">
+      <AccountOrdersItem
+          v-for="ord in data.orders"
+          :key="ord.id"
+          :order="ord"
+      />
+    </div>
+
+    <div v-else
+         class="text text_normal text_accent empty-list"
+    >
+      У вас пока нет активных заказов
+    </div>
+
   </div>
 
 </template>
@@ -141,4 +150,5 @@ console.log(data);
   transform: rotate(-180deg);
   transition: @dur150;
 }
+
 </style>

@@ -5,64 +5,73 @@
     <Loader v-if="pending"/>
 
     <div v-else class="program__list">
+      <div v-if="courses.length > 0">
+        <div class="course" v-for="course in courses" :key="course.id">
+          <div class="course__img-container">
+            <img
+                v-if="course && course.banner_image"
+                :src="course.banner_image"
+                class="course__img"
+                alt="course">
+          </div>
 
-      <div class="course" v-for="course in courses" :key="course.id">
-        <div class="course__img-container">
-          <img
-              v-if="course && course.banner_image"
-              :src="course.banner_image"
-              class="course__img"
-              alt="course">
-        </div>
-
-        <div class="course__info">
-          <div>
+          <div class="course__info">
             <div>
-              <div class="text text_h3">{{ course.title }}
+              <div>
+                <div class="text text_h3">{{ course.title }}
+                </div>
+                <CardTipList
+                    class="course__info__card-list"
+                    :tips="course.specs"
+                    :time="course.duration"
+                />
+
               </div>
-              <CardTipList
-                  class="course__info__card-list"
-                  :tips="course.specs"
-                  :time="course.duration"
-              />
 
-            </div>
-
-            <div class="course__date">
-              <div class="column column_gap8">
-                <div class="text text_normal text_light">Начало обучения</div>
-                <div class="text text_caption">25 января 2023</div>
+              <div class="course__date">
+                <div class="column column_gap8">
+                  <div class="text text_normal text_light">Начало обучения</div>
+                  <div class="text text_caption">25 января 2023</div>
+                </div>
+                <div class="column column_gap8">
+                  <div class="text text_normal text_light">Начало обучения</div>
+                  <div class="text text_caption">25 января 2023</div>
+                </div>
               </div>
-              <div class="column column_gap8">
-                <div class="text text_normal text_light">Начало обучения</div>
-                <div class="text text_caption">25 января 2023</div>
+
+            </div>
+
+            <div class="course__info__sale">
+
+              <div class="row row_al-c pointer">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#129DF4" stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                  <path d="M6 20H18" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                </svg>
+                <div class="text text_normal text_accent">{{ course.document }}</div>
+
               </div>
-            </div>
 
-          </div>
 
-          <div class="course__info__sale">
+              <div
+                  @click="active = true"
+                  class="button course__info__sale__button button_gradient button_size">
+                Оставить отзыв
+              </div>
 
-            <div class="row row_al-c pointer">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round"/>
-                <path d="M6 20H18" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <div class="text text_normal text_accent">{{ course.document }}</div>
 
             </div>
-
-
-            <div
-                @click="active = true"
-                class="button course__info__sale__button button_gradient button_size">
-              Оставить отзыв
-            </div>
-
-
           </div>
         </div>
+      </div>
+      <div
+          v-else
+          class="text text_normal text_accent empty-list"
+      >
+        У вас пока нет активных программ
       </div>
 
     </div>
