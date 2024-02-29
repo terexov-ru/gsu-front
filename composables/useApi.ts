@@ -1,4 +1,5 @@
 import {API} from "~/constants/index.js";
+import {useLazyFetch} from "nuxt/app";
 
 const NEWS_PATH = "/page/news";
 const NEWS_ID_PATH = "/page/get_news";
@@ -231,19 +232,14 @@ export const useApi = () => {
     }
 
     async function getAccCourses() {
-        const response = await fetch(API + GET_COURSES_PATH, {
-            headers: {
-                'Authorization': `Bearer ${getTokenCookie()}`
-            },
-        });
-
-        const message = await response.json();
-
-        if (message.message === 'unauthorized') {
-            navigateTo('/');
-        }
-
-        return message;
+        return useLazyFetch(API + GET_COURSES_PATH,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${getTokenCookie()}`
+                },
+            }
+        );
     }
 
     async function sendFile(name: String, file: String) {
@@ -298,6 +294,17 @@ export const useApi = () => {
         });
     }
 
+    async function getOrders() {
+        return useLazyFetch(API + GET_ORDERS_PATH,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${getTokenCookie()}`
+                },
+            }
+        );
+    }
+
 
 
 
@@ -343,6 +350,7 @@ export const useApi = () => {
         getAccCourses,
         sendFile,
         deleteFile,
-        saveFiles
+        saveFiles,
+        getOrders
     }
 }

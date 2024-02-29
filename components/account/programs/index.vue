@@ -2,7 +2,9 @@
   <h3 class="text text_h3">Курсы</h3>
   <div class="program">
 
-    <div class="program__list">
+    <Loader v-if="pending"/>
+
+    <div v-else class="program__list">
 
       <div class="course" v-for="course in courses" :key="course.id">
         <div class="course__img-container">
@@ -78,14 +80,16 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 const {getAccCourses} = useApi();
 const active = ref(false);
 
-const coursesData = await getAccCourses();
-const courses = coursesData.courses;
-
+const {pending, data} = await getAccCourses();
+const courses = ref({});
+watch(data, (newVal) => {
+  courses.value = newVal.courses;
+})
 console.log(courses);
 
 </script>
