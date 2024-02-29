@@ -6,6 +6,7 @@ const NEWS_ID_PATH = "/page/get_news";
 const REV_PATH = "/page/reviews";
 const TEAM_PATH = "/page/company_employees";
 const FORM_PATH = "/api/make_request";
+const ORDER_PATH = "/api/create_order";
 const REGISTRY_PATH = "/page/company_registry";
 const REQUISITES_PATH = "/page/company_requisites";
 const DETAILS_PATH = "/page/company_details";
@@ -131,6 +132,49 @@ export const useApi = () => {
         });
     }
 
+    async function createOrder(name: String, email: String, phone: String, courses: String, promo: String) {
+        return useFetch(API + ORDER_PATH, {
+            method: 'POST',
+            body: {
+                courses: courses,
+                fio: name,
+                email: email,
+                phone: phone,
+                promo: promo
+            },
+            async onResponseError({request, response, options}) {
+                console.log(
+                    '[fetch respons error]',
+                    request,
+                    response.status,
+                    response.body
+                )
+            },
+        });
+    }
+
+    async function createOrderAuth(courses: String, promo: String) {
+        return useFetch(API + ORDER_PATH, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            },
+            body: {
+                courses: courses,
+                promo: promo
+            },
+            async onResponseError({request, response, options}) {
+                console.log(
+                    '[fetch respons error]',
+                    request,
+                    response.status,
+                    response.body
+                )
+            },
+        });
+    }
+
+
     /* AUTH */
     const {getTokenCookie, setTokenCookie} = useUtils();
 
@@ -167,10 +211,9 @@ export const useApi = () => {
         if (message.status === 'error') {
             if (message.message.includes('email') && message.message.includes('phone')) {
                 return 'Данный номер телефона и почта уже используются'
-            } else if (message.message.includes('email')){
+            } else if (message.message.includes('email')) {
                 return 'Данная почта уже используется'
-            }
-            else if (message.message.includes('phone')) {
+            } else if (message.message.includes('phone')) {
                 return 'Данный номер телефона уже используется'
             } else {
                 return 'Произошла ошибка'
@@ -232,6 +275,14 @@ export const useApi = () => {
         return message;
     }
 
+    async function getUserLazy() {
+        return useLazyFetch(API + PROFILE_PATH, {
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            },
+        });
+    }
+
     async function getAccCourses() {
         return useLazyFetch(API + GET_COURSES_PATH,
             {
@@ -253,7 +304,7 @@ export const useApi = () => {
             ]
         }
 
-        return  $fetch(API + UPLOAD_DOC_PATH, {
+        return $fetch(API + UPLOAD_DOC_PATH, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${getTokenCookie()}`
@@ -271,7 +322,7 @@ export const useApi = () => {
             ]
         }
 
-        return  $fetch(API + UPLOAD_DOC_PATH, {
+        return $fetch(API + UPLOAD_DOC_PATH, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${getTokenCookie()}`
@@ -286,7 +337,7 @@ export const useApi = () => {
             delete: delFiles,
         }
 
-        return  $fetch(API + UPLOAD_DOC_PATH, {
+        return $fetch(API + UPLOAD_DOC_PATH, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${getTokenCookie()}`
@@ -307,9 +358,6 @@ export const useApi = () => {
     }
 
 
-
-
-
     // async function getAccOrders() {
     //     const response = await useLazyFetch(API + GET_COURSES_PATH, {
     //         headers: {
@@ -325,8 +373,6 @@ export const useApi = () => {
     //
     //     return message;
     // }
-
-
 
 
     return {
@@ -352,6 +398,9 @@ export const useApi = () => {
         sendFile,
         deleteFile,
         saveFiles,
-        getOrders
+        getOrders,
+        getUserLazy,
+        createOrder,
+        createOrderAuth
     }
 }

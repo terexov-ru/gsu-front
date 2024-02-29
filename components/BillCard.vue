@@ -53,10 +53,9 @@
 import {ref} from "vue";
 
 const {validateEmail, validateName, validatePhone, phoneMask} = useValidate();
-const {sendForm} = useApi();
+const {createOrder, getUserLazy, createOrderAuth} = useApi();
 const basket = useState('basket');
 const url = useRequestURL();
-
 
 const emit = defineEmits(['success'])
 const nameValue = ref('');
@@ -64,18 +63,28 @@ const phoneValue = ref('');
 const mailValue = ref('');
 const basketError = ref('');
 const disabled = ref(false);
-const {cleanBasket} = useUtils();
+const {cleanBasket, getTokenCookie, getBasket} = useUtils();
+const orderBasket = basket.value.map(obj => obj.id);
+
+if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
+  const {data} = await getUserLazy();
+  watch(data, () => {
+    const profile = data.value.profile;
+    mailValue.value = profile.email;
+    phoneValue.value = profile.phone;
+    nameValue.value = profile.name;
+  });
+}
 
 async function onSubmit(values, actions) {
   if (basket.value.length > 0) {
     basketError.value = ''
     disabled.value = true;
-    const {data, status} = await sendForm(values.name, values.email, values.phone, 'Оформление заказа', '', url.href);
 
-    if (status.value === 'success' && data.value.status === 'ok') {
-      emit('success');
-      actions.resetForm();
-      cleanBasket();
+    if (getTokenCookie() !== undefined) {
+      await getOrderAuth(values, actions);
+    } else {
+      await getOrderBase(values, actions);
     }
 
     disabled.value = false;
@@ -83,6 +92,40 @@ async function onSubmit(values, actions) {
     basketError.value = 'Вы не можете отправить заявку, пока корзина пуста'
   }
 }
+
+async function getOrderBase(values, actions) {
+  const {data, status, error} = await createOrder(values.name, values.email, values.phone, orderBasket, 1);
+
+  if (status.value === 'success' && data.value.status === 'ok') {
+    emit('success');
+    actions.resetForm();
+    cleanBasket();
+  } else {
+    if (error.value.data.message.includes('phone') && error.value.data.message.includes('mail')) {
+      basketError.value = 'Телефон и email уже используются'
+    } else if (error.value.data.message.includes('phone')) {
+      basketError.value = 'Телефон уже используется'
+    } else if (error.value.data.message.includes('mail')) {
+      basketError.value = 'Почта уже используется'
+    } else {
+      basketError.value = 'Произошла ошибка'
+    }
+  }
+}
+
+async function getOrderAuth(values, actions) {
+  const {data, status } = await createOrderAuth(orderBasket, 1);
+
+  if (status.value === 'success' && data.value.status === 'ok') {
+    emit('success');
+    actions.resetForm();
+    cleanBasket();
+  } else {
+    basketError.value = 'Произошла ошибка'
+  }
+}
+
+
 </script>
 
 <style lang="less" scoped>
