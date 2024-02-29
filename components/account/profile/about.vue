@@ -5,25 +5,57 @@
     <div class="about__image">
       <div class="text text_normal">Фотография профиля</div>
 
-      <div v-if="!$viewport.isLessThan('desktop')" class="about__image__drop">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-              d="M20 19.3782C21.6714 19.3782 23.2743 18.7142 24.4561 17.5324C25.6379 16.3506 26.3019 14.7477 26.3019 13.0763C26.3019 11.4049 25.6379 9.80202 24.4561 8.62019C23.2743 7.43836 21.6714 6.77441 20 6.77441C18.3286 6.77441 16.7257 7.43836 15.5439 8.62019C14.3621 9.80202 13.6981 11.4049 13.6981 13.0763C13.6981 14.7477 14.3621 16.3506 15.5439 17.5324C16.7257 18.7142 18.3286 19.3782 20 19.3782ZM20 22.1469C11.6213 22.1469 6.25 26.7707 6.25 29.0219V33.2257H33.75V29.0219C33.75 26.2994 28.665 22.1469 20 22.1469Z"
-              fill="#B9BFC6"/>
-        </svg>
-        <div class="text text_normalt">
-          <span>Перетащите файл сюда или </span>
-          <span class="text_accent pointer">загрузите с компьютера</span>
+      <input
+          ref="inputFile"
+          id="file" type="file"
+          style="display: none;"
+          accept="image/jpeg,image/png,application/pdf"
+          @change="previewFiles"
+      >
+
+<!-- profile.avatar === undefined || profile.avatar === null -->
+      <div v-if="true">
+        <div v-if="!$viewport.isLessThan('desktop')" @click="uploadFile" class="about__image__drop pointer">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M20 19.3782C21.6714 19.3782 23.2743 18.7142 24.4561 17.5324C25.6379 16.3506 26.3019 14.7477 26.3019 13.0763C26.3019 11.4049 25.6379 9.80202 24.4561 8.62019C23.2743 7.43836 21.6714 6.77441 20 6.77441C18.3286 6.77441 16.7257 7.43836 15.5439 8.62019C14.3621 9.80202 13.6981 11.4049 13.6981 13.0763C13.6981 14.7477 14.3621 16.3506 15.5439 17.5324C16.7257 18.7142 18.3286 19.3782 20 19.3782ZM20 22.1469C11.6213 22.1469 6.25 26.7707 6.25 29.0219V33.2257H33.75V29.0219C33.75 26.2994 28.665 22.1469 20 22.1469Z"
+                fill="#B9BFC6"/>
+          </svg>
+          <div class="text text_normalt">
+            <span>Перетащите файл сюда или </span>
+            <span class="text_accent pointer">загрузите с компьютера</span>
+          </div>
+        </div>
+
+        <div v-else class="about__image__button pointer" @click="uploadFile">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M20 19.3782C21.6714 19.3782 23.2743 18.7142 24.4561 17.5324C25.6379 16.3506 26.3019 14.7477 26.3019 13.0763C26.3019 11.4049 25.6379 9.80202 24.4561 8.62019C23.2743 7.43836 21.6714 6.77441 20 6.77441C18.3286 6.77441 16.7257 7.43836 15.5439 8.62019C14.3621 9.80202 13.6981 11.4049 13.6981 13.0763C13.6981 14.7477 14.3621 16.3506 15.5439 17.5324C16.7257 18.7142 18.3286 19.3782 20 19.3782ZM20 22.1469C11.6213 22.1469 6.25 26.7707 6.25 29.0219V33.2257H33.75V29.0219C33.75 26.2994 28.665 22.1469 20 22.1469Z"
+                fill="#B9BFC6"/>
+          </svg>
+          <div class="text text_normal text_accent">Загрузить</div>
         </div>
       </div>
 
-      <div v-else class="about__image__button">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-              d="M20 19.3782C21.6714 19.3782 23.2743 18.7142 24.4561 17.5324C25.6379 16.3506 26.3019 14.7477 26.3019 13.0763C26.3019 11.4049 25.6379 9.80202 24.4561 8.62019C23.2743 7.43836 21.6714 6.77441 20 6.77441C18.3286 6.77441 16.7257 7.43836 15.5439 8.62019C14.3621 9.80202 13.6981 11.4049 13.6981 13.0763C13.6981 14.7477 14.3621 16.3506 15.5439 17.5324C16.7257 18.7142 18.3286 19.3782 20 19.3782ZM20 22.1469C11.6213 22.1469 6.25 26.7707 6.25 29.0219V33.2257H33.75V29.0219C33.75 26.2994 28.665 22.1469 20 22.1469Z"
-              fill="#B9BFC6"/>
+      <div v-else
+           class="about__image__photo-wrap"
+           @mouseenter="hover = true"
+           @mouseleave="hover = false"
+      >
+        <div v-if="hover" class="about__image__background pointer text text_normal">
+          Изменить
+        </div>
+        <svg
+            @click="deleteAva()"
+            class="about__image__cross"
+            width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 18L6 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 6L6 18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <div class="text text_normal text_accent">Загрузить</div>
+
+        <div class="about__image__photo">
+          <img class="about__image__photo__img" :src="profile.avatar" alt="avatar">
+        </div>
       </div>
 
     </div>
@@ -120,7 +152,7 @@ const props = defineProps({
   profile: Object
 })
 
-const {setInfo} = useApi();
+const {setInfo, deleteAvatar} = useApi();
 
 const {
   validateEmail,
@@ -143,6 +175,7 @@ const pasportValue = ref(props?.profile.passport_number);
 const textError = ref('');
 const success = ref(false);
 const disabled = ref(false);
+const hover = ref(false);
 
 async function onSubmit() {
   disabled.value = true;
@@ -170,6 +203,21 @@ async function onSubmit() {
   disabled.value = false;
 }
 
+// Load and delete avatar
+const inputFile = ref(null);
+const load = ref(false);
+
+async function deleteAva() {
+   const data = await deleteAvatar();
+   console.log(data);
+}
+
+function uploadFile() {
+  inputFile.value.click();
+}
+
+
+
 
 </script>
 
@@ -182,8 +230,17 @@ async function onSubmit() {
   gap: 32px;
 }
 
-.about__image {
+.about__image__photo__img {
+  width: 100%;
+  height: 100%;
+}
 
+.about__image__cross {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+  cursor: pointer;
 }
 
 .about__image__drop {
@@ -200,6 +257,43 @@ async function onSubmit() {
 
 
   border: 1px dashed @MidGreyColor;
+}
+
+.about__image__background {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: @WhiteColor;
+
+  position: absolute;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.about__image__photo-wrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+
+  margin-top: 4px;
+
+  box-sizing: border-box;
+  padding: 5px;
+
+  border: 1px dashed @MidGreyColor;
+}
+
+.about__image__photo {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
 }
 
 .about__image__button {

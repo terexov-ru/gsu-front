@@ -241,6 +241,42 @@ export const useApi = () => {
         return true;
     }
 
+    async function deleteAvatar() {
+        const response = await fetch(API + SET_INFO_PATH, {
+            method: 'POST',
+            body: '{"avatar": {"name": "", "data": ""}}',
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            }
+        });
+
+        const message = await response.json();
+
+        if (message.status === 'error') {
+            return 'Произошла ошибка'
+        }
+
+        return true;
+    }
+
+    async function setAvatar(avatar) {
+        const response = await fetch(API + SET_INFO_PATH, {
+            method: 'POST',
+            body: JSON.stringify(avatar),
+            headers: {
+                'Authorization': `Bearer ${getTokenCookie()}`
+            }
+        });
+
+        const message = await response.json();
+
+        if (message.status === 'error') {
+            return 'Произошла ошибка'
+        }
+
+        return true;
+    }
+
     async function setPass(password: Object) {
         const response = await fetch(API + SET_PASS_PATH, {
             method: 'POST',
@@ -401,6 +437,8 @@ export const useApi = () => {
         getOrders,
         getUserLazy,
         createOrder,
-        createOrderAuth
+        createOrderAuth,
+        deleteAvatar,
+        setAvatar
     }
 }

@@ -81,7 +81,7 @@ async function onSubmit(values, actions) {
     basketError.value = ''
     disabled.value = true;
 
-    if (getTokenCookie() !== undefined) {
+    if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
       await getOrderAuth(values, actions);
     } else {
       await getOrderBase(values, actions);

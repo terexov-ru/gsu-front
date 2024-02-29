@@ -64,6 +64,8 @@ const data = await getUser();
 const profile = ref(data.profile);
 const documents = ref(data.documents);
 
+console.log(profile);
+
 async function updateDocs() {
   const data = await getUser();
   documents.value = data.documents;

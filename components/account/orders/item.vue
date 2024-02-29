@@ -1,7 +1,7 @@
 <template>
   <div class="order-card" v-if="order !== undefined">
 
-    <div class="row row_jc-sb">
+    <div class="row order-card__head row_jc-sb">
       <div class="column">
         <div class="text text_semi-bold">Заказ {{ order.number }}</div>
         <div class="text text_normal text_light">от {{ order.date }}</div>
@@ -116,6 +116,16 @@ function getTipClass(id) {
 
   background: @LightGreyColor;
   border-radius: 8px;
+}
+
+.order-card__head {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+
+  @media @min580 {
+    flex-direction: row;
+  }
 }
 
 .order__buttons {
