@@ -40,7 +40,7 @@
                 stroke="#F7F7F8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <div class="text text_normal">
-            <span v-if="fileName && fileName !== ''">{{ fileName }}</span>
+            <span v-if="load">{{ fileName }}</span>
             <span v-else>Прикрепить документ об образовании</span>
           </div>
           <input
@@ -106,6 +106,7 @@ const {sendFile, deleteFile, saveFiles} = useApi();
 
 const fileName = ref('');
 const inputFile = ref(null);
+const load = ref(false);
 
 const delFiles = [];
 const addedFiles = [];
@@ -124,22 +125,30 @@ function uploadFile() {
 }
 
 async function previewFiles(event) {
+  load.value = true;
+
   fileName.value = event.target.files[0].name;
 
   let file = event.target.files[0];
   let reader = new FileReader();
 
   reader.readAsDataURL(file);
+
   reader.onload = async function () {
-    addedFiles.push({name: fileName.value, data: reader.result})
-    const data = await sendFile(fileName.value, reader.result);
-    console.log(data);
+    let start = reader.result.toString().indexOf("base64,");
+    const dataF = reader.result.slice(start + 7);
+
+    addedFiles.push({name: fileName.value, data: dataF})
+    const data = await sendFile(fileName.value, dataF);
+
     if (data.status === 'ok') {
       emits('updateDocs');
     }
+    load.value = false;
   };
   reader.onerror = function (error) {
     console.log('Error: ', error);
+    load.value = false;
   };
 }
 
