@@ -42,7 +42,9 @@
 
         <div class="text text_normal text_center">
           <p>Оставляя данные в этой форме, Вы даете</p>
-          <p class="text_accent">Согласие на обработку персональных данных</p>
+          <NuxtLink to="/policy.pdf" target="_blank">
+            <p class="text_accent">Согласие на обработку персональных данных</p>
+          </NuxtLink>
         </div>
 
         <button class="button overflow-card__button button_gradient">Записаться</button>

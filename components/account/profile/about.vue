@@ -242,7 +242,7 @@ async function previewFiles(event) {
     load.value = false;
   };
   reader.onerror = async function (error) {
-    console.log('Error: ', error);
+    // console.log('Error: ', error);
     load.value = false;
   };
 }

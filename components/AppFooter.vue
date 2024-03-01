@@ -105,7 +105,9 @@
 
         <div class="policy">
           <div class="text text_normal">Все права защищены 2024©</div>
-          <div class="text text_normal">Политика конфиденциальности</div>
+          <NuxtLink to="/policy.pdf" target="_blank">
+            <div class="text text_normal">Политика конфиденциальности</div>
+          </NuxtLink>
         </div>
 
       </div>

@@ -85,7 +85,7 @@ function emptyRule(value) {
 async function onSubmit(values) {
   disabled.value = true;
 
-  console.log(values);
+  // console.log(values);
 
   const data = await createReview(props.id, values.text, values.title);
 

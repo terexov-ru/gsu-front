@@ -87,7 +87,7 @@ const {getOrders} = useApi();
 
 const {pending, data} = await getOrders();
 
-console.log(data);
+// console.log(data);
 // const orders = data.value.orders;
 
 </script>

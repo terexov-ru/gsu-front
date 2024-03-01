@@ -125,7 +125,7 @@ function review(course) {
 watch(data, (newVal) => {
   courses.value = newVal.courses;
 })
-console.log(courses);
+// console.log(courses);
 
 </script>
 

@@ -147,7 +147,7 @@ async function previewFiles(event) {
     load.value = false;
   };
   reader.onerror = function (error) {
-    console.log('Error: ', error);
+    // console.log('Error: ', error);
     load.value = false;
   };
 }
@@ -156,7 +156,7 @@ async function delFile(id) {
   delFiles.push({id: id});
   const data = await deleteFile(id);
   emits('updateDocs');
-  console.log(data);
+  // console.log(data);
 }
 
 // async function save() {

@@ -30,7 +30,9 @@
 
       <div class="text text_normal  text_center">
         <div>Оставляя данные в этой форме, Вы даете</div>
-        <div class="text_accent">Согласие на обработку персональных данных</div>
+        <NuxtLink to="/policy.pdf" target="_blank">
+          <p class="text_accent">Согласие на обработку персональных данных</p>
+        </NuxtLink>
       </div>
 
       <div class="column column_gap8">
