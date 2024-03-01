@@ -18,6 +18,7 @@
     </div>
 
     <div
+        v-if="data.statuses"
         :class="{'order-status__list_active' : active}"
         class="order-status__list"
     >

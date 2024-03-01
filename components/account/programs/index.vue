@@ -13,6 +13,8 @@
                 :src="course.banner_image"
                 class="course__img"
                 alt="course">
+            <div class="tip course__img-container__tip tip_small tip_active" v-if="course.is_completed">Завершено</div>
+            <div class="tip course__img-container__tip tip_small tip_white" v-else>В процессе обучения</div>
           </div>
 
           <div class="course__info">
@@ -58,11 +60,19 @@
               </NuxtLink>
 
 
-              <div
+              <button
+                  v-if="course.is_completed"
                   @click="review(course)"
                   class="button course__info__sale__button button_gradient button_size">
                 Оставить отзыв
-              </div>
+              </button>
+              <NuxtLink v-else :to="`/courses/${course.id}`">
+                <button
+
+                    class="button course__info__sale__button button_gradient button_size">
+                  К курсу
+                </button>
+              </NuxtLink>
 
 
             </div>
@@ -150,6 +160,7 @@ console.log(courses);
 }
 
 .course__img-container {
+  position: relative;
   border-radius: 4px;
   flex-shrink: 0;
 
@@ -171,6 +182,13 @@ console.log(courses);
     width: 320px;
     height: 240px;
   }
+}
+
+.course__img-container__tip {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  z-index: 10;
 }
 
 .course__info {
