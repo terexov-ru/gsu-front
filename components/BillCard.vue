@@ -81,6 +81,8 @@ async function onSubmit(values, actions) {
     basketError.value = ''
     disabled.value = true;
 
+    useState('orderMail', () => shallowRef(mailValue.value));
+
     if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
       await getOrderAuth(values, actions);
     } else {
@@ -114,7 +116,7 @@ async function getOrderBase(values, actions) {
 }
 
 async function getOrderAuth(values, actions) {
-  const {data, status } = await createOrderAuth(orderBasket, 1);
+  const {data, status} = await createOrderAuth(orderBasket, 1);
 
   if (status.value === 'success' && data.value.status === 'ok') {
     emit('success');

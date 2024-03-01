@@ -46,10 +46,19 @@
 
     <OverflowContainer
         :active="sucActive"
-        @closeOverflow="closeSuccess()"
+        @closeOverflow="sucActive = false"
     >
       <OverflowSuccess
-          @close="closeSuccess()"
+          @close="sucActive = false"
+      />
+    </OverflowContainer>
+
+    <OverflowContainer
+        :active="successOrder"
+        @closeOverflow="closeSuccessOrder()"
+    >
+      <OverflowSuccessOrder
+          @close="closeSuccessOrder()"
       />
     </OverflowContainer>
 
@@ -70,6 +79,7 @@ import {onMounted, toValue} from "vue";
 const {simpleGet: simpleGet} = useApi();
 const formConActive = ref(false);
 const sucActive = ref(false);
+const successOrder = ref(false);
 const moreInfoActive = ref(false);
 
 const {data: data} = await simpleGet('/page/main');
@@ -80,14 +90,13 @@ const page = toValue(data).page;
 /* SUCCESS from store (use with redirect)*/
 const success = useState('mainSuccess');
 if (success.value === true) {
-  sucActive.value = true;
+  successOrder.value = true;
 }
 
-function closeSuccess() {
-  sucActive.value = false;
+function closeSuccessOrder() {
+  successOrder.value = false;
   success.value = false;
 }
-
 </script>
 
 <style lang="less" scoped>

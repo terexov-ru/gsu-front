@@ -59,13 +59,14 @@
 </template>
 
 <script setup>
-import {ref, toValue, watch} from "vue";
+import {onMounted, ref, toValue, watch} from "vue";
 
 const {cleanBasket, getBasket, deleteFromBasket} = useUtils();
 
 const basket = getBasket();
 const success = ref(false);
 const active = ref(false);
+const price = ref(getPrice());
 
 function getPrice() {
   let sum = 0;
@@ -86,6 +87,7 @@ function getSale() {
 
 watch(success, async (newVal) => {
   const mainSuccess = useState('mainSuccess');
+  useState('orderSum', ()=> shallowRef(price));
   mainSuccess.value = true;
   await navigateTo('/');
 })
