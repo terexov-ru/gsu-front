@@ -37,21 +37,20 @@
       </div>
 
       <div class="order-overflow__buttons">
-        <button @click="navigate()" class="button button_black-bordered">Заполнить данные в профиле</button>
-        <button class="button button_dark">Оплатить заказ ({{ sum }} ₽)</button>
+        <button @click="emits('toAuth')" class="button button_black-bordered">Заполнить данные в профиле</button>
+        <NuxtLink :to="payLink" target="_blank" style="width: 100%">
+          <button class="button button_dark">Оплатить заказ ({{ sum }} ₽)</button>
+        </NuxtLink>
       </div>
     </div>
   </Overflow>
 </template>
 
 <script setup>
-const emits = defineEmits(['close']);
+const emits = defineEmits(['close', 'toAuth']);
 const sum = useState('orderSum');
 const mail = useState('orderMail');
-
-async function navigate() {
-  await navigateTo('/account');
-}
+const payLink = useState('orderLink');
 </script>
 
 <style scoped lang="less">

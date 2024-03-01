@@ -59,6 +59,7 @@
     >
       <OverflowSuccessOrder
           @close="closeSuccessOrder()"
+          @toAuth="toAuth()"
       />
     </OverflowContainer>
 
@@ -70,17 +71,25 @@
           @close="moreInfoActive = false"
       />
     </OverflowContainer>
-
+    <OverflowContainer
+        :active="logActive"
+        @closeOverflow="logActive = false"
+    >
+      <OverflowAuth
+          @close="logActive = false"
+      />
+    </OverflowContainer>
   </main>
 </template>
 <script setup>
 import {onMounted, toValue} from "vue";
 
-const {simpleGet: simpleGet} = useApi();
+const {simpleGet, getUser} = useApi();
 const formConActive = ref(false);
 const sucActive = ref(false);
 const successOrder = ref(false);
 const moreInfoActive = ref(false);
+const logActive = ref(false);
 
 const {data: data} = await simpleGet('/page/main');
 
@@ -91,6 +100,23 @@ const page = toValue(data).page;
 const success = useState('mainSuccess');
 if (success.value === true) {
   successOrder.value = true;
+}
+
+async function toAuth() {
+  const {getTokenCookie} = useUtils();
+  successOrder.value = false;
+  success.value = false;
+
+  if (getTokenCookie() === undefined || getTokenCookie() === '' || getTokenCookie() === null) {
+    logActive.value = !logActive.value;
+  } else {
+    const data = await getUser();
+    if (data.profile) {
+      await navigateTo('/account');
+    } else {
+      this.logActive = !this.logActive;
+    }
+  }
 }
 
 function closeSuccessOrder() {

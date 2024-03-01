@@ -98,7 +98,8 @@ async function onSubmit(values, actions) {
 async function getOrderBase(values, actions) {
   const {data, status, error} = await createOrder(values.name, values.email, values.phone, orderBasket, 1);
 
-  if (status.value === 'success' && data.value.status === 'ok') {
+  if (status.value === 'success' && shallowRef(data.value.status === 'ok')) {
+    useState('orderLink', () => data.value.payment_link);
     emit('success');
     actions.resetForm();
     cleanBasket();
@@ -119,6 +120,7 @@ async function getOrderAuth(values, actions) {
   const {data, status} = await createOrderAuth(orderBasket, 1);
 
   if (status.value === 'success' && data.value.status === 'ok') {
+    useState('orderLink', () => shallowRef(data.value.payment_link));
     emit('success');
     actions.resetForm();
     cleanBasket();
