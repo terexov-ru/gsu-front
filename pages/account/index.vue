@@ -32,6 +32,7 @@
             :profile="profile"
             :documents="documents"
             @updateDocs="updateDocs()"
+            @updateProfile="updateProfile()"
         />
 
         <AccountPrograms
@@ -69,6 +70,11 @@ console.log(profile);
 async function updateDocs() {
   const data = await getUser();
   documents.value = data.documents;
+}
+
+async function updateProfile() {
+  const data = await getUser();
+  profile.value = data.profile;
 }
 
 function logOut() {

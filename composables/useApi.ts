@@ -244,7 +244,7 @@ export const useApi = () => {
     async function deleteAvatar() {
         const response = await fetch(API + SET_INFO_PATH, {
             method: 'POST',
-            body: '{"avatar": {"name": "", "data": ""}}',
+            body: '{"avatar": null}',
             headers: {
                 'Authorization': `Bearer ${getTokenCookie()}`
             }

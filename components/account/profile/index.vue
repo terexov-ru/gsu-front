@@ -4,6 +4,7 @@
   <AccountProfileAbout
     class="about-block"
     :profile="profile"
+    @updateProfile="this.$emit('updateProfile')"
   />
 
   <AccountProfileDocument
