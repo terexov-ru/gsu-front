@@ -7,23 +7,23 @@
     </h2>
 
     <ProgramSearchBar
-      @search="search()"
-      v-model:value="searchValue"
+        @search="search()"
+        v-model:value="searchValue"
     />
 
     <Loader v-if="pending"/>
 
-    <div v-else>
+    <div v-if="status === 'success'">
       <SearchTipList
           :tips="categories"
           v-model:selected="category"
       />
 
       <ProgramCardList
-
           v-model:courses="courses"
       />
     </div>
+
 
     <SeeMore
         :href="'/courses'"
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import {toValue, watch} from "vue";
+import {onMounted, toValue, watch} from "vue";
 import {API} from '~/constants/index.js';
 
 const category = ref(NaN);
@@ -59,26 +59,25 @@ async function search() {
     method: 'POST',
     body: req
   });
-
   courses.value = toValue(page).page.courses;
 }
 
-watch(category, async(newVal) => {
+watch(category, async (newVal) => {
   category.value = newVal;
   await search();
 })
 
-const {pending, data: page} = await useLazyFetch(API + '/page/learning', {
+const {pending, status, data: page} = await useFetch(API + '/page/learning', {
+  lazy: true,
+  server: false,
   method: 'POST',
   body: firstRequestBody
 });
 
-watch(page, async() => {
-  categories.value = toValue(page).page.categories;
-  courses.value = toValue(page).page.courses;
+watch(page, (newVal) => {
+  categories.value = toValue(newVal).page.categories;
+  courses.value = toValue(newVal).page.courses;
 })
-
-
 </script>
 
 <style lang="less" scoped>

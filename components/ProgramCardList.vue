@@ -41,7 +41,7 @@ export default {
       require: true,
       default: [],
     }
-  }
+  },
 }
 </script>
 
