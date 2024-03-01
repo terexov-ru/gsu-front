@@ -94,9 +94,8 @@ const news = toValue(data).page;
   overflow: hidden;
 
   width: 100%;
-  height: auto;
+  height: 560px;
   flex-shrink: 0;
-
   max-height: 560px;
   border-radius: 8px;
 
@@ -107,7 +106,8 @@ const news = toValue(data).page;
 
 .news__img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 .news__content {

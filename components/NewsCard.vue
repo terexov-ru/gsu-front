@@ -5,7 +5,7 @@
          @mouseleave="active = false"
     >
       <div class="image-container">
-        <img v-if="news !== undefined && news.image !== undefined" class="image" :src="news.image" alt="news">
+        <img v-if="news.image !== undefined" class="image" :src="news.image" alt="news">
       </div>
 
       <div class="text news__date text_caption">{{ news.date }} • {{ news.type }}</div>
@@ -50,7 +50,6 @@ export default {
 .news {
   width: 100%;
   height: auto;
-  max-height: 370px;
 
   display: flex;
   flex-direction: column;
@@ -61,7 +60,8 @@ export default {
 
 .image {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   align-self: stretch;
 
   //@media @min580 {
@@ -78,6 +78,10 @@ export default {
   width: 100%;
   overflow: hidden;
   border-radius: 8px;
+
+  height: 260px;
+  max-height: 260px;
+  min-height: 260px;
 }
 
 .description {
