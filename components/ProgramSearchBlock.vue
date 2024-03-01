@@ -11,14 +11,19 @@
       v-model:value="searchValue"
     />
 
-    <SearchTipList
-        :tips="categories"
-        v-model:selected="category"
-    />
+    <Loader v-if="pending"/>
 
-    <ProgramCardList
-        v-model:courses="courses"
-    />
+    <div v-else>
+      <SearchTipList
+          :tips="categories"
+          v-model:selected="category"
+      />
+
+      <ProgramCardList
+
+          v-model:courses="courses"
+      />
+    </div>
 
     <SeeMore
         :href="'/courses'"
@@ -33,6 +38,7 @@ import {API} from '~/constants/index.js';
 const category = ref(NaN);
 const courses = ref([]);
 const searchValue = ref('');
+const categories = ref([])
 
 const firstRequestBody = {
   "start": 0,
@@ -62,13 +68,17 @@ watch(category, async(newVal) => {
   await search();
 })
 
-const {data: page} = await useFetch(API + '/page/learning', {
+const {pending, data: page} = await useLazyFetch(API + '/page/learning', {
   method: 'POST',
   body: firstRequestBody
 });
 
-const categories = toValue(page).page.categories;
-courses.value = toValue(page).page.courses;
+watch(page, async() => {
+  categories.value = toValue(page).page.categories;
+  courses.value = toValue(page).page.courses;
+})
+
+
 </script>
 
 <style lang="less" scoped>
