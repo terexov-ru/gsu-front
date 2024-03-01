@@ -31,33 +31,35 @@
               <div class="course__date">
                 <div class="column column_gap8">
                   <div class="text text_normal text_light">Начало обучения</div>
-                  <div class="text text_caption">25 января 2023</div>
+                  <div class="text text_caption">{{ course.learning_start }}</div>
                 </div>
-                <div class="column column_gap8">
-                  <div class="text text_normal text_light">Начало обучения</div>
-                  <div class="text text_caption">25 января 2023</div>
+                <div
+                    v-if="course.learning_finish !== undefined && course.learning_finish !== '' && course.learning_finish !== null"
+                    class="column column_gap8">
+                  <div class="text text_normal text_light">Конец обучения</div>
+                  <div class="text text_caption">{{ course.learning_finish }}</div>
                 </div>
               </div>
 
             </div>
 
             <div class="course__info__sale">
-
-              <div class="row row_al-c pointer">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#129DF4" stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"/>
-                  <path d="M6 20H18" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"/>
-                </svg>
-                <div class="text text_normal text_accent">{{ course.document }}</div>
-
-              </div>
+              <NuxtLink v-if="course.certificate && course.certificate !== ''" :to="course.certificate">
+                <div class="row row_al-c pointer">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#129DF4" stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                    <path d="M6 20H18" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                  </svg>
+                  <div class="text text_normal text_accent">Документ об образовании</div>
+                </div>
+              </NuxtLink>
 
 
               <div
-                  @click="active = true"
+                  @click="review(course)"
                   class="button course__info__sale__button button_gradient button_size">
                 Оставить отзыв
               </div>
@@ -84,18 +86,32 @@
   >
     <OverflowAccountReview
         @close="active = false"
+        :specs="specs"
+        :name="name"
+        :id="id"
     />
   </OverflowContainer>
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
+import {ref, watch, inject} from "vue";
+
+const name = inject('name');
 
 const {getAccCourses} = useApi();
 const active = ref(false);
 
 const {pending, data} = await getAccCourses();
 const courses = ref({});
+const specs = ref([]);
+const id = ref(0);
+
+function review(course) {
+  specs.value = course.specs;
+  id.value = course.id;
+  active.value = true;
+}
+
 watch(data, (newVal) => {
   courses.value = newVal.courses;
 })
@@ -177,6 +193,8 @@ console.log(courses);
 }
 
 .course__info__sale {
+  margin-top: 8px;
+
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -204,8 +222,9 @@ console.log(courses);
 .course__info__sale__button {
   width: 100%;
 
+
   @media @min580 {
-    width: 150px;
+    width: 160px;
     height: 40px;
     font-size: 15px;
   }

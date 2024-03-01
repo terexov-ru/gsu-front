@@ -14,29 +14,36 @@
 
       <div class="column column_gap8">
         <div class="text text_normal text_light">Обучающийся</div>
-        <div>Господин О.К.</div>
+        <div>{{ name }}</div>
       </div>
 
       <div class="column column_gap8">
         <div class="text text_normal text_light">Специализации</div>
         <CardTipList
             class="course__info__card-list"
-            :tips="['Первый', 'Второй']"
+            :tips="specs"
         />
       </div>
 
+      <InputBlock
+          :name="'title'"
+          :title="'Заголовок'"
+          :type="'text'"
+          :placeholder="'Заголовок'"
+          :rule="emptyRule"
+      />
+
       <div class="column column_gap8">
-
         <div class="text text_normal">Комментарий</div>
-
-        <textarea
+        <Field
+            as="textarea"
             class="text text-area"
-            :name="'text'"
-            v-model="commentValue"
-            :type="'text'"
-            :placeholder="'Ваш комментарий'"
+            name="text"
+            type="text"
+            placeholder="Ваш комментарий"
+            :rules="emptyRule"
         />
-
+        <ErrorMessage class="text text_normal text_error" name="text"/>
       </div>
 
       <button
@@ -54,24 +61,37 @@
 <script setup>
 import {ref} from "vue";
 
-// const {sendForm} = useApi();
+const {createReview} = useApi();
 
 const emits = defineEmits(['close']);
+const props = defineProps({
+  specs: Array,
+  name: String,
+  id: Number
+})
 
 const commentValue = ref('');
 const success = ref(false);
 const disabled = ref(false);
 
+function emptyRule(value) {
+  if (!value) {
+    return 'Это поле обязательное';
+  } else {
+    return true;
+  }
+}
+
 async function onSubmit(values) {
   disabled.value = true;
 
   console.log(values);
-  success.value = true;
 
-  // const {data, status} = await sendForm(values.name, '', values.phone, 'Узнать больше', '');
-  // if (status.value === 'success' && data.value.status === 'ok') {
-  //   success.value = true;
-  // }
+  const data = await createReview(props.id, values.text, values.title);
+
+  if (data.status === 'ok') {
+    success.value = true;
+  }
 
   disabled.value = false;
 }

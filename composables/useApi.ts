@@ -24,6 +24,7 @@ const SET_PASS_PATH = "/profile/set_password";
 const GET_COURSES_PATH = "/profile/courses";
 const GET_ORDERS_PATH = "/profile/orders";
 const UPLOAD_DOC_PATH = "/profile/manage_files";
+const REVIEW_PATH = "/api/create_review";
 
 export const useApi = () => {
 
@@ -393,6 +394,23 @@ export const useApi = () => {
         );
     }
 
+    async function createReview(id: Number, text: String, title:String, rating:Number = 5) {
+        return $fetch(API + REVIEW_PATH,
+            {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${getTokenCookie()}`
+                },
+                body: {
+                    course_id: id,
+                    text: text,
+                    title: title,
+                    rating: rating
+                }
+            }
+        );
+    }
+
 
     // async function getAccOrders() {
     //     const response = await useLazyFetch(API + GET_COURSES_PATH, {
@@ -439,6 +457,7 @@ export const useApi = () => {
         createOrder,
         createOrderAuth,
         deleteAvatar,
-        setAvatar
+        setAvatar,
+        createReview
     }
 }

@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, provide } from "vue";
 const {deleteTokenCookie} = useUtils();
 
 const COMPONENTS = [
@@ -64,8 +64,11 @@ const { getUser } = useApi();
 const data = await getUser();
 const profile = ref(data.profile);
 const documents = ref(data.documents);
+const name = ref(`${data.profile.surname === null ? '' : data.profile.surname}
+${data.profile.name === null ? '' : data.profile.name}
+${data.profile.last_name === null ? '' : data.profile.last_name}`);
 
-console.log(profile);
+provide('name', name);
 
 async function updateDocs() {
   const data = await getUser();

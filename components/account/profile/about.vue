@@ -13,7 +13,6 @@
           @change="previewFiles"
       >
 
-      <!-- profile.avatar === undefined || profile.avatar === null -->
       <div v-if="profile.avatar === undefined || profile.avatar === null">
         <div ref="onDropZone" v-if="!$viewport.isLessThan('desktop')" @click="uploadFile"
              class="about__image__drop pointer">
