@@ -133,6 +133,19 @@ export const useApi = () => {
         });
     }
 
+    async function sendFormVacancies(name: String, phone: String, title: String, page: String, file: Object) {
+        return useFetch(API + FORM_PATH, {
+            method: 'POST',
+            body: {
+                name: name,
+                phone: phone,
+                title: title,
+                page_from: page,
+                file: file
+            }
+        });
+    }
+
     async function createOrder(name: String, email: String, phone: String, courses: String, promo: String) {
         return useFetch(API + ORDER_PATH, {
             method: 'POST',
@@ -443,6 +456,7 @@ export const useApi = () => {
         getReq,
         getDetails,
         sendForm,
+        sendFormVacancies,
         login,
         reg,
         getUser,
