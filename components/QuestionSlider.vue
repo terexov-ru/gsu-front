@@ -1,32 +1,37 @@
 <template>
   <div class="wrapper">
-    <div class="slider question__slider">
+    <div v-if="banner" class="slider question__slider">
 
       <h2 class="slider__title">
-        <span>Остались вопросы?</span>
-        <div class="text-rotate">Задайте их нам</div>
+        <div>{{ banner.title }}</div>
+        <!--        <span>Остались вопросы?</span>-->
+        <!--        <div class="text-rotate">Задайте их нам</div>-->
       </h2>
 
       <div class="fill"/>
 
       <span
-          class="text slider__text text_h4">Наши консультанты помогут выбрать направление и расскажут о форматах</span>
+          class="text slider__text text_h4">{{ banner.text }}</span>
 
       <div class="slider__container">
 
         <FormSlider
-          :buttonClasses="'button button_dark'"
-          :buttonText="'Получить консультацию'"
-          @success="this.$emit('success')"
+            :buttonClasses="'button button_dark'"
+            :buttonText="'Получить консультацию'"
+            @success="this.$emit('success')"
         />
 
-        <!--            <div class="circle"/>-->
-        <img class="slider__image" src="~/assets/quastions.png">
+        <img class="slider__image" :src="banner.image">
       </div>
     </div>
   </div>
 </template>
+<script setup>
+const props = defineProps({
+  banner: Object,
+})
 
+</script>
 <style lang="less" scoped>
 @import "assets/core.less";
 
@@ -34,6 +39,10 @@
   @media (max-width: 580px) {
     height: auto;
   }
+}
+
+.slider__title {
+  max-width: 45%;
 }
 
 .fill {
@@ -102,20 +111,20 @@
 
 .slider__image {
   display: none;
-  height: 100%;
   position: absolute;
-  object-fit: cover;
-  flex-shrink: 0;
+  object-fit: fill;
+
+  height: 100%;
+  width: auto;
+
+  bottom: 0;
+  right: 0;
 
   @media @min760 {
     display: block;
     top: 0;
-    right: -18%;
   }
 
-  @media @min990 {
-    right: -15%;
-  }
 }
 
 .circle {

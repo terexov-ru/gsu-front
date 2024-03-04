@@ -14,6 +14,7 @@
     </ul>
 
     <QuestionSlider
+        :banner="page.banner"
         class="questions-slider"
         @success="sucActive = true"
     />

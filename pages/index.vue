@@ -4,6 +4,7 @@
     <MissionSlider
         class="mission-block"
         @clickButton="formConActive = true"
+        :banner="page.top_banner"
     />
 
     <ProgramSearchBlock
@@ -22,6 +23,7 @@
 
     <AdvantagesSlider
         class="advantages-block"
+        :banner="page.bottom_banner"
         @clickButton="moreInfoActive = true"
     />
 
@@ -32,6 +34,7 @@
 
     <QuestionSlider
         class="question-block"
+        :banner="page.questions_banner"
         @success="sucActive = true"
     />
 

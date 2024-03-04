@@ -29,6 +29,7 @@
       </div>
 
       <QuestionSlider
+          :banner="data.page.banner"
           @success="sucActive = true"
           class="question-block"
       />

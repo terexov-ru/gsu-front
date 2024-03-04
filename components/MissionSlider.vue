@@ -3,74 +3,69 @@
     <div class="slider">
 
       <h2 class="slider__title">
-        <span>Наша миссия — сделать образование</span>
-        <div class="text-rotate">доступным и удобным</div>
+        {{ banner.title }}
+        <!--        <span>Наша миссия — сделать образование</span>-->
+        <!--        <div class="text-rotate">доступным и удобным</div>-->
       </h2>
 
       <div style="flex-basis: 100%"/>
 
-      <button
-          @click="this.$emit('clickButton')"
-          class="button slider__button button_white button_size">
-        Подробнее
+      <NuxtLink v-if="banner.button.link" :to="banner.button.link">
+        <button
+            class="button slider__button button_white button_size">
+          {{ banner.button.text }}
+        </button>
+      </NuxtLink>
+
+      <button v-else
+              @click="emits('clickButton')"
+              class="button slider__button button_white button_size">
+        {{ banner.button.text }}
       </button>
 
       <div>
         <!--        <div class="circle"/>-->
-        <img class="slider__image" src="~/assets/mission.png" alt="banner">
+        <!--        <img class="slider__image" src="~/assets/mission.png" alt="banner">-->
+        <img class="slider__image" :src="banner.image" alt="">
       </div>
     </div>
   </div>
 </template>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: "MissionSlider"-->
-<!--}-->
-<!--</script>-->
+<script setup>
+const props = defineProps({
+  banner: Object,
+})
+
+const emits = defineEmits(['clickButton']);
+
+
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
 
 
 .slider__button {
-  width: 170px;
-
-  @media @min760 {
-    width: 220px;
-  }
-
-  @media @min990 {
-    width: 260px;
-  }
+  width: max-content;
+  z-index: 100;
 }
 
 .slider__image {
+  display: none;
   position: absolute;
-  object-fit: cover;
-  transform: scale(-1, 1);
-  width: 260px;
-  top: -15px;
-  right: -80px;
+  object-fit: fill;
+  //transform: scale(-1, 1);
+
+  height: 100%;
+  width: auto;
+
+  bottom: 0;
+  right: 0;
 
   @media @min580 {
-    width: 370px;
-    top: -80px;
-    right: 0;
+    display: block;
   }
-
-  @media @min990 {
-    width: 400px;
-    top: -80px;
-    right: 20px;
-  }
-
-  @media @min1200 {
-    width: 465px;
-    top: -80px;
-    right: 20px;
-  }
-
 }
 
 .circle {

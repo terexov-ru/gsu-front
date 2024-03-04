@@ -3,16 +3,24 @@
     <div class="slider">
 
       <h2 class="slider__title">
-        Учитесь выгодно!
+        {{ banner.title }}
       </h2>
 
-      <div class="text slider__text text_h4">С нашей системой лояльности вы сможете сэкономить до 30% от стоимости</div>
+      <div class="text slider__text text_h4">{{ banner.text }}</div>
 
       <div style="flex-basis: 100%"/>
-      <button
-          @click="this.$emit('clickButton')"
-          class="button slider__button button_white button_size">
-        Узнать больше
+
+      <NuxtLink v-if="banner.button.link" :to="banner.button.link">
+        <button
+            class="button slider__button button_white button_size">
+          {{ banner.button.text }}
+        </button>
+      </NuxtLink>
+
+      <button v-else
+              @click="emits('clickButton')"
+              class="button slider__button button_white button_size">
+        {{ banner.button.text }}
       </button>
 
 
@@ -40,6 +48,14 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const props = defineProps({
+  banner: Object,
+})
+
+const emits = defineEmits(['clickButton']);
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";

@@ -26,6 +26,7 @@
     />
 
     <QuestionSlider
+        :banner="page?.banner"
         class="questions"
         @success="sucActive = true"
     />
