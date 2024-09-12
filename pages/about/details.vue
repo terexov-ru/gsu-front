@@ -3,28 +3,25 @@
     <div class="requisites-block">
       <h1 class="text text_h2">{{ page.title }}</h1>
 
-<!--      <NuxtLink :to="page.file" target="_blank" external>-->
-<!--        <div class="download">-->
-<!--          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-<!--            <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round"-->
-<!--                  stroke-linejoin="round"/>-->
-<!--            <path d="M6 20H18" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
-<!--          </svg>-->
-<!--          <span class="text text_accent">Реквизиты</span>-->
-<!--        </div>-->
-<!--      </NuxtLink>-->
+      <!--      <NuxtLink :to="page.file" target="_blank" external>-->
+      <!--        <div class="download">-->
+      <!--          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+      <!--            <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round"-->
+      <!--                  stroke-linejoin="round"/>-->
+      <!--            <path d="M6 20H18" stroke="#129DF4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+      <!--          </svg>-->
+      <!--          <span class="text text_accent">Реквизиты</span>-->
+      <!--        </div>-->
+      <!--      </NuxtLink>-->
 
       <h2 class="text text_normal">
         {{ page.text }}
       </h2>
 
       <ul class="list">
-        <li class="list__item"
-            v-for="item in page.details"
-            :key="item.title"
-        >
+        <li class="list__item" v-for="item in page.details" :key="item.title">
           <span class="text text_semi-bold">{{ item.title }}</span>
-          <span class="text text_normal">{{ item.value }}</span>
+          <span class="text text_normal" v-html="item.value"></span>
         </li>
       </ul>
     </div>
@@ -32,12 +29,13 @@
 </template>
 
 <script setup>
-const {getDetails} = useApi();
+const { getDetails } = useApi();
 
-const {data} = await getDetails();
+const { data } = await getDetails();
+
+console.log(data.value?.page);
 
 const page = data.value?.page;
-
 </script>
 
 <style lang="less" scoped>
@@ -52,7 +50,6 @@ const page = data.value?.page;
 }
 
 .list {
-
 }
 
 .download {
