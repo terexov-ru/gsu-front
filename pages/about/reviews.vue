@@ -205,8 +205,8 @@
     <div v-if="active === 1">
       <div class="thanks">
         <div v-for="th in thanks" :key="th.id" class="thanks-card">
-          <div class="thanks-card__img-container">
-            <img class="thanks-card__img" src="~/assets/thanks.png" />
+          <div v-if="th.image" class="thanks-card__img-container">
+            <img class="thanks-card__img" :src="th.image" />
           </div>
 
           <div class="column thanks-card__content column_gap40">
@@ -215,15 +215,19 @@
               <div class="text text_normal">{{ th.text }}</div>
             </div>
 
-            <div class="row row_gap10">
+            <div class="thanks-card__bottom row row_gap10">
               <div class="avatar__img-container">
-                <img v-if="th.image" class="avatar__img" :src="th.image" />
+                <img
+                  v-if="th.avatar_image"
+                  class="avatar__img"
+                  :src="th.avatar_image"
+                />
                 <img v-else class="avatar__img" src="~/assets/reviews.png" />
               </div>
               <div class="column row_jc-sb row_fill">
                 <div class="text text_h4">{{ th.name }}</div>
                 <div class="row row_jc-sb">
-                  <div class="text text_normal">{{ th.job }}</div>
+                  <div class="text text_normal">{{ th.role }}</div>
                   <!--TODO: remove inline style-->
                   <div
                     class="text text_normal text_light"
@@ -491,7 +495,7 @@ function right() {
 
 .thanks-card {
   display: flex;
-  justify-content: space-between;
+  column-gap: 100px;
   flex-direction: column;
 
   box-sizing: border-box;
@@ -505,9 +509,12 @@ function right() {
 }
 
 .thanks-card__content {
-  max-width: 800px;
-  margin-left: 20px;
+  width: 100%;
   justify-content: space-between;
+}
+
+.thanks-card__bottom {
+  width: 100%;
 }
 
 .thanks-card__img-container {
@@ -537,8 +544,9 @@ function right() {
   height: auto;
 
   @media @min580 {
-    width: auto;
+    width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -564,8 +572,10 @@ function right() {
 }
 
 .avatar__img {
-  width: auto;
+  width: 100%;
   height: 100%;
+
+  object-fit: cover;
 }
 
 .video-reviews-block {
