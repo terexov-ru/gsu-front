@@ -1,13 +1,46 @@
 <template>
   <div class="wrapper wrapper_paddings">
     <div class="tech-block">
-
-
-      <h1 class="text text_h2">
-        Технические требования к устройству
-      </h1>
+      <h1 class="text text_h2">Технические требования к устройству</h1>
       <div class="tech__grid">
-        <div class="row">
+        <div
+          v-for="tech in page.technical_requirements"
+          class="tech-card"
+          :class="{ ' tech-card_gradient': tech.is_special }"
+        >
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z"
+              stroke="white"
+              stroke-width="2.66667"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M18 22.7998C18 23.9044 17.1046 24.7998 16 24.7998C14.8954 24.7998 14 23.9044 14 22.7998C14 21.6952 14.8954 20.7998 16 20.7998C17.1046 20.7998 18 21.6952 18 22.7998Z"
+              fill="white"
+            />
+            <path
+              d="M16 17.6001L16 8.8001"
+              stroke="white"
+              stroke-width="2.66667"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <div>
+            <h3 class="text text_h3" v-html="tech.title"></h3>
+            <div class="text text_normal" v-html="tech.text"></div>
+          </div>
+        </div>
+        <!-- <div class="row">
           <div class="tech-card tech-card_440">
             <div>
               <h3 class="text text_h3">Компьютер</h3>
@@ -36,9 +69,9 @@
 
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="row">
+        <!-- <div class="row">
           <div class="row row_media">
 
             <div class="tech-card tech-card_240">
@@ -93,11 +126,22 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+const { getTechs } = useApi();
+const sucActive = ref(false);
+
+const { data } = await getTechs();
+
+const page = data.value?.page;
+
+console.log(page);
+</script>
 
 <style lang="less" scoped>
 @import "assets/core.less";
@@ -125,11 +169,21 @@
 }
 
 .tech__grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+
+  row-gap: 12px;
+  column-gap: 12px;
 
   margin-top: 32px;
+
+  @media @min580 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media @min990 {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 .tech-card {
@@ -146,6 +200,10 @@
   background: @LightGreyColor;
   border-radius: 8px;
 
+  svg {
+    display: none;
+  }
+
   .bottom-right {
     position: absolute;
     bottom: 20px;
@@ -157,6 +215,15 @@
   }
 
   &_gradient {
+    flex-direction: row;
+    column-gap: 20px;
+    justify-content: flex-start;
+
+    svg {
+      display: block;
+      flex-shrink: 0;
+    }
+
     background: @BluButtonGradient;
     color: @WhiteColor;
   }
@@ -189,6 +256,54 @@
       width: 220px;
     }
   }
+
+  &:nth-child(1) {
+    grid-column: span 1;
+
+    @media @min580 {
+      grid-column: span 3;
+    }
+
+    @media @min990 {
+      grid-column: span 2;
+    }
+  }
+
+  &:nth-child(2) {
+    grid-column: span 1;
+
+    @media @min580 {
+      grid-column: span 3;
+    }
+
+    @media @min990 {
+      grid-column: span 3;
+    }
+  }
+
+  &:nth-child(4) {
+    grid-column: span 1;
+
+    @media @min580 {
+      grid-column: span 2;
+    }
+
+    @media @min990 {
+      grid-column: span 2;
+    }
+  }
+
+  &:nth-child(5) {
+    grid-column: span 1;
+
+    @media @min580 {
+      grid-column: span 3;
+    }
+
+    @media @min990 {
+      grid-column: span 2;
+    }
+  }
 }
 
 .tech-card__container {
@@ -206,5 +321,4 @@
   width: auto;
   height: 32px;
 }
-
 </style>
