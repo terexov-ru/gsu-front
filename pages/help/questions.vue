@@ -5,41 +5,30 @@
     <ul class="questions">
       <!--  TODO transitions    -->
 
-      <QuestionItem
-          v-for="item in page.faqs"
-          :key="item.title"
-          :item="item"
-      />
-
+      <QuestionItem v-for="item in page.faqs" :key="item.title" :item="item" />
     </ul>
 
     <QuestionSlider
-        :banner="page.banner"
-        class="questions-slider"
-        @success="sucActive = true"
+      :banner="page.banner"
+      class="questions-slider"
+      @success="sucActive = true"
     />
-
   </div>
 
-  <OverflowContainer
-      :active="sucActive"
-      @closeOverflow="sucActive = false"
-  >
-    <OverflowSuccess
-        @close="sucActive = false"
-    />
+  <OverflowContainer :active="sucActive" @closeOverflow="sucActive = false">
+    <OverflowSuccess @close="sucActive = false" />
   </OverflowContainer>
-
 </template>
 
 <script setup>
-const {getFAQS} = useApi();
+const { getFAQS } = useApi();
 const sucActive = ref(false);
 
-const {data} = await getFAQS();
+const { data } = await getFAQS();
 
 const page = data.value?.page;
 
+console.log(page);
 </script>
 
 <style lang="less" scoped>
@@ -72,7 +61,6 @@ const page = data.value?.page;
   display: flex;
   flex-direction: column;
   gap: 32px;
-
 
   box-sizing: border-box;
   padding: 20px;
@@ -145,6 +133,4 @@ const page = data.value?.page;
     display: flex;
   }
 }
-
-
 </style>

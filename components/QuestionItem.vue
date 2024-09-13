@@ -14,6 +14,7 @@
           stroke="#25292D"
           stroke-width="1.5"
           stroke-linecap="round"
+          v-if="!active"
         />
         <path
           d="M2 12L22 12"
@@ -24,7 +25,10 @@
       </svg>
     </div>
 
-    <div v-if="active" class="questions__item__content">
+    <div
+      v-if="active && (item.steps.length > 0 || item.guide_link !== '')"
+      class="questions__item__content"
+    >
       <div
         class="questions__item__content__step"
         v-for="(step, index) in item.steps"
@@ -44,6 +48,14 @@
           </div>
         </div>
       </div>
+
+      <a
+        v-if="item.guide_link !== ''"
+        :href="item.guide_link"
+        download
+        target="_blank"
+        >Файл с руководством</a
+      >
     </div>
   </li>
 </template>
@@ -89,6 +101,23 @@ defineProps({
 .questions__item__content {
   overflow: hidden;
   transition: 500ms;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+  a {
+    display: block;
+    width: fit-content;
+
+    color: @BlueNewColor;
+
+    transition: all 0.3s;
+
+    &:hover {
+      color: @DarkGreyColor;
+    }
+  }
 }
 
 //.questions__item__content_active {
