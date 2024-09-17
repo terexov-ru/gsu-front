@@ -1,9 +1,12 @@
 <template>
   <div class="card">
+    <CardTipList :tips="course.specs" :time="course.duration" />
 
-    <CardTipList
-        :tips="course.specs"
-        :time="course.duration"
+    <img
+      class="card__img"
+      v-if="course.banner_image"
+      :src="course.banner_image"
+      alt="course image"
     />
 
     <h3 class="card__title text text_h3 text_dark">
@@ -11,11 +14,10 @@
     </h3>
 
     <div class="card__buttons">
-
       <NuxtLink class="nuxt-link" to="/basket">
         <button
-            class="button card__button button_dark"
-            @click="addToBasket(course)"
+          class="button card__button button_dark"
+          @click="addToBasket(course)"
         >
           Записаться
         </button>
@@ -36,16 +38,16 @@ export default {
   props: {
     course: {
       type: Object,
-      require: true
-    }
+      require: true,
+    },
   },
   setup() {
-    const {addToBasket} = useUtils();
+    const { addToBasket } = useUtils();
     return {
-      addToBasket
-    }
+      addToBasket,
+    };
   },
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -69,6 +71,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  row-gap: 12px;
 
   width: 100%;
   border-radius: 8px;
@@ -89,19 +92,12 @@ export default {
   }
 }
 
-.card__title {
-  margin-top: 10%;
-  margin-bottom: 15%;
+.card__img {
+  width: 100%;
+  height: 230px;
+  border-radius: 8px;
 
-  @media @min580 {
-    margin-top: 15%;
-    margin-bottom: 25%;
-  }
-
-  @media @min990 {
-    margin-top: 20%;
-    margin-bottom: 35%;
-  }
+  object-fit: cover;
 }
 
 .card__tip-list {
@@ -109,5 +105,4 @@ export default {
   gap: 8px;
   flex-wrap: wrap;
 }
-
 </style>
