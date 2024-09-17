@@ -3,60 +3,57 @@
     <h2 class="text text_h2">Личный кабинет</h2>
 
     <div class="account">
-
       <div class="account__nav">
         <button
-            @click="activeComponent = COMPONENTS[0]"
-            :class="{'account__button_active': activeComponent === COMPONENTS[0]}"
-            class="button account__button">Личный профиль
+          @click="changeTab(0)"
+          :class="{ account__button_active: activeComponent === COMPONENTS[0] }"
+          class="button account__button"
+        >
+          Личный профиль
         </button>
         <button
-            @click="activeComponent = COMPONENTS[1]"
-            :class="{'account__button_active': activeComponent === COMPONENTS[1]}"
-            class="button account__button">Мои программы
+          @click="changeTab(1)"
+          :class="{ account__button_active: activeComponent === COMPONENTS[1] }"
+          class="button account__button"
+        >
+          Мои программы
         </button>
         <button
-            @click="activeComponent = COMPONENTS[2]"
-            :class="{'account__button_active': activeComponent === COMPONENTS[2]}"
-            class="button  account__button">Мои заказы
+          @click="changeTab(2)"
+          :class="{ account__button_active: activeComponent === COMPONENTS[2] }"
+          class="button account__button"
+        >
+          Мои заказы
         </button>
-        <button
-            @click="logOut()"
-            class="button account__button">Выйти
-        </button>
+        <button @click="logOut()" class="button account__button">Выйти</button>
       </div>
 
       <div>
         <AccountProfile
-            v-if="activeComponent === COMPONENTS[0]"
-            :profile="profile"
-            :documents="documents"
-            @updateDocs="updateDocs()"
-            @updateProfile="updateProfile()"
+          v-if="activeComponent === COMPONENTS[0]"
+          :profile="profile"
+          :documents="documents"
+          @updateDocs="updateDocs()"
+          @updateProfile="updateProfile()"
         />
 
-        <AccountPrograms
-            v-if="activeComponent === COMPONENTS[1]"
-        />
+        <AccountPrograms v-if="activeComponent === COMPONENTS[1]" />
 
-        <AccountOrders
-            v-if="activeComponent === COMPONENTS[2]"
-        />
+        <AccountOrders v-if="activeComponent === COMPONENTS[2]" />
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, provide } from "vue";
-const {deleteTokenCookie} = useUtils();
+import { useRoute, useRouter } from "vue-router";
 
-const COMPONENTS = [
-  'AccountProfile',
-  'AccountPrograms',
-  'AccountOrders'
-]
+const route = useRoute();
+const router = useRouter();
+const { deleteTokenCookie } = useUtils();
+
+const COMPONENTS = ["AccountProfile", "AccountPrograms", "AccountOrders"];
 const activeComponent = ref(COMPONENTS[0]);
 
 const { getUser } = useApi();
@@ -64,11 +61,33 @@ const { getUser } = useApi();
 const data = await getUser();
 const profile = ref(data.profile);
 const documents = ref(data.documents);
-const name = ref(`${data.profile.surname === null ? '' : data.profile.surname}
-${data.profile.name === null ? '' : data.profile.name}
-${data.profile.last_name === null ? '' : data.profile.last_name}`);
+const name = ref(`${data.profile.surname === null ? "" : data.profile.surname}
+${data.profile.name === null ? "" : data.profile.name}
+${data.profile.last_name === null ? "" : data.profile.last_name}`);
 
-provide('name', name);
+provide("name", name);
+
+onMounted(() => {
+  const tab = route.query.tab || COMPONENTS[0];
+  activeComponent.value = tab;
+});
+
+watch(
+  () => route.query.tab,
+  (newTab) => {
+    activeComponent.value = newTab || COMPONENTS[0];
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+);
+
+function changeTab(index) {
+  activeComponent.value = COMPONENTS[index];
+  router.push({ query: { ...route.query, tab: activeComponent.value } });
+}
 
 async function updateDocs() {
   const data = await getUser();
@@ -82,7 +101,7 @@ async function updateProfile() {
 
 function logOut() {
   deleteTokenCookie();
-  navigateTo('/');
+  navigateTo("/");
 }
 </script>
 
