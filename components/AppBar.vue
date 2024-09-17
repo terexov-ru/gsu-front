@@ -1,15 +1,9 @@
 <template>
   <header class="header">
-
-    <div class="wrapper wrapper_paddings"
-         :class="{'header_fixed' : menuActive}"
-    >
+    <div class="wrapper wrapper_paddings" :class="{ header_fixed: menuActive }">
       <div class="header__container">
-
         <NuxtLink to="/">
-          <img class="logo_s"
-               src="~/assets/logo_s.png"
-          />
+          <img class="logo_s" src="~/assets/logo_s.png" />
         </NuxtLink>
 
         <div class="nav">
@@ -17,14 +11,10 @@
           <div class="nav__container">
             <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
               <li class="nav__list__item text text_caption">
-                <NuxtLink to="/loyalty">
-                  Программа лояльности
-                </NuxtLink>
+                <NuxtLink to="/loyalty"> Программа лояльности </NuxtLink>
               </li>
               <li class="nav__list__item text text_caption">
-                <NuxtLink to="/vacancies">
-                  Вакансии
-                </NuxtLink>
+                <NuxtLink to="/vacancies"> Вакансии </NuxtLink>
               </li>
               <li class="dropdown nav__list__item">
                 <span class="dropdown__btn text text_caption">Помощь</span>
@@ -42,101 +32,84 @@
                 </ul>
               </li>
               <li class="nav__list__item text text_caption">
-                <NuxtLink to="/about/contacts">
-                  Контакты
-                </NuxtLink>
+                <NuxtLink to="/about/contacts"> Контакты </NuxtLink>
               </li>
             </ul>
             <!--     Иконки     -->
             <div class="nav__icons">
+              <SearchSmallAnimated />
 
-              <SearchSmallAnimated
-
+              <img
+                class="pointer"
+                v-if="!$viewport.isLessThan('mobile')"
+                @click="login()"
+                src="~/assets/svg/profile.svg"
+                alt="profile"
               />
-
-              <img class="pointer" v-if="!$viewport.isLessThan('mobile')"
-                   @click="login()"
-                   src="~/assets/svg/profile.svg"
-                   alt="profile"
-              >
 
               <NuxtLink to="/basket">
                 <div class="row basket row_al-c">
-                  <img class="pointer" src="~/assets/svg/basket.svg" alt="basket">
+                  <img
+                    class="pointer"
+                    src="~/assets/svg/basket.svg"
+                    alt="basket"
+                  />
 
                   <ClientOnly>
-                    <div v-if="basket.length > 0" class="basket__count">{{ basket.length }}</div>
+                    <div v-if="basket.length > 0" class="basket__count">
+                      {{ basket.length }}
+                    </div>
                   </ClientOnly>
                 </div>
               </NuxtLink>
             </div>
           </div>
 
-          <div v-if="!$viewport.isLessThan('desktop')" class="delimiter delimiter_gradient"/>
+          <div
+            v-if="!$viewport.isLessThan('desktop')"
+            class="delimiter delimiter_gradient"
+          />
 
           <div v-if="!$viewport.isLessThan('mobile')" class="nav__container">
             <!--     Низ навигации     -->
             <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
-
               <li class="dropdown nav__list__item">
-                <span class="dropdown__btn text text_caption text_dark">Обучение</span>
+                <span class="dropdown__btn text text_caption text_dark"
+                  >Обучение</span
+                >
                 <ul class="dropdown__list text text_normal text_dark">
-                  <li>
-                    <NuxtLink to="/courses?id=1">
-                      Непрерывное медицинское <br>
-                      и фармацевтическое образование
-                    </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/courses?id=2">
-                      Профессиональная переподготовка
-                    </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/courses?id=3">
-                      Повышение квалификации
-                    </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/courses?id=4">
-                      Профессиональное обучение
+                  <li v-for="category in categories">
+                    <NuxtLink
+                      :to="'/courses?id=' + category.id"
+                      @click="menuActive = false"
+                      >{{ category.title }}
                     </NuxtLink>
                   </li>
                 </ul>
               </li>
 
               <li class="dropdown nav__list__item">
-                <span class="dropdown__btn text text_caption text_dark">О компании</span>
+                <span class="dropdown__btn text text_caption text_dark"
+                  >О компании</span
+                >
                 <ul class="dropdown__list text text_dark">
                   <li>
-                    <NuxtLink to="/about">
-                      Университет
-                    </NuxtLink>
+                    <NuxtLink to="/about"> Университет </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/news">
-                      Новости
-                    </NuxtLink>
+                    <NuxtLink to="/news"> Новости </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/about/license">
-                      Лицензии
-                    </NuxtLink>
+                    <NuxtLink to="/about/license"> Лицензии </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/about/reviews">
-                      Отзывы клиентов
-                    </NuxtLink>
+                    <NuxtLink to="/about/reviews"> Отзывы клиентов </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/about/team">
-                      Наша команда
-                    </NuxtLink>
+                    <NuxtLink to="/about/team"> Наша команда </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/about/requisites">
-                      Реквизиты
-                    </NuxtLink>
+                    <NuxtLink to="/about/requisites"> Реквизиты </NuxtLink>
                   </li>
                   <li>
                     <NuxtLink to="/about/details">
@@ -150,219 +123,278 @@
                   </li>
                 </ul>
               </li>
-
             </ul>
 
             <!--     Кнопка действия     -->
             <button
-                @click="reqActive = !reqActive"
-                class="button button_rounded button_gradient button_small"
+              @click="reqActive = !reqActive"
+              class="button button_rounded button_gradient button_small"
             >
               Заказать звонок
             </button>
           </div>
 
-          <div v-if="$viewport.isLessThan('desktop')"
-               @click="menuActive = !menuActive"
+          <div
+            v-if="$viewport.isLessThan('desktop')"
+            @click="menuActive = !menuActive"
           >
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0.5" y="0.5" width="31" height="31" rx="1.5" stroke="#25292D"/>
-              <path d="M7 10H25" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M7 16H25" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M7 22H25" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"/>
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="0.5"
+                y="0.5"
+                width="31"
+                height="31"
+                rx="1.5"
+                stroke="#25292D"
+              />
+              <path
+                d="M7 10H25"
+                stroke="#25292D"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M7 16H25"
+                stroke="#25292D"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M7 22H25"
+                stroke="#25292D"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
             </svg>
           </div>
         </div>
-
       </div>
     </div>
 
     <div v-if="menuActive" class="burger-menu">
-
       <div class="text burger-menu__title text_h3">Меню</div>
 
       <div class="column">
-
         <div class="burger-menu__item">
-          <div class="text burger-menu__text text_caption text_dark pointer"
-               @click="activeStudy = !activeStudy; activeAbout = false">
+          <div
+            class="text burger-menu__text text_caption text_dark pointer"
+            @click="
+              activeStudy = !activeStudy;
+              activeAbout = false;
+            "
+          >
             Обучение
           </div>
-          <div class="info__body" :class="{'info__body_active' : activeStudy}">
+          <div class="info__body" :class="{ info__body_active: activeStudy }">
             <div class="column column_gap16 text text_normal text_light">
-              <div>
-                <NuxtLink to="/courses" @click="menuActive = false">Непрерывное медицинское и фармацевтическое
-                  образование
+              <div v-for="category in categories">
+                <NuxtLink
+                  :to="'/courses?id=' + category.id"
+                  @click="menuActive = false"
+                  >{{ category.title }}
                 </NuxtLink>
               </div>
-              <div>
-                <NuxtLink to="/courses" @click="menuActive = false">Профессиональная переподготовка</NuxtLink>
-              </div>
-              <div>
-                <NuxtLink to="/courses" @click="menuActive = false">Повышение квалификации</NuxtLink>
-              </div>
-              <div>
-                <NuxtLink to="/courses" @click="menuActive = false">Профессиональное обучение</NuxtLink>
-              </div>
             </div>
-
           </div>
         </div>
 
         <div class="burger-menu__item">
-          <div class="text burger-menu__text text_caption text_dark pointer"
-               @click="activeAbout = !activeAbout; activeStudy = false">
+          <div
+            class="text burger-menu__text text_caption text_dark pointer"
+            @click="
+              activeAbout = !activeAbout;
+              activeStudy = false;
+            "
+          >
             О компании
           </div>
-          <div class="info__body" :class="{'info__body_active' : activeAbout}">
+          <div class="info__body" :class="{ info__body_active: activeAbout }">
             <div class="column column_gap16 text text_normal text_light">
               <div>
-                <NuxtLink to="/about" @click="menuActive = false">Университет</NuxtLink>
+                <NuxtLink to="/about" @click="menuActive = false"
+                  >Университет</NuxtLink
+                >
               </div>
               <div>
-                <NuxtLink to="/news" @click="menuActive = false">Новости</NuxtLink>
+                <NuxtLink to="/news" @click="menuActive = false"
+                  >Новости</NuxtLink
+                >
               </div>
               <div>
-                <NuxtLink to="/about/license" @click="menuActive = false">Лицензии</NuxtLink>
+                <NuxtLink to="/about/license" @click="menuActive = false"
+                  >Лицензии</NuxtLink
+                >
               </div>
               <div>
-                <NuxtLink to="/about/reviews" @click="menuActive = false">Отзывы клиентов</NuxtLink>
+                <NuxtLink to="/about/reviews" @click="menuActive = false"
+                  >Отзывы клиентов</NuxtLink
+                >
               </div>
               <div>
-                <NuxtLink to="/about/team" @click="menuActive = false">Наша команда</NuxtLink>
+                <NuxtLink to="/about/team" @click="menuActive = false"
+                  >Наша команда</NuxtLink
+                >
               </div>
               <div>
-                <NuxtLink to="/about/requisites" @click="menuActive = false">Реквизиты</NuxtLink>
+                <NuxtLink to="/about/requisites" @click="menuActive = false"
+                  >Реквизиты</NuxtLink
+                >
               </div>
               <div>
-                <NuxtLink to="/about/details" @click="menuActive = false">Сведения об организации</NuxtLink>
+                <NuxtLink to="/about/details" @click="menuActive = false"
+                  >Сведения об организации</NuxtLink
+                >
               </div>
               <div>
-                <NuxtLink to="/about/register" @click="menuActive = false">Государственный реестр ФИС ФРДО</NuxtLink>
+                <NuxtLink to="/about/register" @click="menuActive = false"
+                  >Государственный реестр ФИС ФРДО</NuxtLink
+                >
               </div>
             </div>
           </div>
         </div>
-
       </div>
 
-      <div class="delimiter delimiter_gradient"/>
+      <div class="delimiter delimiter_gradient" />
 
       <ul class="nav__list burger-menu__block nav__list_mob">
         <li class="nav__list__item text text_caption">
-          <NuxtLink to="/loyalty" @click="menuActive = false">Программа лояльности</NuxtLink>
+          <NuxtLink to="/loyalty" @click="menuActive = false"
+            >Программа лояльности</NuxtLink
+          >
         </li>
         <li class="nav__list__item text text_caption">
-          <NuxtLink to="/vacancies" @click="menuActive = false">Вакансии</NuxtLink>
+          <NuxtLink to="/vacancies" @click="menuActive = false"
+            >Вакансии</NuxtLink
+          >
         </li>
 
         <div class="burger-menu__item">
-          <div class="text text_caption text_dark" @click="activeHelp = !activeHelp">Помощь</div>
-          <div class="info__body" :class="{'info__body_active info__body_help' : activeHelp}">
+          <div
+            class="text text_caption text_dark"
+            @click="activeHelp = !activeHelp"
+          >
+            Помощь
+          </div>
+          <div
+            class="info__body"
+            :class="{ 'info__body_active info__body_help': activeHelp }"
+          >
             <div class="column column_gap16 text text_normal text_light">
               <div>
-                <NuxtLink to="/help/questions" @click="menuActive = false">Ответы на вопросы</NuxtLink>
+                <NuxtLink to="/help/questions" @click="menuActive = false"
+                  >Ответы на вопросы</NuxtLink
+                >
               </div>
               <div>
-                <NuxtLink to="/help/tech" @click="menuActive = false">Технические требования</NuxtLink>
+                <NuxtLink to="/help/tech" @click="menuActive = false"
+                  >Технические требования</NuxtLink
+                >
               </div>
             </div>
           </div>
         </div>
 
         <li class="nav__list__item text text_caption">
-          <NuxtLink to="/about/contacts" @click="menuActive = false">Контакты</NuxtLink>
+          <NuxtLink to="/about/contacts" @click="menuActive = false"
+            >Контакты</NuxtLink
+          >
         </li>
       </ul>
 
-      <div class="delimiter delimiter_gradient"/>
+      <div class="delimiter delimiter_gradient" />
 
       <div class="burger-menu__block">
         <div @click="login()" class="row row_gap10 row_al-c">
-          <img class="pointer" src="~/assets/svg/profile.svg" alt="profile">
-          <div class="text text_caption">
-            Профиль
-          </div>
+          <img class="pointer" src="~/assets/svg/profile.svg" alt="profile" />
+          <div class="text text_caption">Профиль</div>
         </div>
       </div>
 
-      <div class="delimiter delimiter_gradient"/>
+      <div class="delimiter delimiter_gradient" />
 
-      <button class="button burger-menu__button button_rounded button_gradient button_small">Заказать звонок</button>
+      <button
+        class="button burger-menu__button button_rounded button_gradient button_small"
+      >
+        Заказать звонок
+      </button>
     </div>
 
-    <OverflowContainer
-        :active="reqActive"
-        @closeOverflow="reqActive = false"
-    >
-      <OverflowMoreInfo
-          @close="reqActive = false"
-      />
+    <OverflowContainer :active="reqActive" @closeOverflow="reqActive = false">
+      <OverflowMoreInfo @close="reqActive = false" />
     </OverflowContainer>
 
-    <OverflowContainer
-        :active="logActive"
-        @closeOverflow="logActive = false"
-    >
-      <OverflowAuth
-          @close="logActive = false"
-      />
+    <OverflowContainer :active="logActive" @closeOverflow="logActive = false">
+      <OverflowAuth @close="logActive = false" />
     </OverflowContainer>
-
   </header>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted, toValue } from "vue";
 import AppInput from "./AppInput.vue";
 import Test from "./SearchSmallAnimated.vue";
+import { useUtils } from "@/composables/useUtils";
+import { useApi } from "@/composables/useApi";
+import { useRouter } from "vue-router";
+import { API } from "~/constants/index.js";
 
-export default {
-  name: "AppBar",
-  components: {Test, AppInput},
-  data() {
-    return {
-      menuActive: false,
-      reqActive: false,
-      logActive: false,
-      activeStudy: false,
-      activeAbout: false,
-      activeHelp: false,
-      basket: [],
-    }
-  },
-  mounted() {
-    const {getBasket} = useUtils();
-    this.basket = getBasket();
-  },
-  setup() {
-    const {getUser} = useApi();
-    return {
-      getUser
-    }
-  },
-  methods: {
-    closeOverflow() {
-      this.reqActive = false
-    },
-    async login() {
-      const {getTokenCookie} = useUtils();
+const menuActive = ref(false);
+const reqActive = ref(false);
+const logActive = ref(false);
+const activeStudy = ref(false);
+const activeAbout = ref(false);
+const activeHelp = ref(false);
+const basket = ref([]);
 
-      console.log(getTokenCookie());
+const { getBasket, getTokenCookie } = useUtils();
+const { getUser } = useApi();
+const router = useRouter();
 
-      if (getTokenCookie() === undefined || getTokenCookie() === '' || getTokenCookie() === null) {
-        this.logActive = !this.logActive;
-      } else {
-        const data = await this.getUser();
-        if (data.profile) {
-          navigateTo('/account');
-        } else {
-          this.logActive = !this.logActive;
-        }
-      }
+onMounted(() => {
+  basket.value = getBasket();
+});
 
+const closeOverflow = () => {
+  reqActive.value = false;
+};
+
+const firstRequestBody = {
+  start: 0,
+  amount: 1,
+  sort: 0,
+  category: 0,
+};
+
+const { data: page } = await useFetch(API + "/page/learning", {
+  method: "POST",
+  body: firstRequestBody,
+});
+
+const categories = toValue(page).page.categories;
+
+console.log(categories);
+
+const login = async () => {
+  console.log(getTokenCookie());
+
+  if (!getTokenCookie()) {
+    logActive.value = !logActive.value;
+  } else {
+    const data = await getUser();
+    if (data.profile) {
+      router.push("/account");
+    } else {
+      logActive.value = !logActive.value;
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -567,7 +599,6 @@ a {
   @media @min760 {
     top: 90px;
   }
-
 }
 
 .burger-menu__block {
@@ -637,5 +668,4 @@ a {
 
   border-radius: 50%;
 }
-
 </style>
