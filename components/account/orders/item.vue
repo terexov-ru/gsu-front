@@ -1,52 +1,61 @@
 <template>
   <div class="order-card" v-if="order !== undefined">
-
     <div class="row order-card__head row_jc-sb">
       <div class="column">
         <div class="text text_semi-bold">Заказ {{ order.number }}</div>
         <div class="text text_normal text_light">от {{ order.date }}</div>
       </div>
-      <div class="tip tip_small" :class="getTipClass(order.status.id)">{{ order.status.title }}</div>
+      <div class="tip tip_small" :class="getTipClass(order.status.id)">
+        {{ order.status.title }}
+      </div>
     </div>
 
-    <div
-        @click="active = !active"
-        class="column column_gap12 pointer"
-    >
+    <div @click="active = !active" class="column column_gap12 pointer">
       <div class="row row_jc-sb">
-        <div class="text text_semi-bold text_light">{{ order.courses.length }} программы</div>
+        <div class="text text_semi-bold text_light">
+          {{ order.courses.length }} программы
+        </div>
         <div class="row row_gap10">
           <span class="text text_h4">{{ order.sum }} ₽</span>
 
           <svg
-              class="svg"
-              :class="{'svg_rotate': active}"
-              width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 9.19727L12 14.1973L17 9.19727" stroke="#25292D" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
+            class="svg"
+            :class="{ svg_rotate: active }"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7 9.19727L12 14.1973L17 9.19727"
+              stroke="#25292D"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
       </div>
 
-      <div class="delimiter delimiter_mid-grey"/>
+      <div class="delimiter delimiter_mid-grey" />
     </div>
 
     <div class="column column_gap16">
-
       <div
-          :class="{'order-card__list_active': active}"
-          class="order-card__list column column_gap16"
+        :class="{ 'order-card__list_active': active }"
+        class="order-card__list column column_gap16"
       >
-        <div
-            v-for="course in order.courses"
-            class="row row_jc-sb"
-        >
+        <div v-for="course in order.courses" class="row row_jc-sb">
           <div class="column column_gap8">
-            <div class="text text_normal">{{ course.title }}
+            <div class="text text_normal">{{ course.title }}</div>
+            <div class="text text_normal text_light">
+              Артикул: {{ course.articul }}
             </div>
-            <div class="text text_normal text_light">Артикул: {{ course.articul }}</div>
           </div>
-          <div class="text text_semi-bold" style="flex-shrink: 0">{{ course.price }} ₽</div>
+          <div class="text text_semi-bold" style="flex-shrink: 0">
+            {{ course.price }} ₽
+          </div>
         </div>
 
         <div class="row row_jc-sb">
@@ -56,50 +65,85 @@
       </div>
 
       <div class="row order__buttons row_gap10">
-
         <NuxtLink v-if="order.agreement" :to="order.agreement" target="_blank">
           <button class="button order__button button_gradient">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 12L12 17M12 17L17 12M12 17L12 4" stroke="#F7F7F8" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round"/>
-              <path d="M6 20H18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 12L12 17M12 17L17 12M12 17L12 4"
+                stroke="#F7F7F8"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6 20H18"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
             <span>Скачать договор</span>
           </button>
         </NuxtLink>
 
         <div v-else class="row order__buttons row_gap10">
-          <NuxtLink :to="order.payment_link" target="_blank">
-            <button class="button order__button button_gradient">Оплатить</button>
+          <NuxtLink
+            v-if="!isOrderPaid"
+            :to="order.payment_link"
+            target="_blank"
+          >
+            <button class="button order__button button_gradient">
+              Оплатить
+            </button>
+          </NuxtLink>
+          <NuxtLink
+            v-else
+            :to="{ path: '/account', query: { tab: 'AccountPrograms' } }"
+          >
+            <button class="button order__button button_gradient">
+              Перейти к курсу
+            </button>
           </NuxtLink>
           <NuxtLink :to="order.subscribe_agreement_link" target="_blank">
-            <button class="button order__button button_black-bordered">Подписать договор</button>
+            <button class="button order__button button_black-bordered">
+              Подписать договор
+            </button>
           </NuxtLink>
         </div>
-
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   order: {
     type: Object,
-    required: true
+    required: true,
   },
-})
+});
 
 const active = ref(false);
 
+const isOrderPaid = computed(() => {
+  if (props.order.status.id === 5) return true;
+  else return false;
+});
+
 function getTipClass(id) {
-  if (id < 2) return 'tip_active'
-  else if (id === 3) return 'tip_accent'
-  else if (id === 4) return 'tip_danger'
-  else return 'tip_dark-fill'
+  if (id < 2) return "tip_active";
+  else if (id === 3) return "tip_accent";
+  else if (id === 4) return "tip_danger";
+  else return "tip_dark-fill";
 }
 </script>
 
@@ -136,7 +180,6 @@ function getTipClass(id) {
     flex-direction: row;
     align-self: flex-end;
   }
-
 }
 
 .order__button {
