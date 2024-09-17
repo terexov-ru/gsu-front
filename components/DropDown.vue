@@ -1,73 +1,94 @@
 <template>
-  <div
-      class="drop-down"
-      v-click-outside="onClickOutside"
-  >
-
+  <div class="drop-down" v-click-outside="onClickOutside">
     <div @click="active = !active" class="text drop-down__box text_normal">
       <span>{{ selectedItem.title }}</span>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 9.19727L12 14.1973L17 9.19727" stroke="#B9BFC6" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round"/>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7 9.19727L12 14.1973L17 9.19727"
+          stroke="#B9BFC6"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </div>
 
-    <ul v-if="active"
-        class="drop-down__list"
-    >
+    <ul v-if="active" class="drop-down__list">
       <li
-          class="text drop-down__list__item text_light"
-          @click="selectOption({title: title, id: undefined})"
+        class="text drop-down__list__item text_light"
+        @click="selectOption({ title: title, id: undefined })"
       >
         Не выбрано
       </li>
 
-      <li class="text drop-down__list__item text_normal"
-          v-for="option in options"
-          :key="option.text"
-          @click="selectOption(option)">
-        <span :class="{'text_accent': option.id === selectedItem.id}">
+      <li
+        class="text drop-down__list__item text_normal"
+        v-for="option in options"
+        :key="option.text"
+        @click="selectOption(option)"
+      >
+        <span :class="{ text_accent: option.id === selectedItem.id }">
           {{ option.title }}
         </span>
       </li>
     </ul>
-
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    title: {
-      type: String,
-      require: true,
-    },
-    selected: {
-      type: Object,
-      default: null,
-    },
-    options: Array,
+<script setup>
+import { ref, watch, defineExpose, onMounted } from "vue";
+
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-  data() {
-    return {
-      active: false,
-      selectedItem: {title: 'Заголовок', value: ''},
-    }
+  selected: {
+    type: Object,
+    default: null,
   },
-  mounted() {
-    this.selectedItem.title = this.title;
-  },
-  methods: {
-    onClickOutside() {
-      this.active = false
-    },
-    selectOption(option) {
-      this.selectedItem = option;
-      this.active = false
-      this.$emit('update:selected', option);
-    }
+  options: Array,
+});
+
+const emit = defineEmits(["update:selected"]);
+const active = ref(false);
+const selectedItem = ref({ title: "Заголовок", value: "" });
+
+const selectOption = (option) => {
+  selectedItem.value = option;
+  active.value = false;
+  emit("update:selected", option);
+};
+
+const setOption = (option) => {
+  selectedItem.value = option;
+  active.value = false;
+};
+
+const onClickOutside = () => {
+  active.value = false;
+};
+
+watch(
+  () => props.title,
+  (newTitle) => {
+    selectedItem.value.title = newTitle;
   }
-}
+);
+
+onMounted(() => {
+  selectedItem.value.title = props.title;
+});
+
+defineExpose({
+  setOption,
+});
 </script>
 
 <style lang="less" scoped>

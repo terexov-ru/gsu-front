@@ -15,6 +15,7 @@ const ABOUT_PATH = "/page/company_info";
 const CONTACTS_PATH = "/page/company_contacts";
 const FAQS_PATH = "/page/faqs";
 const TECH_PATH = "/page/technical_requirements";
+const PROMO_PATH = "/get_promo_for_month";
 
 /* AUTH */
 const LOGIN_PATH = "/auth/login";
@@ -135,6 +136,18 @@ export const useApi = () => {
   async function getTechs() {
     return useFetch(API + TECH_PATH, {
       method: "GET",
+    });
+  }
+
+  async function checkPromocode(month: String) {
+    return useFetch(API + PROMO_PATH, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${getTokenCookie()}`,
+      },
+      body: {
+        month: month,
+      },
     });
   }
 
@@ -511,5 +524,6 @@ export const useApi = () => {
     deleteAvatar,
     setAvatar,
     createReview,
+    checkPromocode,
   };
 };

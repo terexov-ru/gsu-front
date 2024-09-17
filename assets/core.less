@@ -341,6 +341,11 @@ a {
     }
   }
 
+  &_disabled{
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
   &_dark {
     background: @DarkGreyColor;
     color: @WhiteColor;
@@ -434,6 +439,10 @@ a {
     &::placeholder {
       color: @MidGreyColor;
     }
+  }
+
+  &_disabled{
+    pointer-events: none;
   }
 
   &_error {
