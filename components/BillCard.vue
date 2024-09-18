@@ -65,11 +65,6 @@ const basketError = ref("");
 const disabled = ref(false);
 const { cleanBasket, getTokenCookie, getBasket } = useUtils();
 
-const orderBasket = basket.value.map((item) => ({
-  id: item.id,
-  promo: item.promo !== undefined ? item.promo : null,
-}));
-
 if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
   const { data } = await getUserLazy();
   watch(data, () => {
@@ -130,11 +125,17 @@ async function getOrderBase(values, actions) {
 }
 
 async function getOrderAuth(values, actions) {
+  const orderBasket = basket.value.map((item) => ({
+    id: item.id,
+    promo: item.promo !== undefined ? item.promo : null,
+  }));
+
   const { data, status } = await createOrderAuth(orderBasket);
 
   if (status.value === "success" && data.value.status === "ok") {
     useState("orderLink", () => shallowRef(data.value.payment_link));
     emit("success");
+    await nextTick();
     actions.resetForm();
     cleanBasket();
   } else {

@@ -67,10 +67,9 @@ export const useUtils = () => {
       } else {
         basketItem.promo = promo.id;
         basketItem.promoObject = promo;
-        basketItem.price_sale = (
-          basketItem.price *
-          (1 - promo.percent / 100)
-        ).toFixed(2);
+        basketItem.price_sale = parseFloat(
+          (basketItem.price * (1 - promo.percent / 100)).toFixed(2)
+        );
       }
     }
 

@@ -78,10 +78,12 @@ function getPrice() {
   let sum = 0;
   toValue(basket).forEach((i) => {
     if (i.price_sale) {
-      sum += parseInt(i.price_sale);
-    } else sum += parseInt(i.price);
+      sum += parseFloat(i.price_sale);
+    } else sum += parseFloat(i.price);
   });
-  if (sum < 1 && sum > 0) sum = 1;
+  sum = parseFloat(sum);
+
+  if (sum < 1.0 && sum > 0.0) sum = 1;
   return sum;
 }
 
@@ -96,7 +98,11 @@ function getSale() {
 
 watch(success, async (newVal) => {
   const mainSuccess = useState("mainSuccess");
-  useState("orderSum", () => shallowRef(price));
+
+  let sum = getPrice();
+  const orderSum = useState("orderSum");
+  orderSum.value = sum;
+
   mainSuccess.value = true;
   await navigateTo("/");
 });

@@ -17,7 +17,7 @@
 
               <span class="tip banner__tip tip_small">
                 <template v-if="!isCopied">артикул {{ articul }}</template>
-                <template v-else>скопиравано</template>
+                <template v-else>СКОПИРОВАНО</template>
               </span>
               <svg
                 v-if="!isCopied"
