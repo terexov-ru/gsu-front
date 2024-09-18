@@ -1,15 +1,13 @@
 <template>
   <div class="wrapper license-page wrapper_paddings">
-
     <h2 class="text text_h2">{{ page.title }}</h2>
 
-    <div class="license-block">
-
+    <div class="license-block" v-if="page && page.image">
       <div class="license-block__img-container">
         <NuxtLink v-if="page && page.image" :to="page.image" target="_blank">
-          <img class="license-block__img" :src="page.image" alt="License">
+          <img class="license-block__img" :src="page.image" alt="License" />
         </NuxtLink>
-        <img v-else class="license-block__img" src="~/assets/license.png" alt="License">
+        <!-- <img v-else class="license-block__img" src="~/assets/license.png" alt="License"> -->
       </div>
 
       <div class="license-block__description">
@@ -25,19 +23,30 @@
       </div>
     </div>
 
-    <div class="delimiter license-page__delimiter delimiter_mid-grey"/>
+    <div
+      v-if="page && page.image"
+      class="delimiter license-page__delimiter delimiter_mid-grey"
+    />
 
     <div class="certificate">
-      <div class="certificate__card"
-
-           v-for="item in page.certificates"
-           :key="item.title"
+      <div
+        class="certificate__card"
+        v-for="item in page.certificates"
+        :key="item.title"
       >
-
         <NuxtLink v-if="item && item.image" :to="item.image" target="_blank">
-          <img :src="item.image" class="certificate__card__img" alt="Certificate">
+          <img
+            :src="item.image"
+            class="certificate__card__img"
+            alt="Certificate"
+          />
         </NuxtLink>
-        <img v-else class="certificate__card__img" src="~/assets/certificate.png" alt="Certificate">
+        <img
+          v-else
+          class="certificate__card__img"
+          src="~/assets/certificate.png"
+          alt="Certificate"
+        />
 
         <div>
           <h4 class="text text_h4">{{ item.title }}</h4>
@@ -45,17 +54,15 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup>
-const {getLicense} = useApi();
+const { getLicense } = useApi();
 
-const {data} = await getLicense();
+const { data } = await getLicense();
 
 const page = data.value?.page;
-
 </script>
 
 <style lang="less" scoped>
