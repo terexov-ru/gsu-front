@@ -218,7 +218,7 @@ export const useApi = () => {
     });
   }
 
-  async function createOrderAuth(courses: String, promo: String) {
+  async function createOrderAuth(courses: string) {
     return useFetch(API + ORDER_PATH, {
       method: "POST",
       headers: {
@@ -226,7 +226,6 @@ export const useApi = () => {
       },
       body: {
         courses: courses,
-        promo: promo,
       },
       async onResponseError({ request, response, options }) {
         console.log(
