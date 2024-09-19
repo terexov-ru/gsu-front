@@ -67,6 +67,7 @@ const { cleanBasket, getTokenCookie, getBasket } = useUtils();
 
 if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
   const { data } = await getUserLazy();
+
   watch(data, () => {
     const profile = data.value.profile;
     mailValue.value = profile.email;
@@ -95,17 +96,22 @@ async function onSubmit(values, actions) {
 }
 
 async function getOrderBase(values, actions) {
+  const orderBasket = basket.value.map((item) => ({
+    id: item.id,
+    promo: item.promo !== undefined ? item.promo : null,
+  }));
+
   const { data, status, error } = await createOrder(
     values.name,
     values.email,
     values.phone,
-    orderBasket,
-    1
+    orderBasket
   );
 
   if (status.value === "success" && shallowRef(data.value.status === "ok")) {
     useState("orderLink", () => data.value.payment_link);
     emit("success");
+    await nextTick();
     actions.resetForm();
     cleanBasket();
   } else {

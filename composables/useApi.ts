@@ -1,6 +1,8 @@
 import { API } from "~/constants/index.js";
 import { useLazyFetch } from "nuxt/app";
 
+const { deleteTokenCookie } = useUtils();
+
 const NEWS_PATH = "/page/news";
 const NEWS_ID_PATH = "/page/get_news";
 const REV_PATH = "/page/reviews";
@@ -18,6 +20,7 @@ const TECH_PATH = "/page/technical_requirements";
 const PROMO_PATH = "/get_promo_for_month";
 
 /* AUTH */
+const CHECK_PATH = "/auth/check_token";
 const LOGIN_PATH = "/auth/login";
 const REG_PATH = "/auth/register";
 const PROFILE_PATH = "/profile";
@@ -195,8 +198,7 @@ export const useApi = () => {
     name: String,
     email: String,
     phone: String,
-    courses: String,
-    promo: String
+    courses: []
   ) {
     return useFetch(API + ORDER_PATH, {
       method: "POST",
@@ -205,7 +207,6 @@ export const useApi = () => {
         fio: name,
         email: email,
         phone: phone,
-        promo: promo,
       },
       async onResponseError({ request, response, options }) {
         console.log(
@@ -218,7 +219,7 @@ export const useApi = () => {
     });
   }
 
-  async function createOrderAuth(courses: string) {
+  async function createOrderAuth(courses: []) {
     return useFetch(API + ORDER_PATH, {
       method: "POST",
       headers: {
@@ -240,6 +241,15 @@ export const useApi = () => {
 
   /* AUTH */
   const { getTokenCookie, setTokenCookie } = useUtils();
+
+  async function checkToken() {
+    return useLazyFetch(API + CHECK_PATH, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getTokenCookie()}`,
+      },
+    });
+  }
 
   async function login(login: String, pass: String) {
     const { data: data } = await useFetch(API + LOGIN_PATH, {
@@ -367,6 +377,10 @@ export const useApi = () => {
         Authorization: `Bearer ${getTokenCookie()}`,
       },
     });
+
+    if (response.status === 401) {
+      deleteTokenCookie();
+    }
 
     const message = await response.json();
 
@@ -507,6 +521,7 @@ export const useApi = () => {
     getDetails,
     sendForm,
     sendFormVacancies,
+    checkToken,
     login,
     reg,
     getUser,

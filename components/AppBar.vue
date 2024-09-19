@@ -379,11 +379,7 @@ const { data: page } = await useFetch(API + "/page/learning", {
 
 const categories = toValue(page).page.categories;
 
-console.log(categories);
-
 const login = async () => {
-  console.log(getTokenCookie());
-
   if (!getTokenCookie()) {
     logActive.value = !logActive.value;
   } else {

@@ -8,7 +8,7 @@ export const useUtils = () => {
     tokenRef.value = token;
   }
 
-  function deleteTokenCookie(token: string): void {
+  function deleteTokenCookie(): void {
     const tokenRef = useCookie("token");
     tokenRef.value = undefined;
   }

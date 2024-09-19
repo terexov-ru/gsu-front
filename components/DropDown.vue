@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineExpose, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 
 const props = defineProps({
   title: {
