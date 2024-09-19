@@ -1,79 +1,89 @@
 <template>
   <div
-      :class="{'container_active' : active}"
-      class="container"
-      v-click-outside="closeDrop"
+    :class="{ container_active: active }"
+    class="container"
+    v-click-outside="closeDrop"
   >
     <input
-        :class="{'input_active' : active}"
-        placeholder="Поиск..."
-        class="input"
-        type="text"
-        v-model="searchValue"
-        @focus="dropActive = true"
-    >
+      :class="{ input_active: active }"
+      placeholder="Поиск..."
+      class="input"
+      type="text"
+      v-model="searchValue"
+      @focus="dropActive = true"
+    />
 
     <img
-        @click="active = !active"
-        class="pointer"
-        src="~/assets/svg/search.svg"
-        alt="search"
-    >
+      @click="active = !active"
+      class="pointer"
+      src="~/assets/svg/search.svg"
+      alt="search"
+    />
 
-    <ul v-if="dropActive && active && courses && courses.length > 0"
-
-        class="drop-down__list"
+    <ul
+      v-if="dropActive && active && courses && courses.length > 0"
+      class="drop-down__list"
     >
       <li
-          v-for="course in courses"
-          class="text drop-down__list__item text_normal"
+        v-for="course in courses"
+        class="text drop-down__list__item text_normal"
       >
         <NuxtLink :to="`/courses/${course.id}`">
-          <ul @click="active = false; searchValue = ''">
-            {{ course.title }}
+          <ul
+            @click="
+              active = false;
+              searchValue = '';
+            "
+          >
+            {{
+              course.title
+            }}
           </ul>
         </NuxtLink>
       </li>
     </ul>
-
   </div>
-
-
 </template>
 
-<script setup>
-import {ref, watch} from "vue";
-import {API} from "../constants/index.js";
+<script setup lang="ts">
+import { ref, watch } from "vue";
+import { API } from "../constants/index.js";
 
-const searchValue = defineModel('value');
+const searchValue = defineModel("value");
 const active = ref(false);
 const dropActive = ref(false);
 const pending = ref(null);
 const courses = ref(null);
+
+let debounceTimer: ReturnType<typeof setTimeout>;
 
 function closeDrop() {
   dropActive.value = false;
 }
 
 watch(searchValue, async (newValue) => {
-  const {pending: pendingData, data: coursesData} = await getCourseInfo(newValue);
-  pending.value = pendingData.value;
-  courses.value = coursesData.value?.page.courses;
-})
+  clearTimeout(debounceTimer);
+
+  debounceTimer = setTimeout(async () => {
+    const { pending: pendingData, data: coursesData } = await getCourseInfo(
+      newValue
+    );
+    pending.value = pendingData.value;
+    courses.value = coursesData.value?.page.courses;
+  }, 500);
+});
 
 async function getCourseInfo(value) {
-  return useLazyFetch(API + '/page/learning', {
-    method: 'POST',
-    body:
-        {
-          start: 0,
-          amount: 5,
-          sort: 0,
-          search_value: value
-        }
+  return useLazyFetch(API + "/page/learning", {
+    method: "POST",
+    body: {
+      start: 0,
+      amount: 5,
+      sort: 0,
+      search_value: value,
+    },
   });
 }
-
 </script>
 
 <style scoped lang="less">
@@ -169,6 +179,4 @@ async function getCourseInfo(value) {
     transition-duration: @dur150;
   }
 }
-
-
 </style>
