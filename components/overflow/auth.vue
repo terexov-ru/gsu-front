@@ -2,6 +2,7 @@
   <OverflowRegistration
     v-if="activeOverflow === 'reg'"
     @openLogin="activeOverflow = 'login'"
+    @openSended="activeOverflow = 'sended'"
     @close="this.$emit('close')"
   />
 
@@ -26,6 +27,13 @@
     @close="this.$emit('close')"
   >
   </OverflowReset>
+
+  <OverflowSended
+    v-if="activeOverflow === 'sended'"
+    @openLogin="activeOverflow = 'login'"
+    @close="this.$emit('close')"
+  >
+  </OverflowSended>
 </template>
 
 <script>
