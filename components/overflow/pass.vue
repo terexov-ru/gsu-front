@@ -1,48 +1,69 @@
 <template>
   <Overflow>
-    <img class="close"
-         @click="emits('close')"
-         src="~/assets/svg/close.svg"
-         alt="close"
-    >
+    <img
+      class="close"
+      @click="emits('close')"
+      src="~/assets/svg/close.svg"
+      alt="close"
+    />
 
-    <div class="text text_h4 text_center">Укажите e-mail или телефон</div>
+    <div class="text text_h4 text_center">Укажите e-mail</div>
 
     <div class="text text_normal text_center mt-20">
-      Пожалуйста, укажите e-mail или телефон,
-      который вы использовали для входа на сайт
+      Пожалуйста, укажите e-mail, который вы использовали для входа на сайт
     </div>
 
-    <Form class="form">
-      <InputBlock
-          :title="'Введите e-mail или телефон'"
-          :name="'mail'"
-          :type="'text'"
-      />
+    <Form class="form" @submit="resetLogin">
+      <InputBlock :title="'Введите e-mail'" :name="'email'" :type="'text'" />
 
-      <div @click="emits('openReg')" class="text text_normal text_accent text_center pointer">
+      <div
+        @click.prevent="emits('openReg')"
+        class="text text_normal text_accent text_center pointer"
+      >
         Я не помню эти данные или они не доступны
       </div>
 
       <div class="column column_gap8">
-        <button class="button overflow-card__button button_gradient">
+        <div v-if="errorMessage.length > 0" class="text text_error text_center">
+          {{ errorMessage }}
+        </div>
+        <button
+          type="submit"
+          class="button overflow-card__button button_gradient"
+        >
           Далее
         </button>
-        <button class="button overflow-card__button button_black-bordered"
-                @click="emits('openLogin')"
+        <button
+          class="button overflow-card__button button_black-bordered"
+          @click.prevent="emits('openLogin')"
         >
           Назад
         </button>
       </div>
-
     </Form>
   </Overflow>
 </template>
 
 <script setup>
-import {ref} from "vue";
-const emits = defineEmits(['close', 'openLogin', 'openReg']);
-const value = ref('');
+const { resetPassword } = useApi();
+
+import { ref } from "vue";
+const emits = defineEmits(["close", "openLogin", "openReg", "openReset"]);
+const errorMessage = ref("");
+
+async function resetLogin(value) {
+  errorMessage.value = "";
+
+  let answer = await resetPassword(value.email);
+
+  console.log(answer);
+
+  if (answer == true) {
+    emits("openReset");
+  } else {
+    errorMessage.value = answer;
+  }
+}
 </script>
 
 <style scoped lang="less">

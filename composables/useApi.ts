@@ -23,6 +23,7 @@ const PROMO_PATH = "/get_promo_for_month";
 const CHECK_PATH = "/auth/check_token";
 const LOGIN_PATH = "/auth/login";
 const REG_PATH = "/auth/register";
+const RESET_PATH = "/auth/reset_password";
 const PROFILE_PATH = "/profile";
 const SET_INFO_PATH = "/profile/set_info";
 const SET_PASS_PATH = "/profile/set_password";
@@ -266,6 +267,29 @@ export const useApi = () => {
     }
 
     return false;
+  }
+
+  async function resetPassword(email: string) {
+    const body = {
+      email: email,
+    };
+
+    const response = await fetch(API + RESET_PATH, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+
+    const message = await response.json();
+
+    if (message.status === "error") {
+      if (message.message.includes("found")) {
+        return "Email не найден";
+      } else {
+        return "Произошла ошибка";
+      }
+    }
+
+    return true;
   }
 
   async function reg(phone: String, email: String) {
@@ -523,6 +547,7 @@ export const useApi = () => {
     sendFormVacancies,
     checkToken,
     login,
+    resetPassword,
     reg,
     getUser,
     setInfo,
