@@ -1,34 +1,56 @@
 <template>
   <div class="pagination">
     <vue-awesome-paginate
-        :total-items="count"
-        v-model="currentPage"
-        :items-per-page="size"
-        :max-pages-shown="2"
+      :total-items="count"
+      v-model="currentPage"
+      :items-per-page="size"
+      :max-pages-shown="2"
     >
       <template #prev-button>
-          <span>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 17L15 12L10 7" stroke="#89939F" stroke-width="1.5" stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                  </svg>
-          </span>
+        <span>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 17L15 12L10 7"
+              stroke="#89939F"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
       </template>
 
       <template #next-button>
-          <span>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 17L15 12L10 7" stroke="#89939F" stroke-width="1.5" stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                  </svg>
-          </span>
+        <span>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 17L15 12L10 7"
+              stroke="#89939F"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
       </template>
     </vue-awesome-paginate>
   </div>
 </template>
 
 <script>
-import {ref} from "vue";
+import { ref } from "vue";
 
 export default {
   name: "PaginationBar",
@@ -48,11 +70,10 @@ export default {
       this.$emit("update:page", newVal);
     },
     page(newVal) {
-      if (newVal !== this.currentPage)
-        this.currentPage = newVal;
-    }
-  }
-}
+      if (newVal !== this.currentPage) this.currentPage = newVal;
+    },
+  },
+};
 </script>
 
 <style lang="less">
@@ -68,6 +89,10 @@ export default {
 }
 
 .pagination .paginate-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   height: 36px;
   width: 36px;
   cursor: pointer;
