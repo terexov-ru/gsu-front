@@ -206,7 +206,10 @@
       <div class="thanks">
         <div v-for="th in thanks" :key="th.id" class="thanks-card">
           <div v-if="th.image" class="thanks-card__img-container">
-            <img class="thanks-card__img" :src="th.image" />
+            <!-- <img class="thanks-card__img" :src="th.image" /> -->
+            <a :href="th.image" data-fancybox>
+              <img class="thanks-card__img" :src="th.image" />
+            </a>
           </div>
 
           <div class="column thanks-card__content column_gap40">
@@ -344,6 +347,7 @@ function right() {
 
   @media @min760 {
     flex-direction: row;
+    justify-content: flex-start;
     gap: 60px;
   }
 }
@@ -365,6 +369,9 @@ function right() {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
+  flex-shrink: 0;
+  max-width: 320px;
 }
 
 .reviews__card__info__img-container {
