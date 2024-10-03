@@ -73,6 +73,9 @@ async function search(noUpdated = undefined) {
   });
 
   courses.value = toValue(page).page.courses;
+  durations.value = toValue(page).page.durations;
+  specs.value = toValue(page).page.specs;
+  studentCategories.value = toValue(page).page.student_categories;
   count.value = toValue(page).page.total_courses_amount;
 }
 
@@ -92,10 +95,10 @@ const { data: page } = await useFetch(API + "/page/learning", {
   body: firstRequestBody,
 });
 
-const durations = toValue(page).page.durations;
-const specs = toValue(page).page.specs;
+const durations = ref(toValue(page).page.durations);
+const specs = ref(toValue(page).page.specs);
+const studentCategories = ref(toValue(page).page.student_categories);
 const categories = toValue(page).page.categories;
-const studentCategories = toValue(page).page.student_categories;
 courses.value = toValue(page).page.courses;
 const count = ref(toValue(page).page.total_courses_amount);
 
