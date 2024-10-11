@@ -70,7 +70,7 @@
       <div class="column column_gap16">
         <div class="text text_h3 text_center">Ваш заказ успешно создан!</div>
         <div class="text text_normal text_center">
-          Информация о заказке выслана вам на почту <b>{{ mail }}</b
+          Информация о заказе выслана вам на почту <b>{{ mail }}</b
           >. Наш менеджер свяжется с вами в ближайшее время для уточнения
           данных.
         </div>
