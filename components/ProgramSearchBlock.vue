@@ -2,62 +2,60 @@
   <!-- Данный компонент должен отвечать за обработку поисковых запросов из компонента ProgramSearchBar
   и отображения состояние в ProgramCardList-->
   <div class="search-block wrapper wrapper_paddings">
-    <h2 class="text text_h2 text_dark">Подбери <span class="text_accent">программу</span> и повысь <br> свою <span
-        class="text_accent">компетентность</span>
+    <h2 class="text text_h2 text_dark">
+      Подбери <span class="text_accent">программу</span> и повысь <br />
+      свою <span class="text_accent">компетентность</span>
     </h2>
 
-    <ProgramSearchBar
-        @search="search()"
-        v-model:value="searchValue"
-    />
+    <ProgramSearchBar @search="search()" v-model:value="searchValue" />
 
-    <Loader v-if="pending"/>
+    <Loader v-if="pending" />
 
     <div v-if="status === 'success'">
       <SearchTipList
-          :tips="categories"
-          v-model:selected="category"
+        :tips="categories"
+        :redirect="true"
+        v-model:selected="category"
       />
 
-      <ProgramCardList
+      <!-- <ProgramCardList
           v-model:courses="courses"
-      />
+      /> -->
     </div>
 
-
-    <SeeMore
+    <!-- <SeeMore
         :href="'/courses'"
-    />
+    /> -->
   </div>
 </template>
 
 <script setup>
-import {onMounted, toValue, watch} from "vue";
-import {API} from '~/constants/index.js';
+import { onMounted, toValue, watch } from "vue";
+import { API } from "~/constants/index.js";
 
 const category = ref(NaN);
 const courses = ref([]);
-const searchValue = ref('');
-const categories = ref([])
+const searchValue = ref("");
+const categories = ref([]);
 
 const firstRequestBody = {
-  "start": 0,
-  "amount": 3,
-  "sort": 0,
-}
+  start: 0,
+  amount: 3,
+  sort: 0,
+};
 
 async function search() {
   const req = {
-    "start": 0,
-    "amount": 3,
-    "sort": 0,
-    "category": toValue(category),
-    "search_value": toValue(searchValue),
-  }
+    start: 0,
+    amount: 3,
+    sort: 0,
+    category: toValue(category),
+    search_value: toValue(searchValue),
+  };
 
-  const {data: page} = await useFetch(API + '/page/learning', {
-    method: 'POST',
-    body: req
+  const { data: page } = await useFetch(API + "/page/learning", {
+    method: "POST",
+    body: req,
   });
   courses.value = toValue(page).page.courses;
 }
@@ -65,19 +63,23 @@ async function search() {
 watch(category, async (newVal) => {
   category.value = newVal;
   await search();
-})
+});
 
-const {pending, status, data: page} = await useFetch(API + '/page/learning', {
+const {
+  pending,
+  status,
+  data: page,
+} = await useFetch(API + "/page/learning", {
   lazy: true,
   server: false,
-  method: 'POST',
-  body: firstRequestBody
+  method: "POST",
+  body: firstRequestBody,
 });
 
 watch(page, (newVal) => {
   categories.value = toValue(newVal).page.categories;
   courses.value = toValue(newVal).page.courses;
-})
+});
 </script>
 
 <style lang="less" scoped>
