@@ -76,26 +76,39 @@
       <DropDown
         class="basket__drop-down"
         :title="'Месяц обучения'"
+        :disabled="isPromoChecking"
         :options="MONTHS"
         @update:selected="onMonthSelect"
         ref="dropdownElement"
       />
 
       <input
-        class="input text text_normal input_white input_disabled"
+        class="input text text_normal input_white"
+        :class="{ input_disabled: isPromoChecking }"
+        :disabled="isPromoChecking"
         placeholder="Промокод"
         type="text"
-        readonly
         v-model="promocode"
+        @input="onPromoInput"
       />
 
       <button
         class="button button_black-bordered text_normal"
-        :class="{ button_disabled: promocode == '' || course.promo != null }"
+        :class="{
+          button_disabled:
+            promocode == '' ||
+            course.promo != null ||
+            currentMonth == null ||
+            isPromoChecking,
+        }"
         @click="activatePromo"
       >
-        Активировать
+        {{ isPromoChecking ? "Проверка" : "Активировать" }}
       </button>
+
+      <p class="basket-card__warning" v-show="promoNotFound">
+        Промокод не найден
+      </p>
     </div>
   </div>
 </template>
@@ -116,11 +129,17 @@ const emits = defineEmits(["deleteCourse", "setPromo", "activatePromo"]);
 
 const basket = useState("basket");
 
+const isPromoChecking = ref(false);
+
+const promoNotFound = ref(false);
+
 const promocode = ref("");
 
 const promoObject = ref({});
 
 const dropdownElement = ref(null);
+
+const currentMonth = ref(null);
 
 const MONTHS = [
   { id: "0", title: "Январь" },
@@ -139,45 +158,56 @@ const MONTHS = [
 
 onMounted(() => {
   if (props.course) {
-    console.log(props.course.promo);
-
     if (props.course.promo != null) {
       promoObject.value = props.course.promoObject;
-
-      console.log(promoObject.value);
 
       let month = MONTHS.find(
         (month) => month.title === promoObject.value.month
       );
 
-      console.log(month);
-
-      console.log(dropdownElement);
-
+      currentMonth.value = month.id;
       dropdownElement.value.setOption(month);
       promocode.value = promoObject.value.code;
     }
   }
 });
 
+function onPromoInput() {
+  promoNotFound.value = false;
+
+  emits("setPromo", null, 0);
+}
+
 async function onMonthSelect(month) {
+  promoNotFound.value = false;
+
   if (month.id === undefined) {
-    promocode.value = "";
+    currentMonth.value = null;
   } else {
-    const { data, status } = await checkPromocode(month.id);
-    if (data.value.promo != null) {
-      promoObject.value = data.value.promo;
-      promocode.value = promoObject.value.code;
-    } else {
-      promocode.value = "";
-    }
+    currentMonth.value = month.id;
   }
 
   emits("setPromo", null, 0);
 }
 
-function activatePromo() {
-  emits("activatePromo", promoObject.value);
+async function activatePromo() {
+  promoNotFound.value = false;
+  isPromoChecking.value = true;
+
+  const { data, status } = await checkPromocode(currentMonth.value);
+
+  if (data.value.promo != null) {
+    if (promocode.value == data.value.promo.code) {
+      promoObject.value = data.value.promo;
+      emits("activatePromo", promoObject.value);
+      isPromoChecking.value = false;
+
+      return;
+    }
+  }
+
+  promoNotFound.value = true;
+  isPromoChecking.value = false;
 }
 </script>
 
@@ -225,10 +255,22 @@ function activatePromo() {
   flex-direction: column;
   gap: 12px;
 
+  position: relative;
+
   @media @min580 {
     display: grid;
     grid-template-columns: 1fr 1fr 140px;
   }
+}
+
+.basket-card__warning {
+  position: absolute;
+
+  right: 0;
+
+  top: calc(100% + 2px);
+
+  color: red;
 }
 
 .basket-card__img {

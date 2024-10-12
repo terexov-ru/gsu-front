@@ -1,5 +1,9 @@
 <template>
-  <div class="drop-down" v-click-outside="onClickOutside">
+  <div
+    class="drop-down"
+    :class="{ 'drop-down_disabled': disabled }"
+    v-click-outside="onClickOutside"
+  >
     <div @click="active = !active" class="text drop-down__box text_normal">
       <span>{{ selectedItem.title }}</span>
       <svg
@@ -53,6 +57,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
   options: Array,
 });
 
@@ -99,6 +107,11 @@ defineExpose({
 
   width: 100%;
   height: 44px;
+
+  &_disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
 
 .drop-down__box {
