@@ -98,6 +98,7 @@
             v-if="!isOrderPaid"
             :to="order.payment_link"
             target="_blank"
+            :class="{ disabled: isLoading }"
           >
             <button class="button order__button button_gradient">
               Оплатить
@@ -105,17 +106,20 @@
           </NuxtLink>
           <NuxtLink
             v-else
+            :class="{ disabled: isLoading }"
             :to="{ path: '/account', query: { tab: 'AccountPrograms' } }"
           >
             <button class="button order__button button_gradient">
               Перейти к курсу
             </button>
           </NuxtLink>
-          <NuxtLink :to="order.subscribe_agreement_link" target="_blank">
-            <button class="button order__button button_black-bordered">
-              Подписать договор
-            </button>
-          </NuxtLink>
+          <button
+            @click="checkAgreement"
+            class="button order__button button_black-bordered"
+            :class="{ disabled: isLoading }"
+          >
+            {{ isLoading ? "Подписание..." : "Подписать договор" }}
+          </button>
         </div>
       </div>
     </div>
@@ -130,9 +134,15 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  profile: Object,
 });
 
+const emits = defineEmits(["openProfilePopup"]);
+
+const { createAgreement } = useApi();
+
 const active = ref(false);
+const isLoading = ref(false);
 
 const isOrderPaid = computed(() => {
   if (props.order.status.id === 5) return true;
@@ -145,10 +155,52 @@ function getTipClass(id) {
   else if (id === 4) return "tip_danger";
   else return "tip_dark-fill";
 }
+
+function checkAgreement() {
+  if (
+    props.profile.name == "" ||
+    props.profile.last_name == "" ||
+    props.profile.surname == "" ||
+    props.profile.email == "" ||
+    props.profile.passport_number == "" ||
+    props.profile.phone == "" ||
+    props.profile.postal_address == ""
+  ) {
+    emits("openProfilePopup");
+  } else signAgreement();
+}
+
+async function signAgreement() {
+  if (isLoading.value == true) return;
+
+  isLoading.value = true;
+
+  const { data, status } = await createAgreement(props.order.number);
+
+  console.log(data);
+
+  if (data.value.link) {
+    await navigateTo(data.value.link, {
+      open: {
+        target: "_blank",
+      },
+      external: true,
+    });
+    isLoading.value = false;
+  } else {
+    isLoading.value = false;
+  }
+}
 </script>
 
 <style lang="less" scoped>
 @import "assets/core";
+
+.disabled {
+  pointer-events: none;
+
+  opacity: 0.8;
+}
 
 .order-card {
   box-sizing: border-box;

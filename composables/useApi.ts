@@ -18,6 +18,7 @@ const CONTACTS_PATH = "/page/company_contacts";
 const FAQS_PATH = "/page/faqs";
 const TECH_PATH = "/page/technical_requirements";
 const PROMO_PATH = "/get_promo_for_month";
+const CREATE_AGREEMENT = "/profile/create_order_agreement";
 
 /* AUTH */
 const CHECK_PATH = "/auth/check_token";
@@ -151,6 +152,15 @@ export const useApi = () => {
       },
       body: {
         month: month,
+      },
+    });
+  }
+
+  async function createAgreement(id: number) {
+    return useFetch(API + CREATE_AGREEMENT + `?order_id=${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getTokenCookie()}`,
       },
     });
   }
@@ -564,5 +574,6 @@ export const useApi = () => {
     setAvatar,
     createReview,
     checkPromocode,
+    createAgreement,
   };
 };

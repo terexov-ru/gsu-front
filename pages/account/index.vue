@@ -39,7 +39,11 @@
 
         <AccountPrograms v-if="activeComponent === COMPONENTS[1]" />
 
-        <AccountOrders v-if="activeComponent === COMPONENTS[2]" />
+        <AccountOrders
+          :profile="profile"
+          v-if="activeComponent === COMPONENTS[2]"
+          @navigateToProfile="changeTab(0)"
+        />
       </div>
     </div>
   </div>

@@ -72,7 +72,8 @@ if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
     const profile = data.value.profile;
     mailValue.value = profile.email;
     phoneValue.value = profile.phone;
-    nameValue.value = profile.name;
+    nameValue.value =
+      profile.surname + " " + profile.name + " " + profile.last_name;
   });
 }
 
