@@ -207,6 +207,8 @@ export const useApi = () => {
 
   async function createOrder(
     name: String,
+    surname: String,
+    dad_name: String,
     email: String,
     phone: String,
     courses: []
@@ -215,7 +217,9 @@ export const useApi = () => {
       method: "POST",
       body: {
         courses: courses,
-        fio: name,
+        fam: surname,
+        name: name,
+        dad_name: dad_name,
         email: email,
         phone: phone,
       },

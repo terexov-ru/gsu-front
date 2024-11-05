@@ -4,13 +4,30 @@
       <div class="text text_large">Данные получателя</div>
 
       <InputBlock
-        :name="'name'"
-        :title="'ФИО'"
+        :name="'lastName'"
+        :title="'Фамилия'"
         :type="'text'"
-        v-model:value="nameValue"
-        :placeholder="'Иванов Иван Иванович'"
-        :rule="validateName"
         :white="true"
+        v-model:value="lastNameValue"
+        :rule="validateName"
+      />
+
+      <InputBlock
+        :name="'name'"
+        :title="'Имя'"
+        :type="'text'"
+        :white="true"
+        v-model:value="nameValue"
+        :rule="validateName"
+      />
+
+      <InputBlock
+        :name="'sename'"
+        :title="'Отчество'"
+        :type="'text'"
+        :white="true"
+        v-model:value="senameValue"
+        :rule="validateName"
       />
 
       <InputBlock
@@ -58,7 +75,11 @@ const basket = useState("basket");
 const url = useRequestURL();
 
 const emit = defineEmits(["success"]);
+
 const nameValue = ref("");
+const senameValue = ref("");
+const lastNameValue = ref("");
+
 const phoneValue = ref("");
 const mailValue = ref("");
 const basketError = ref("");
@@ -72,8 +93,10 @@ if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
     const profile = data.value.profile;
     mailValue.value = profile.email;
     phoneValue.value = profile.phone;
-    nameValue.value =
-      profile.surname + " " + profile.name + " " + profile.last_name;
+
+    nameValue.value = profile.name;
+    senameValue.value = profile.surname;
+    lastNameValue.value = profile.last_name;
   });
 }
 
@@ -104,6 +127,8 @@ async function getOrderBase(values, actions) {
 
   const { data, status, error } = await createOrder(
     values.name,
+    values.lastName,
+    values.sename,
     values.email,
     values.phone,
     orderBasket
@@ -140,7 +165,8 @@ async function getOrderAuth(values, actions) {
   const { data, status } = await createOrderAuth(orderBasket);
 
   if (status.value === "success" && data.value.status === "ok") {
-    useState("orderLink", () => shallowRef(data.value.payment_link));
+    useState("orderLink").value = data.value.payment_link;
+    await nextTick();
     emit("success");
     await nextTick();
     actions.resetForm();

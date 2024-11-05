@@ -94,7 +94,8 @@
 const emits = defineEmits(["close", "toAuth"]);
 const sum = useState("orderSum");
 const mail = useState("orderMail");
-const payLink = useState("orderLink");
+
+const payLink = computed(() => useState("orderLink").value);
 </script>
 
 <style scoped lang="less">
