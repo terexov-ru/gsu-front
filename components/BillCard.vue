@@ -1,6 +1,9 @@
 <template>
   <Form class="bill-form" @submit="onSubmit">
-    <div class="basket__bill">
+    <div
+      v-show="getTokenCookie() === undefined || getTokenCookie() === null"
+      class="basket__bill"
+    >
       <div class="text text_large">Данные получателя</div>
 
       <InputBlock

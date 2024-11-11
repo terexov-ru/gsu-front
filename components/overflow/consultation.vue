@@ -1,45 +1,51 @@
 <template>
-  <Overflow
-    v-if="!success"
-  >
-    <img class="close"
-         @click="emits('close')"
-         src="~/assets/svg/close.svg"
-         alt="close"
-    >
+  <Overflow v-if="!success">
+    <img
+      class="close"
+      @click="emits('close')"
+      src="~/assets/svg/close.svg"
+      alt="close"
+    />
 
     <Form class="form" @submit="onSubmit">
-
       <InputBlock
-          :name="'name'"
-          :title="'ФИО'"
-          :type="'text'"
-          v-model:value="nameValue"
-          :placeholder="'Иванов Иван Иванович'"
-          :rule="validateName"
+        :name="'fam'"
+        :title="'Фамилия'"
+        :type="'text'"
+        v-model:value="famValue"
+        :placeholder="'Иванов'"
+        :rule="validateFam"
       />
 
       <InputBlock
-          :name="'phone'"
-          :title="'Телефон'"
-          :type="'text'"
-          v-model:value="phoneValue"
-          :placeholder="'Номер телефона'"
-          :mask="phoneMask"
-          :rule="validatePhone"
+        :name="'name'"
+        :title="'Имя'"
+        :type="'text'"
+        v-model:value="nameValue"
+        :placeholder="'Иван'"
+        :rule="validateName"
       />
 
       <InputBlock
-          :name="'email'"
-          :title="'E-mail'"
-          :type="'text'"
-          v-model:value="mailValue"
-          :placeholder="'Почта'"
-          :rule="validateEmail"
+        :name="'phone'"
+        :title="'Телефон'"
+        :type="'text'"
+        v-model:value="phoneValue"
+        :placeholder="'Номер телефона'"
+        :mask="phoneMask"
+        :rule="validatePhone"
+      />
+
+      <InputBlock
+        :name="'email'"
+        :title="'E-mail'"
+        :type="'text'"
+        v-model:value="mailValue"
+        :placeholder="'Почта'"
+        :rule="validateEmail"
       />
 
       <div class="column column_gap8">
-
         <div class="text text_normal text_center">
           <p>Оставляя данные в этой форме, Вы даете</p>
           <NuxtLink to="/policy.pdf" target="_blank">
@@ -47,44 +53,52 @@
           </NuxtLink>
         </div>
 
-        <button class="button overflow-card__button button_gradient">Записаться</button>
+        <button class="button overflow-card__button button_gradient">
+          Записаться
+        </button>
         <button
-            :disabled="disabled"
-            class="button overflow-card__button button_black-bordered"
+          :disabled="disabled"
+          class="button overflow-card__button button_black-bordered"
         >
           Получить консультацию
         </button>
       </div>
     </Form>
-
   </Overflow>
 
-  <OverflowSuccess
-      v-else
-      @close="emits('close')"
-  />
+  <OverflowSuccess v-else @close="emits('close')" />
 </template>
 
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 
-const {validateEmail, validateName, validatePhone, phoneMask} = useValidate();
-const {sendForm} = useApi();
+const { validateEmail, validateName, validateFam, validatePhone, phoneMask } =
+  useValidate();
+const { sendForm } = useApi();
 
-const nameValue = ref('');
-const phoneValue = ref('');
-const mailValue = ref('');
+const famValue = ref("");
+const nameValue = ref("");
+const phoneValue = ref("");
+const mailValue = ref("");
 
 const success = ref(false);
 const disabled = ref(false);
 const url = useRequestURL();
 
-const emits = defineEmits(['close']);
+const emits = defineEmits(["close"]);
 
 async function onSubmit(values) {
   disabled.value = true;
-  const {data, status} = await sendForm(values.name, values.email, values.phone, 'Получить консультацию', undefined, url.href);
-  if (status.value === 'success' && data.value.status === 'ok') {
+  const { data, status } = await sendForm(
+    values.fam,
+    values.name,
+    values.email,
+    values.phone,
+    "Получить консультацию",
+    undefined,
+    url.href
+  );
+  if (status.value === "success" && data.value.status === "ok") {
     success.value = true;
   }
 
@@ -94,7 +108,6 @@ async function onSubmit(values) {
 
 <style scoped lang="less">
 @import "assets/core.less";
-
 
 .form {
   display: flex;

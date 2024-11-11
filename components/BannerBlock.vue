@@ -253,7 +253,7 @@ export default {
 
   @media @min580 {
     flex-direction: row;
-    max-width: 900px;
+    max-width: 1000px;
   }
 
   @media @min990 {

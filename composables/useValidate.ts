@@ -35,6 +35,24 @@ export const useValidate = () => {
     return true;
   }
 
+  function validateFam(value: string): boolean | string {
+    if (value !== "" && value) {
+      const nameRegex = /^[а-яА-ЯёЁ\s]+$/;
+
+      if (value.trim() === "") {
+        return "Фамилия не может быть пустой";
+      }
+
+      if (!nameRegex.test(value)) {
+        return "Фамилия может содержать только буквы и пробелы";
+      }
+    } else {
+      return "Фамилия не может быть пустой";
+    }
+
+    return true;
+  }
+
   function validateAddress(value: string): boolean | string {
     if (value !== "" && value) {
       if (value.trim() === "") {
@@ -87,6 +105,7 @@ export const useValidate = () => {
   return {
     validateEmail,
     validateName,
+    validateFam,
     validateComment,
     validatePhone,
     validatePassport,
