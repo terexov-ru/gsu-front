@@ -277,8 +277,7 @@ function checkAgreementData() {
 }
 
 function checkAgreement() {
-  // if (checkAgreementData()) {
-  if (false) {
+  if (checkAgreementData()) {
     signAgreement();
   } else {
     dataForm.value = true;
