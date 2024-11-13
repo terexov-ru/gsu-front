@@ -138,7 +138,9 @@ async function getOrderBase(values, actions) {
   );
 
   if (status.value === "success" && shallowRef(data.value.status === "ok")) {
-    useState("orderLink", () => data.value.payment_link);
+    useState("orderLink").value = data.value.payment_link;
+    useState("orderNumber").value = data.value.iorder_id;
+    await nextTick();
     emit("success");
     await nextTick();
     actions.resetForm();
@@ -169,6 +171,7 @@ async function getOrderAuth(values, actions) {
 
   if (status.value === "success" && data.value.status === "ok") {
     useState("orderLink").value = data.value.payment_link;
+    useState("orderNumber").value = data.value.iorder_id;
     await nextTick();
     emit("success");
     await nextTick();

@@ -1,121 +1,98 @@
 <template>
   <main class="home-page">
-
     <MissionSlider
-        class="mission-block"
-        @clickButton="formConActive = true"
-        :banner="page.top_banner"
+      class="mission-block"
+      @clickButton="formConActive = true"
+      :banner="page.top_banner"
     />
 
-    <ProgramSearchBlock
-        class="search-block"
-    />
+    <ProgramSearchBlock class="search-block" />
 
-    <ReviewBlock
-        class="review-block"
-        :reviews="page.reviews"
-    />
+    <ReviewBlock class="review-block" :reviews="page.reviews" />
 
-    <NewsBlock
-        class="news-block"
-        :news="page.news[0].slice(0, 3)"
-    />
+    <NewsBlock class="news-block" :news="page.news[0].slice(0, 3)" />
 
     <AdvantagesSlider
-        class="advantages-block"
-        :banner="page.bottom_banner"
-        @clickButton="moreInfoActive = true"
+      class="advantages-block"
+      :banner="page.bottom_banner"
+      @clickButton="moreInfoActive = true"
     />
 
-    <SummaryBlock
-        class="summary-block"
-        :info="page.block_info"
-    />
+    <SummaryBlock class="summary-block" :info="page.block_info" />
 
     <QuestionSlider
-        class="question-block"
-        :banner="page.questions_banner"
-        @success="sucActive = true"
+      class="question-block"
+      :banner="page.questions_banner"
+      @success="sucActive = true"
     />
 
     <OverflowContainer
-        :active="formConActive"
-        @closeOverflow="formConActive = false"
+      :active="formConActive"
+      @closeOverflow="formConActive = false"
     >
-      <OverflowConsultation
-          @close="formConActive = false"
-      />
+      <OverflowConsultation @close="formConActive = false" />
+    </OverflowContainer>
+
+    <OverflowContainer :active="sucActive" @closeOverflow="sucActive = false">
+      <OverflowSuccess @close="sucActive = false" />
     </OverflowContainer>
 
     <OverflowContainer
-        :active="sucActive"
-        @closeOverflow="sucActive = false"
+      :active="successOrder"
+      @closeOverflow="closeSuccessOrder()"
     >
-      <OverflowSuccess
-          @close="sucActive = false"
-      />
+      <OverflowSuccessOrder @close="closeSuccessOrder()" @toAuth="toAuth()" />
     </OverflowContainer>
 
     <OverflowContainer
-        :active="successOrder"
-        @closeOverflow="closeSuccessOrder()"
+      :active="moreInfoActive"
+      @closeOverflow="moreInfoActive = false"
     >
-      <OverflowSuccessOrder
-          @close="closeSuccessOrder()"
-          @toAuth="toAuth()"
-      />
+      <OverflowMoreInfo @close="moreInfoActive = false" />
     </OverflowContainer>
-
-    <OverflowContainer
-        :active="moreInfoActive"
-        @closeOverflow="moreInfoActive = false"
-    >
-      <OverflowMoreInfo
-          @close="moreInfoActive = false"
-      />
-    </OverflowContainer>
-    <OverflowContainer
-        :active="logActive"
-        @closeOverflow="logActive = false"
-    >
-      <OverflowAuth
-          @close="logActive = false"
-      />
+    <OverflowContainer :active="logActive" @closeOverflow="logActive = false">
+      <OverflowAuth @close="logActive = false" />
     </OverflowContainer>
   </main>
 </template>
 <script setup>
-import {onMounted, toValue} from "vue";
+import { onMounted, toValue } from "vue";
 
-const {simpleGet, getUser} = useApi();
+const { simpleGet, getUser } = useApi();
 const formConActive = ref(false);
 const sucActive = ref(false);
 const successOrder = ref(false);
 const moreInfoActive = ref(false);
 const logActive = ref(false);
 
-const {data: data} = await simpleGet('/page/main');
+const { data: data } = await simpleGet("/page/main");
 
 const page = toValue(data).page;
 
-
 /* SUCCESS from store (use with redirect)*/
-const success = useState('mainSuccess');
+const success = useState("mainSuccess");
 if (success.value === true) {
+  const data = await getUser();
+  console.log(data.profile);
+
   successOrder.value = true;
 }
 
 async function toAuth() {
-  const {getTokenCookie} = useUtils();
+  const { getTokenCookie } = useUtils();
   successOrder.value = false;
   success.value = false;
 
-  if (getTokenCookie() === undefined || getTokenCookie() === '' || getTokenCookie() === null) {
+  if (
+    getTokenCookie() === undefined ||
+    getTokenCookie() === "" ||
+    getTokenCookie() === null
+  ) {
     logActive.value = !logActive.value;
   } else {
     const data = await getUser();
     if (data.profile) {
-      await navigateTo('/account');
+      await navigateTo("/account");
     } else {
       this.logActive = !this.logActive;
     }
@@ -142,8 +119,6 @@ function closeSuccessOrder() {
 }
 
 .mission-block {
-
-
 }
 
 .search-block {
@@ -211,5 +186,4 @@ function closeSuccessOrder() {
     margin-top: 140px;
   }
 }
-
 </style>
