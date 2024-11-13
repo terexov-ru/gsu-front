@@ -184,7 +184,7 @@
 </template>
 
 <script setup>
-const { getUser, createAgreement } = useApi();
+const { setInfo, getUser, createAgreement } = useApi();
 const {
   validateEmail,
   validateName,
@@ -209,6 +209,7 @@ const pasportValue = ref("");
 const postalAddressValue = ref("");
 
 const textError = ref("");
+const success = ref(false);
 
 const isLoading = ref(false);
 const dataForm = ref(false);
