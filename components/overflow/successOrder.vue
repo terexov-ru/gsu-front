@@ -170,10 +170,17 @@
                 :disabled="disabled"
                 type="button"
                 @click="onProfileSubmit"
-                class="button button_black-bordered"
+                class="button button_dark"
                 :class="{ disabled: disabled }"
               >
                 {{ disabled ? "Подписание..." : "Подписать договор" }}
+              </button>
+              <button
+                type="button"
+                @click="dataForm = false"
+                class="button button_black-bordered"
+              >
+                Назад
               </button>
             </div>
           </div>
@@ -198,7 +205,8 @@ const {
 const emits = defineEmits(["close", "toAuth"]);
 
 const sum = useState("orderSum");
-const mail = useState("orderMail");
+// const mail = useState("orderMail");
+const mail = ref("");
 
 const nameValue = ref("");
 const senameValue = ref("");
@@ -231,6 +239,8 @@ async function getUserInfo() {
   mailValue.value = profileData.profile.email;
   pasportValue.value = profileData.profile.passport_number;
   postalAddressValue.value = profileData.profile.postal_address;
+
+  mail.value = profileData.profile.email;
 }
 
 getUserInfo();
@@ -263,15 +273,21 @@ async function onProfileSubmit() {
 }
 
 function checkAgreementData() {
-  if (
-    profileData.profile.name == "" ||
-    profileData.profile.last_name == "" ||
-    profileData.profile.surname == "" ||
-    profileData.profile.email == "" ||
-    profileData.profile.passport_number == "" ||
-    profileData.profile.phone == "" ||
-    profileData.profile.postal_address == ""
-  ) {
+  const requiredFields = [
+    "name",
+    "last_name",
+    "surname",
+    "email",
+    "passport_number",
+    "phone",
+    "postal_address",
+  ];
+
+  const isAnyFieldEmpty = requiredFields.some(
+    (field) => !profileData.profile[field]
+  );
+
+  if (isAnyFieldEmpty) {
     return false;
   } else return true;
 }

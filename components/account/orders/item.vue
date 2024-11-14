@@ -157,15 +157,19 @@ function getTipClass(id) {
 }
 
 function checkAgreement() {
-  if (
-    props.profile.name == "" ||
-    props.profile.last_name == "" ||
-    props.profile.surname == "" ||
-    props.profile.email == "" ||
-    props.profile.passport_number == "" ||
-    props.profile.phone == "" ||
-    props.profile.postal_address == ""
-  ) {
+  const requiredFields = [
+    "name",
+    "last_name",
+    "surname",
+    "email",
+    "passport_number",
+    "phone",
+    "postal_address",
+  ];
+
+  const isAnyFieldEmpty = requiredFields.some((field) => !props.profile[field]);
+
+  if (isAnyFieldEmpty) {
     emits("openProfilePopup");
   } else signAgreement();
 }

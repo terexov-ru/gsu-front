@@ -10,11 +10,61 @@
           <!--     Верх навигации     -->
           <div class="nav__container">
             <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
-              <li class="nav__list__item text text_caption">
+              <!-- <li class="nav__list__item text text_caption">
                 <NuxtLink to="/loyalty"> Программа лояльности </NuxtLink>
+              </li> -->
+              <li class="dropdown nav__list__item">
+                <span class="dropdown__btn text text_caption text_dark"
+                  >Обучение</span
+                >
+                <ul class="dropdown__list text text_normal text_dark">
+                  <li v-for="category in categories">
+                    <NuxtLink
+                      :to="'/courses?id=' + category.id"
+                      @click="menuActive = false"
+                      >{{ category.title }}
+                    </NuxtLink>
+                  </li>
+                </ul>
               </li>
-              <li class="nav__list__item text text_caption">
-                <NuxtLink to="/vacancies"> Вакансии </NuxtLink>
+
+              <li class="dropdown nav__list__item">
+                <span class="dropdown__btn text text_caption text_dark"
+                  >О компании</span
+                >
+                <ul class="dropdown__list text text_dark">
+                  <li>
+                    <NuxtLink to="/about"> О нас </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/news"> Новости </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/about/license"> Лицензии </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/about/reviews"> Отзывы клиентов </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/about/team"> Наша команда </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/vacancies"> Вакансии </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/about/requisites"> Реквизиты </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/about/details">
+                      Сведения об организации
+                    </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/about/register">
+                      Государственный реестр ФИС ФРДО
+                    </NuxtLink>
+                  </li>
+                </ul>
               </li>
               <li class="dropdown nav__list__item">
                 <span class="dropdown__btn text text_caption">Помощь</span>
@@ -72,7 +122,7 @@
 
           <div v-if="!$viewport.isLessThan('mobile')" class="nav__container">
             <!--     Низ навигации     -->
-            <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
+            <!-- <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
               <li class="dropdown nav__list__item">
                 <span class="dropdown__btn text text_caption text_dark"
                   >Обучение</span
@@ -94,7 +144,7 @@
                 >
                 <ul class="dropdown__list text text_dark">
                   <li>
-                    <NuxtLink to="/about"> Университет </NuxtLink>
+                    <NuxtLink to="/about"> О нас </NuxtLink>
                   </li>
                   <li>
                     <NuxtLink to="/news"> Новости </NuxtLink>
@@ -107,6 +157,9 @@
                   </li>
                   <li>
                     <NuxtLink to="/about/team"> Наша команда </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/vacancies"> Вакансии </NuxtLink>
                   </li>
                   <li>
                     <NuxtLink to="/about/requisites"> Реквизиты </NuxtLink>
@@ -123,7 +176,7 @@
                   </li>
                 </ul>
               </li>
-            </ul>
+            </ul> -->
 
             <!--     Кнопка действия     -->
             <button
@@ -218,7 +271,7 @@
             <div class="column column_gap16 text text_normal text_light">
               <div>
                 <NuxtLink to="/about" @click="menuActive = false"
-                  >Университет</NuxtLink
+                  >О нас</NuxtLink
                 >
               </div>
               <div>
@@ -240,6 +293,11 @@
                 <NuxtLink to="/about/team" @click="menuActive = false"
                   >Наша команда</NuxtLink
                 >
+              </div>
+              <div>
+                <NuxtLink to="/vacancies" @click="menuActive = false">
+                  Вакансии
+                </NuxtLink>
               </div>
               <div>
                 <NuxtLink to="/about/requisites" @click="menuActive = false"
@@ -264,7 +322,7 @@
       <div class="delimiter delimiter_gradient" />
 
       <ul class="nav__list burger-menu__block nav__list_mob">
-        <li class="nav__list__item text text_caption">
+        <!-- <li class="nav__list__item text text_caption">
           <NuxtLink to="/loyalty" @click="menuActive = false"
             >Программа лояльности</NuxtLink
           >
@@ -273,7 +331,7 @@
           <NuxtLink to="/vacancies" @click="menuActive = false"
             >Вакансии</NuxtLink
           >
-        </li>
+        </li> -->
 
         <div class="burger-menu__item">
           <div
@@ -475,6 +533,10 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .button {
+    margin-left: auto;
+  }
 }
 
 .nav__list {

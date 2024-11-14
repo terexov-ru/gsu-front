@@ -59,8 +59,9 @@
       <button
         :disabled="disabled"
         class="button bill__button button_gradient button_size button_fill"
+        :class="{ disabled: disabled }"
       >
-        Записаться на курс
+        {{ disabled ? "Записываем..." : "Записаться на курс" }}
       </button>
       <div class="text text_normal text_error text_center">
         {{ basketError }}
