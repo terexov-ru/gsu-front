@@ -47,8 +47,7 @@
                       stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <div class="text text_normal">
-              {{ bigNews.text }}
+            <div class="text text_normal" v-hmtl="bigNews.text">
             </div>
           </div>
         </NuxtLink>
