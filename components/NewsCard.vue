@@ -80,7 +80,7 @@ export default {
   border-radius: 8px;
 
   @media @min580 {
-    object-fit: none;
+    object-fit: cover;
   }
 }
 
