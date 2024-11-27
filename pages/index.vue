@@ -12,11 +12,11 @@
 
     <NewsBlock class="news-block" :news="page.news[0].slice(0, 3)" />
 
-    <AdvantagesSlider
+    <!-- <AdvantagesSlider
       class="advantages-block"
       :banner="page.bottom_banner"
       @clickButton="moreInfoActive = true"
-    />
+    /> -->
 
     <SummaryBlock class="summary-block" :info="page.block_info" />
 

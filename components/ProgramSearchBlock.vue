@@ -3,8 +3,8 @@
   и отображения состояние в ProgramCardList-->
   <div class="search-block wrapper wrapper_paddings">
     <h2 class="text text_h2 text_dark">
-      Подбери <span class="text_accent">программу</span> и повысь <br />
-      свою <span class="text_accent">компетентность</span>
+      Подбери <span class="text_accent">программу</span> — повышай <br />
+      свою <span class="text_accent">квалификацию</span> с нами
     </h2>
 
     <ProgramSearchBar @search="search()" v-model:value="searchValue" />

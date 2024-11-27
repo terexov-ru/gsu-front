@@ -1,12 +1,10 @@
 <template>
   <div class="wrapper wrapper_paddings">
-    <h2 class="text text_h2 text_dark"><span class="text_accent">Честные отзывы</span> от наших учеников</h2>
-    <ReviewCardList
-        :reviews="reviews"
-        class="list"/>
-    <SeeMore
-      :href="'/about/reviews'"
-    />
+    <h2 class="text text_h2 text_dark">
+      <span class="text_accent">Отзывы</span> наших слушателей
+    </h2>
+    <ReviewCardList :reviews="reviews" class="list" />
+    <SeeMore :href="'/about/reviews'" />
   </div>
 </template>
 
@@ -15,10 +13,10 @@ export default {
   props: {
     reviews: {
       type: Array,
-      require: true
-    }
-  }
-}
+      require: true,
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
