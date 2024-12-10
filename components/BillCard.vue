@@ -1,12 +1,10 @@
 <template>
   <Form class="bill-form" @submit="onSubmit">
-    <div
-      v-show="getTokenCookie() === undefined || getTokenCookie() === null"
-      class="basket__bill"
-    >
+    <div v-show="fieldsToFill.length > 0" class="basket__bill">
       <div class="text text_large">Данные получателя</div>
 
       <InputBlock
+        v-if="fieldsToFill.includes('lastName')"
         :name="'lastName'"
         :title="'Фамилия'"
         :type="'text'"
@@ -16,6 +14,7 @@
       />
 
       <InputBlock
+        v-if="fieldsToFill.includes('name')"
         :name="'name'"
         :title="'Имя'"
         :type="'text'"
@@ -25,6 +24,7 @@
       />
 
       <InputBlock
+        v-if="fieldsToFill.includes('sename')"
         :name="'sename'"
         :title="'Отчество'"
         :type="'text'"
@@ -34,6 +34,7 @@
       />
 
       <InputBlock
+        v-if="fieldsToFill.includes('phone')"
         :name="'phone'"
         :title="'Телефон'"
         :type="'text'"
@@ -45,6 +46,7 @@
       />
 
       <InputBlock
+        v-if="fieldsToFill.includes('email')"
         :name="'email'"
         :title="'E-mail'"
         :type="'text'"
@@ -74,7 +76,7 @@
 import { ref } from "vue";
 
 const { validateEmail, validateName, validatePhone, phoneMask } = useValidate();
-const { createOrder, getUserLazy, createOrderAuth } = useApi();
+const { createOrder, getUserLazy, createOrderAuth, setInfo } = useApi();
 const basket = useState("basket");
 const url = useRequestURL();
 
@@ -88,19 +90,27 @@ const phoneValue = ref("");
 const mailValue = ref("");
 const basketError = ref("");
 const disabled = ref(false);
-const { cleanBasket, getTokenCookie, getBasket } = useUtils();
+const { cleanBasket, getTokenCookie } = useUtils();
 
-if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
+const isAuthed = getTokenCookie() !== undefined && getTokenCookie() !== null;
+
+const fieldsToFill = ref(
+  isAuthed ? [] : ["name", "sename", "lastName", "phone", "mail"],
+);
+
+if (isAuthed) {
   const { data } = await getUserLazy();
 
   watch(data, () => {
     const profile = data.value.profile;
+
     mailValue.value = profile.email;
     phoneValue.value = profile.phone;
-
     nameValue.value = profile.name;
     senameValue.value = profile.surname;
     lastNameValue.value = profile.last_name;
+
+    resetFieldsToFill();
   });
 }
 
@@ -111,7 +121,7 @@ async function onSubmit(values, actions) {
 
     useState("orderMail", () => shallowRef(mailValue.value));
 
-    if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
+    if (isAuthed) {
       await getOrderAuth(values, actions);
     } else {
       await getOrderBase(values, actions);
@@ -135,7 +145,7 @@ async function getOrderBase(values, actions) {
     values.sename,
     values.email,
     values.phone,
-    orderBasket
+    orderBasket,
   );
 
   if (status.value === "success" && shallowRef(data.value.status === "ok")) {
@@ -171,6 +181,14 @@ async function getOrderAuth(values, actions) {
   const { data, status } = await createOrderAuth(orderBasket);
 
   if (status.value === "success" && data.value.status === "ok") {
+    await setInfo({
+      name: nameValue.value,
+      last_name: senameValue.value,
+      surname: lastNameValue.value,
+      phone: phoneValue.value,
+      email: mailValue.value,
+    });
+
     useState("orderLink").value = data.value.payment_link;
     useState("orderNumber").value = data.value.iorder_id;
     await nextTick();
@@ -181,6 +199,16 @@ async function getOrderAuth(values, actions) {
   } else {
     basketError.value = "Произошла ошибка";
   }
+}
+
+function resetFieldsToFill() {
+  if (!nameValue.value) fieldsToFill.value.push("name");
+  if (!senameValue.value) fieldsToFill.value.push("sename");
+  if (!lastNameValue.value) fieldsToFill.value.push("lastName");
+  if (!phoneValue.value) fieldsToFill.value.push("phone");
+  if (!mailValue.value) fieldsToFill.value.push("mail");
+
+  fieldsToFill.value = [...new Set(fieldsToFill.value)];
 }
 </script>
 
