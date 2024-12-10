@@ -261,7 +261,7 @@ async function onProfileSubmit() {
 
   const data = await setInfo(profile);
 
-  if (data === true) {
+  if (data) {
     signAgreement();
     success.value = true;
     textError.value = "";
@@ -273,6 +273,8 @@ async function onProfileSubmit() {
 }
 
 function checkAgreementData() {
+  if (!profileData?.profile) return false;
+
   const requiredFields = [
     "name",
     "last_name",
@@ -284,12 +286,10 @@ function checkAgreementData() {
   ];
 
   const isAnyFieldEmpty = requiredFields.some(
-    (field) => !profileData.profile[field]
+    (field) => !profileData.profile[field],
   );
 
-  if (isAnyFieldEmpty) {
-    return false;
-  } else return true;
+  return !isAnyFieldEmpty;
 }
 
 function checkAgreement() {
