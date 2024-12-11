@@ -135,13 +135,14 @@ const props = defineProps({
     required: true,
   },
   profile: Object,
+  showDetails: Boolean,
 });
 
 const emits = defineEmits(["openProfilePopup"]);
 
 const { createAgreement } = useApi();
 
-const active = ref(false);
+const active = ref(props.showDetails);
 const isLoading = ref(false);
 
 const isOrderPaid = computed(() => {
@@ -254,7 +255,9 @@ async function signAgreement() {
 
 .order-card__list {
   max-height: 2px;
-  transition: opacity 0.5s, max-height 0.5s cubic-bezier(0, 1, 0, 1);
+  transition:
+    opacity 0.5s,
+    max-height 0.5s cubic-bezier(0, 1, 0, 1);
   overflow: hidden;
   opacity: 0;
 }

@@ -69,10 +69,13 @@
   <div v-else>
     <div v-if="data.orders.length > 0" class="order-list">
       <AccountOrdersItem
-        v-for="ord in data.orders"
+        v-for="(ord, idx) in data.orders.sort((a, b) =>
+          new Date(a.date) < new Date(b.date) ? 1 : -1,
+        )"
         :key="ord.id"
         :profile="props.profile"
         :order="ord"
+        :showDetails="idx === 0"
         @openProfilePopup="isProfilePopupActive = true"
       />
     </div>
