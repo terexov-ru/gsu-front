@@ -77,6 +77,7 @@ import { ref } from "vue";
 
 const { validateEmail, validateName, validatePhone, phoneMask } = useValidate();
 const { createOrder, getUserLazy, createOrderAuth, setInfo } = useApi();
+const { setTokenCookie } = useUtils();
 const basket = useState("basket");
 const url = useRequestURL();
 
@@ -178,9 +179,7 @@ async function getOrderAuth(values, actions) {
     promo: item.promo !== undefined ? item.promo : null,
   }));
 
-  const { data, status } = await createOrderAuth(orderBasket);
-
-  if (status.value === "success" && data.value.status === "ok") {
+  if (fieldsToFill.value.length > 0)
     await setInfo({
       name: nameValue.value,
       last_name: senameValue.value,
@@ -189,6 +188,10 @@ async function getOrderAuth(values, actions) {
       email: mailValue.value,
     });
 
+  const { data, status } = await createOrderAuth(orderBasket);
+
+  if (status.value === "success" && data.value.status === "ok") {
+    setTokenCookie(data.value.token);
     useState("orderLink").value = data.value.payment_link;
     useState("orderNumber").value = data.value.iorder_id;
     await nextTick();
