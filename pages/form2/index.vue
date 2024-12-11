@@ -1,27 +1,24 @@
-<script setup lang="ts">
-const container = ref<HTMLDivElement | null>(null);
+<script setup>
+const container = ref();
+const iframe = ref();
 
 onMounted(() => {
-  const formScript = document.createElement("script");
+  if (!iframe.value?.contentWindow || !container.value) return;
 
-  formScript.setAttribute("data-b24-form", "inline/16/h6zyd1");
-  formScript.setAttribute("data-skip-moving", "true");
-
-  formScript.innerHTML =
-    "(function(w,d,u){\n" +
-    "\n" +
-    "var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);\n" +
-    "\n" +
-    "var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);\n" +
-    "\n" +
-    "})(window,document,'https://cdn-ru.bitrix24.ru/b27711258/crm/form/loader_16.js');";
-
-  container.value?.appendChild(formScript);
+  iframe.value.width = iframe.value.contentWindow.document.body.scrollWidth;
+  iframe.value.height = iframe.value.contentWindow.document.body.scrollHeight;
 });
 </script>
 
 <template>
-  <div ref="container" />
+  <div ref="container">
+    <iframe
+      ref="iframe"
+      src="http://localhost:4173/"
+      frameborder="0"
+      width="100%"
+    ></iframe>
+  </div>
 </template>
 
 <style scoped lang="less"></style>
