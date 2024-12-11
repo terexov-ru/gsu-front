@@ -96,7 +96,7 @@ const { cleanBasket, getTokenCookie } = useUtils();
 const isAuthed = getTokenCookie() !== undefined && getTokenCookie() !== null;
 
 const fieldsToFill = ref(
-  isAuthed ? [] : ["name", "sename", "lastName", "phone", "mail"],
+  isAuthed ? [] : ["name", "sename", "lastName", "phone", "email"],
 );
 
 if (isAuthed) {
@@ -150,6 +150,7 @@ async function getOrderBase(values, actions) {
   );
 
   if (status.value === "success" && shallowRef(data.value.status === "ok")) {
+    setTokenCookie(data.value.token);
     useState("orderLink").value = data.value.payment_link;
     useState("orderNumber").value = data.value.iorder_id;
     await nextTick();
