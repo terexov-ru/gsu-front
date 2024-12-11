@@ -1,41 +1,51 @@
 <template>
   <div class="wrapper team-block wrapper_paddings">
-
     <h2 class="text text_h2">Наша команда</h2>
 
     <div class="radio-button radio-button_margins">
-      <div class="radio-button__hover"
-           :class="[{'radio-button__hover_1' : active === 0}, {'radio-button__hover_2' : active === 1}, {'radio-button__hover_3' : active === 2}]"
+      <div
+        class="radio-button__hover"
+        :class="[
+          { 'radio-button__hover_1': active === 0 },
+          { 'radio-button__hover_2': active === 1 },
+          { 'radio-button__hover_3': active === 2 },
+        ]"
       />
 
-      <div @click="active = 0"
-           class="text radio-button__text text_normal radio-button__text_left"
-           :class="{'radio-button__text_active' : active === 0}">
+      <div
+        @click="active = 0"
+        class="text radio-button__text text_normal radio-button__text_left"
+        :class="{ 'radio-button__text_active': active === 0 }"
+      >
         Администрация
       </div>
 
-      <div @click="active = 1"
-           class="text radio-button__text text_normal radio-button__text_center"
-           :class="{'radio-button__text_active' : active === 1}">
+      <div
+        @click="active = 1"
+        class="text radio-button__text text_normal radio-button__text_center"
+        :class="{ 'radio-button__text_active': active === 1 }"
+      >
         Преподаватели
       </div>
 
-      <div @click="active = 2"
-           class="text radio-button__text text_normal radio-button__text_center"
-           :class="{'radio-button__text_active' : active === 2}">
+      <div
+        @click="active = 2"
+        class="text radio-button__text text_normal radio-button__text_center"
+        :class="{ 'radio-button__text_active': active === 2 }"
+      >
         Сотрудники
       </div>
     </div>
 
     <div class="team">
-      <div v-for="item in empl" :key="item.id" class="team__card">
+      <div v-for="item in empl" :key="JSON.stringify(item)" class="team__card">
         <div class="team__card__img-container">
-          <img class="team__card__img" src="~/assets/team.png" alt="team"/>
+          <img class="team__card__img" :src="item.image" alt="team" />
         </div>
         <div class="team__card__description">
           <div class="text text_large">
             {{ item.name }}
-            </div>
+          </div>
           <div class="text text_normal text_light">{{ item.job_title }}</div>
         </div>
       </div>
@@ -43,33 +53,35 @@
 
     <div class="pagination">
       <PaginationBar
-          :size="itemsPerPage"
-          :count="amount"
-          v-model:page="pageNum"
+        :size="itemsPerPage"
+        :count="amount"
+        v-model:page="pageNum"
       />
     </div>
-
   </div>
 </template>
 
 <script setup>
-import {toValue, watch} from "vue";
+import { toValue, watch } from "vue";
 
-const {getTeam: getTeam } = useApi();
+const { getTeam: getTeam } = useApi();
 
 const active = ref(0);
 
-const {data: data} = await getTeam(0, 10);
+const { data: data } = await getTeam(0, 10);
 const empl = ref(toValue(data).page.employees);
 const pageNum = ref(1);
 const itemsPerPage = 9;
 const amount = ref(data.value.page.total_employee_amount);
 
 watch(active, async (newValue) => {
-  const {data: data} = await getTeam(pageNum.value * amount.value - amount.value, itemsPerPage, newValue);
+  const { data: data } = await getTeam(
+    pageNum.value * amount.value - amount.value,
+    itemsPerPage,
+    newValue,
+  );
   empl.value = toValue(data).page.employees;
 });
-
 </script>
 
 <style lang="less" scoped>
@@ -113,9 +125,10 @@ watch(active, async (newValue) => {
   justify-content: center;
 }
 
-.team__card__img-container__img {
+.team__card__img {
+  width: 100%;
   height: 100%;
-  width: auto;
+  object-fit: contain;
 }
 
 .team__card__description {
@@ -203,5 +216,4 @@ watch(active, async (newValue) => {
   left: 33%;
   transition: 150ms;
 }
-
 </style>
