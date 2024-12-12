@@ -7,11 +7,22 @@ const show = ref(false);
 onMounted(() => {
   if (!iframe.value?.contentWindow || !container.value) return;
 
-  iframe.value.width = iframe.value.contentWindow.document.body.scrollWidth;
-  iframe.value.height = iframe.value.contentWindow.document.body.scrollHeight;
+  iframeReloaded(iframe.value, () => {
+    iframe.value.width = iframe.value.contentWindow.document.body.scrollWidth;
+    iframe.value.height = iframe.value.contentWindow.document.body.scrollHeight;
 
-  show.value = true;
+    show.value = true;
+  });
 });
+
+function iframeReloaded(iframe, callback) {
+  let checkLoad = setInterval(() => {
+    if (iframe.contentDocument.readyState === "complete") {
+      clearInterval(checkLoad);
+      callback();
+    }
+  }, 200);
+}
 </script>
 
 <template>
