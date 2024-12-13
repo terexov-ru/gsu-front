@@ -4,6 +4,13 @@ const iframe = ref();
 
 const show = ref(false);
 
+const route = useRoute();
+
+const searchParams = new URLSearchParams(route.query).toString();
+const src = searchParams
+  ? `/form2-script.html?${new URLSearchParams(route.query).toString()}`
+  : `/form2-script.html`;
+
 onMounted(() => {
   if (!iframe.value?.contentWindow || !container.value) return;
 
@@ -34,7 +41,7 @@ function iframeReloaded(iframe, callback) {
       height="100%"
       ref="iframe"
       class="iframe"
-      src="/form2.html"
+      :src="src"
       frameborder="0"
     ></iframe>
   </div>
