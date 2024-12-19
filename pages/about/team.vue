@@ -7,7 +7,7 @@
         class="radio-button__hover"
         :class="[
           { 'radio-button__hover_1': active === 0 },
-          { 'radio-button__hover_2': active === 1 },
+          // { 'radio-button__hover_2': active === 1 },
           { 'radio-button__hover_3': active === 2 },
         ]"
       />
@@ -20,13 +20,13 @@
         Администрация
       </div>
 
-      <div
-        @click="active = 1"
-        class="text radio-button__text text_normal radio-button__text_center"
-        :class="{ 'radio-button__text_active': active === 1 }"
-      >
-        Преподаватели
-      </div>
+      <!--      <div-->
+      <!--        @click="active = 1"-->
+      <!--        class="text radio-button__text text_normal radio-button__text_center"-->
+      <!--        :class="{ 'radio-button__text_active': active === 1 }"-->
+      <!--      >-->
+      <!--        Преподаватели-->
+      <!--      </div>-->
 
       <div
         @click="active = 2"
@@ -188,7 +188,7 @@ watch(active, async (newValue) => {
   position: absolute;
   left: 0;
 
-  width: 33%;
+  width: 50%;
   height: 100%;
 
   border-radius: inherit;
@@ -202,18 +202,18 @@ watch(active, async (newValue) => {
   transition: 150ms;
 }
 
-.radio-button__hover_2 {
-  left: 33%;
-  transition: 150ms;
-}
+//.radio-button__hover_2 {
+//  left: 33%;
+//  transition: 150ms;
+//}
 
 .radio-button__hover_3 {
-  left: 66%;
+  left: 50%;
   transition: 150ms;
 }
 
 .radio-button__hover_active {
-  left: 33%;
+  left: 50%;
   transition: 150ms;
 }
 </style>
