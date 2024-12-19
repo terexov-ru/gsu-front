@@ -55,6 +55,17 @@
         :rule="validateEmail"
         :white="true"
       />
+
+      <InputBlock
+        v-if="fieldsToFill.includes('postalAddress')"
+        :name="'postalAddress'"
+        :title="'Почтовый адрес'"
+        :type="'text'"
+        v-model:value="postalAddressValue"
+        :placeholder="'Адрес'"
+        :rule="validateAddress"
+        :white="true"
+      />
     </div>
 
     <div class="bill__button column column_gap8">
@@ -75,7 +86,13 @@
 <script setup>
 import { ref } from "vue";
 
-const { validateEmail, validateName, validatePhone, phoneMask } = useValidate();
+const {
+  validateEmail,
+  validateName,
+  validatePhone,
+  phoneMask,
+  validateAddress,
+} = useValidate();
 const { createOrder, getUserLazy, createOrderAuth, setInfo } = useApi();
 const { setTokenCookie } = useUtils();
 const basket = useState("basket");
@@ -86,6 +103,7 @@ const emit = defineEmits(["success"]);
 const nameValue = ref("");
 const senameValue = ref("");
 const lastNameValue = ref("");
+const postalAddressValue = ref("");
 
 const phoneValue = ref("");
 const mailValue = ref("");
@@ -96,8 +114,14 @@ const { cleanBasket, getTokenCookie } = useUtils();
 const isAuthed = getTokenCookie() !== undefined && getTokenCookie() !== null;
 
 const fieldsToFill = ref(
-  isAuthed ? [] : ["name", "sename", "lastName", "phone", "email"],
+  isAuthed
+    ? []
+    : ["name", "sename", "lastName", "phone", "email", "postalAddress"],
 );
+
+watch(() => {
+  console.log(fieldsToFill.value);
+});
 
 if (isAuthed) {
   const { data } = await getUserLazy();
@@ -110,6 +134,7 @@ if (isAuthed) {
     nameValue.value = profile.name;
     senameValue.value = profile.surname;
     lastNameValue.value = profile.last_name;
+    postalAddressValue.value = profile.postal_address;
 
     resetFieldsToFill();
   });
@@ -146,6 +171,7 @@ async function getOrderBase(values, actions) {
     values.sename,
     values.email,
     values.phone,
+    values.postalAddress,
     orderBasket,
   );
 
@@ -187,6 +213,7 @@ async function getOrderAuth(values, actions) {
       surname: lastNameValue.value,
       phone: phoneValue.value,
       email: mailValue.value,
+      postal_address: postalAddressValue.value,
     });
 
   const { data, status } = await createOrderAuth(orderBasket);
@@ -211,6 +238,7 @@ function resetFieldsToFill() {
   if (!lastNameValue.value) fieldsToFill.value.push("lastName");
   if (!phoneValue.value) fieldsToFill.value.push("phone");
   if (!mailValue.value) fieldsToFill.value.push("mail");
+  if (!postalAddressValue.value) fieldsToFill.value.push("postalAddress");
 
   fieldsToFill.value = [...new Set(fieldsToFill.value)];
 }

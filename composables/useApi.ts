@@ -44,7 +44,7 @@ export const useApi = () => {
     start: Number,
     amount: Number,
     year: Number = 0,
-    type: Number = 0
+    type: Number = 0,
   ) {
     return useFetch(API + NEWS_PATH, {
       method: "POST",
@@ -69,7 +69,7 @@ export const useApi = () => {
   async function getRevs(
     start: Number = 0,
     amount: Number = 10,
-    thanks: Boolean = false
+    thanks: Boolean = false,
   ) {
     return await $fetch(API + REV_PATH, {
       method: "POST",
@@ -84,7 +84,7 @@ export const useApi = () => {
   async function getTeam(
     start: Number = 0,
     amount: Number = 10,
-    category: Number = 0
+    category: Number = 0,
   ) {
     return useFetch(API + TEAM_PATH, {
       method: "POST",
@@ -172,7 +172,7 @@ export const useApi = () => {
     phone: String,
     title: String,
     text: String,
-    page: String
+    page: String,
   ) {
     const body = {
       ...(fam && { fam }),
@@ -195,7 +195,7 @@ export const useApi = () => {
     phone: String,
     title: String,
     page: String,
-    file: Object
+    file: Object,
   ) {
     return useFetch(API + FORM_PATH, {
       method: "POST",
@@ -215,7 +215,8 @@ export const useApi = () => {
     dad_name: String,
     email: String,
     phone: String,
-    courses: []
+    postal_address: String,
+    courses: [],
   ) {
     return useFetch(API + ORDER_PATH, {
       method: "POST",
@@ -225,6 +226,7 @@ export const useApi = () => {
         name: name,
         dad_name: dad_name,
         email: email,
+        postal_address: postal_address,
         phone: phone,
       },
       async onResponseError({ request, response, options }) {
@@ -232,7 +234,7 @@ export const useApi = () => {
           "[fetch respons error]",
           request,
           response.status,
-          response.body
+          response.body,
         );
       },
     });
@@ -252,7 +254,7 @@ export const useApi = () => {
           "[fetch respons error]",
           request,
           response.status,
-          response.body
+          response.body,
         );
       },
     });
@@ -515,7 +517,7 @@ export const useApi = () => {
     id: Number,
     text: String,
     title: String,
-    rating: Number = 5
+    rating: Number = 5,
   ) {
     return $fetch(API + REVIEW_PATH, {
       method: "POST",
