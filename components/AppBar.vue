@@ -37,32 +37,32 @@
                     <NuxtLink to="/about"> О нас </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/news"> Новости </NuxtLink>
+                    <NuxtLink to="/about/team"> Наша команда </NuxtLink>
                   </li>
                   <li>
                     <NuxtLink to="/about/license"> Лицензии </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/about/reviews"> Отзывы клиентов </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/about/team"> Наша команда </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/vacancies"> Вакансии </NuxtLink>
+                    <NuxtLink to="/about/details">
+                      Сведения об образовательной организации
+                    </NuxtLink>
                   </li>
                   <li>
                     <NuxtLink to="/about/requisites"> Реквизиты </NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to="/about/details">
-                      Сведения об организации
-                    </NuxtLink>
-                  </li>
-                  <li>
                     <NuxtLink to="/about/register">
                       Государственный реестр ФИС ФРДО
                     </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/news"> Новости </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/about/reviews"> Отзывы клиентов </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/vacancies"> Вакансии </NuxtLink>
                   </li>
                 </ul>
               </li>
@@ -275,8 +275,8 @@
                 >
               </div>
               <div>
-                <NuxtLink to="/news" @click="menuActive = false"
-                  >Новости</NuxtLink
+                <NuxtLink to="/about/team" @click="menuActive = false"
+                  >Наша команда</NuxtLink
                 >
               </div>
               <div>
@@ -285,19 +285,9 @@
                 >
               </div>
               <div>
-                <NuxtLink to="/about/reviews" @click="menuActive = false"
-                  >Отзывы клиентов</NuxtLink
+                <NuxtLink to="/about/details" @click="menuActive = false"
+                  >Сведения об образовательной организации</NuxtLink
                 >
-              </div>
-              <div>
-                <NuxtLink to="/about/team" @click="menuActive = false"
-                  >Наша команда</NuxtLink
-                >
-              </div>
-              <div>
-                <NuxtLink to="/vacancies" @click="menuActive = false">
-                  Вакансии
-                </NuxtLink>
               </div>
               <div>
                 <NuxtLink to="/about/requisites" @click="menuActive = false"
@@ -305,13 +295,23 @@
                 >
               </div>
               <div>
-                <NuxtLink to="/about/details" @click="menuActive = false"
-                  >Сведения об организации</NuxtLink
+                <NuxtLink to="/about/register" @click="menuActive = false">
+                  Государственный реестр ФИС ФРДО
+                </NuxtLink>
+              </div>
+              <div>
+                <NuxtLink to="/news" @click="menuActive = false"
+                  >Новости</NuxtLink
                 >
               </div>
               <div>
-                <NuxtLink to="/about/register" @click="menuActive = false"
-                  >Государственный реестр ФИС ФРДО</NuxtLink
+                <NuxtLink to="/about/reviews" @click="menuActive = false"
+                  >Отзывы клиентов</NuxtLink
+                >
+              </div>
+              <div>
+                <NuxtLink to="/vacancies" @click="menuActive = false"
+                  >Вакансии</NuxtLink
                 >
               </div>
             </div>
