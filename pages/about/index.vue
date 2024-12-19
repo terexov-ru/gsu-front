@@ -1,12 +1,11 @@
 <template>
   <div class="wrapper wrapper_paddings">
     <div class="about-block">
-
       <h1 class="text text_h2">{{ page.title }}</h1>
 
       <div class="about-block__container">
         <div class="about-block__img-container">
-          <img class="about-block__img" src="~/assets/about.png" alt="">
+          <img class="about-block__img" src="~/assets/about-2.jpg" alt="" />
         </div>
 
         <div class="about-block__description">
@@ -20,40 +19,28 @@
       </div>
     </div>
 
-    <SummaryCard
-        :list="page?.block_info.items"
-        class="summary"
-    />
+    <SummaryCard :list="page?.block_info.items" class="summary" />
 
     <QuestionSlider
-        :banner="page?.banner"
-        class="questions"
-        @success="sucActive = true"
+      :banner="page?.banner"
+      class="questions"
+      @success="sucActive = true"
     />
-
   </div>
 
-  <OverflowContainer
-      :active="sucActive"
-      @closeOverflow="sucActive = false"
-  >
-    <OverflowSuccess
-        @close="sucActive = false"
-    />
+  <OverflowContainer :active="sucActive" @closeOverflow="sucActive = false">
+    <OverflowSuccess @close="sucActive = false" />
   </OverflowContainer>
-
 </template>
 
 <script setup>
-const {getAbout} = useApi();
+const { getAbout } = useApi();
 const sucActive = ref(false);
 
-const {data} = await getAbout();
+const { data } = await getAbout();
 
 const page = data.value?.page;
-
 </script>
-
 
 <style lang="less" scoped>
 @import "assets/core.less";
@@ -104,7 +91,6 @@ const page = data.value?.page;
   flex-direction: column;
   gap: 20px;
 
-
   @media @min760 {
     justify-content: space-between;
     flex-direction: row;
@@ -115,5 +101,4 @@ const page = data.value?.page;
     gap: 40px;
   }
 }
-
 </style>
