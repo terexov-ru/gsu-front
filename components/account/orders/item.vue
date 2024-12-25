@@ -104,15 +104,14 @@
               Оплатить
             </button>
           </NuxtLink>
-          <NuxtLink
-            v-else
-            :class="{ disabled: isLoading }"
-            :to="{ path: '/account', query: { tab: 'AccountPrograms' } }"
-          >
-            <button class="button order__button button_gradient">
-              Перейти к курсу
-            </button>
-          </NuxtLink>
+          <!--          <NuxtLink-->
+          <!--            :class="{ disabled: isLoading }"-->
+          <!--            :to="{ path: '/account', query: { tab: 'AccountPrograms' } }"-->
+          <!--          >-->
+          <!--            <button class="button order__button button_gradient">-->
+          <!--              Перейти к курсу-->
+          <!--            </button>-->
+          <!--          </NuxtLink>-->
           <button
             @click="checkAgreement"
             class="button order__button button_black-bordered"
