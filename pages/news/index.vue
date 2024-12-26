@@ -1,69 +1,79 @@
 <template>
-
   <div class="wrapper wrapper_paddings">
-
     <div class="news-page">
-
       <h2 class="text text_h2">Новости</h2>
 
       <div class="options">
         <DropDown
-            class="options__drop-down"
-            :title="'Показать все'"
-            :options="newsTypes"
-            v-model:selected="selectedType"
-
+          class="options__drop-down"
+          :title="'Показать все'"
+          :options="newsTypes"
+          v-model:selected="selectedType"
         />
         <DropDown
-            class="options__drop-down"
-            :title="'Год'"
-            :options="newsYears"
-            v-model:selected="selectedYear"
+          class="options__drop-down"
+          :title="'Год'"
+          :options="newsYears"
+          v-model:selected="selectedYear"
         />
       </div>
 
-      <div
-          class="news-block"
-      >
-        <NuxtLink class="news__banner" v-if="bigNews" :to="'news/' + bigNews.id">
-          <div class="news__banner"
-               @mouseenter="bigNewsActive = true"
-               @mouseleave="bigNewsActive = false"
+      <div class="news-block">
+        <NuxtLink
+          class="news__banner"
+          v-if="bigNews"
+          :to="'news/' + bigNews.id"
+        >
+          <div
+            class="news__banner"
+            @mouseenter="bigNewsActive = true"
+            @mouseleave="bigNewsActive = false"
           >
             <div class="news__banner__img-container">
-              <img class="news__banner__img" :src="bigNews.image" alt="news_banner">
+              <ThemeSnowfall v-if="isSnowThemeOn()" />
+              <img
+                class="news__banner__img"
+                :src="bigNews.image"
+                alt="news_banner"
+              />
             </div>
-            <div class="text text_caption text_accent">{{ bigNews.date }} • {{ bigNews.type }}</div>
+            <div class="text text_caption text_accent">
+              {{ bigNews.date }} • {{ bigNews.type }}
+            </div>
             <div class="row">
-              <h2
-                  class="text text_h3"
-                  :class="{'text_accent': bigNewsActive}"
-              >
+              <h2 class="text text_h3" :class="{ text_accent: bigNewsActive }">
                 {{ bigNews.annotation }}
               </h2>
-              <svg class="svg" width="25" height="28" viewBox="0 0 25 28" fill="none"
-                   xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.66016 21L17.6602 11M17.6602 11H7.66016M17.6602 11V21" stroke="#101828" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round"/>
+              <svg
+                class="svg"
+                width="25"
+                height="28"
+                viewBox="0 0 25 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.66016 21L17.6602 11M17.6602 11H7.66016M17.6602 11V21"
+                  stroke="#101828"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
-            <div class="text text_normal" v-html="bigNews.text">
-            </div>
+            <div class="text text_normal" v-html="bigNews.text"></div>
           </div>
         </NuxtLink>
         <div v-for="item of news" :key="item.id">
-          <NewsCard
-              :news="item"
-          />
+          <NewsCard :news="item" />
         </div>
-
       </div>
 
       <div class="pagination">
         <PaginationBar
-            v-model:page="currentPage"
-            :size="amount"
-            :count="count"
+          v-model:page="currentPage"
+          :size="amount"
+          :count="count"
         />
       </div>
     </div>
@@ -71,13 +81,14 @@
 </template>
 
 <script setup>
-import {toValue, watch} from "vue";
+import { toValue, watch } from "vue";
+import { isSnowThemeOn } from "~/theme/snow";
 
-const {getNews: getNews} = useApi();
+const { getNews: getNews } = useApi();
 const viewport = useViewport();
 const amount = 5;
 
-const {data: data} = await getNews(0, amount);
+const { data: data } = await getNews(0, amount);
 
 const bigNews = ref(undefined);
 const bigNewsActive = ref(false);
@@ -90,16 +101,26 @@ const currentPage = ref(1);
 const count = ref(toValue(page).total_news_amount);
 
 watch(selectedType, async (newValue) => {
-  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, selectedYear.id, newValue.id);
+  const { data: data } = await getNews(
+    toValue(currentPage) * amount - amount,
+    amount,
+    selectedYear.id,
+    newValue.id,
+  );
   page.value = toValue(data).page;
   updateNews(true);
-})
+});
 
 watch(selectedYear, async (newValue) => {
-  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, newValue.id, selectedType.id);
+  const { data: data } = await getNews(
+    toValue(currentPage) * amount - amount,
+    amount,
+    newValue.id,
+    selectedType.id,
+  );
   page.value = toValue(data).page;
   updateNews(true);
-})
+});
 
 const newsTypes = toValue(page).news_types;
 const newsYears = toValue(page).news_years;
@@ -108,7 +129,7 @@ function updateNews(updated) {
   if (updated) {
     count.value = 1;
   }
-  if (!viewport.isLessThan('mobile')) {
+  if (!viewport.isLessThan("mobile")) {
     bigNews.value = toValue(page).news.slice(0, 1)[0];
     news.value = toValue(page).news.slice(1);
   } else {
@@ -119,10 +140,15 @@ function updateNews(updated) {
 // Pagination
 watch(currentPage, async (newVal) => {
   currentPage.value = newVal;
-  const {data: data} = await getNews(toValue(currentPage) * amount - amount, amount, newVal.id, selectedType);
+  const { data: data } = await getNews(
+    toValue(currentPage) * amount - amount,
+    amount,
+    newVal.id,
+    selectedType,
+  );
   page.value = toValue(data).page;
   updateNews(false);
-})
+});
 
 updateNews();
 </script>
@@ -201,6 +227,7 @@ updateNews();
 }
 
 .news__banner__img-container {
+  position: relative;
   max-height: 500px;
   display: flex;
   align-items: center;
@@ -221,5 +248,4 @@ updateNews();
   margin-top: 60px;
   margin-bottom: 120px;
 }
-
 </style>

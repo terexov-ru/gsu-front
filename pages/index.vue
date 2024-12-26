@@ -119,6 +119,7 @@ function closeSuccessOrder() {
 }
 
 .mission-block {
+  position: relative;
 }
 
 .search-block {

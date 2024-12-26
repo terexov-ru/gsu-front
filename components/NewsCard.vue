@@ -8,6 +8,8 @@
           :src="news.image"
           alt="news"
         />
+
+        <ThemeSnowfall v-if="isSnowThemeOn()" />
       </div>
 
       <div class="text news__date text_caption">
@@ -41,7 +43,10 @@
 </template>
 
 <script>
+import { isSnowThemeOn } from "~/theme/snow";
+
 export default {
+  methods: { isSnowThemeOn },
   props: {
     news: {
       type: Object,

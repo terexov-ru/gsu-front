@@ -2,7 +2,13 @@
   <header class="header">
     <div class="wrapper wrapper_paddings" :class="{ header_fixed: menuActive }">
       <div class="header__container">
-        <NuxtLink to="/">
+        <NuxtLink to="/" class="logo-link">
+          <img
+            src="~/assets/christmas-cap.png"
+            alt=""
+            class="christmas-cap"
+            v-if="isSnowThemeOn()"
+          />
           <img class="logo_s" src="~/assets/logo_s.png" />
         </NuxtLink>
 
@@ -402,6 +408,7 @@ import { useUtils } from "@/composables/useUtils";
 import { useApi } from "@/composables/useApi";
 import { useRouter } from "vue-router";
 import { API } from "~/constants/index.js";
+import { isSnowThemeOn } from "~/theme/snow";
 
 const menuActive = ref(false);
 const reqActive = ref(false);
@@ -513,6 +520,20 @@ a {
   @media @min760 {
     max-width: 59px;
   }
+}
+
+.logo-link {
+  position: relative;
+}
+
+.christmas-cap {
+  position: absolute;
+  top: -25%;
+  left: 35%;
+
+  width: 90%;
+
+  transform: translateX(-50%);
 }
 
 /* Navigation */

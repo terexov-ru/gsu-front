@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper">
     <div v-if="banner" class="slider question__slider">
+      <ThemeSnowfall v-if="isSnowThemeOn()" />
 
       <h2 class="slider__title">
         <div>{{ banner.title }}</div>
@@ -8,29 +9,28 @@
         <!--        <div class="text-rotate">Задайте их нам</div>-->
       </h2>
 
-      <div class="fill"/>
+      <div class="fill" />
 
-      <span
-          class="text slider__text text_h4">{{ banner.text }}</span>
+      <span class="text slider__text text_h4">{{ banner.text }}</span>
 
       <div class="slider__container">
-
         <FormSlider
-            :buttonClasses="'button button_dark'"
-            :buttonText="'Получить консультацию'"
-            @success="this.$emit('success')"
+          :buttonClasses="'button button_dark'"
+          :buttonText="'Получить консультацию'"
+          @success="this.$emit('success')"
         />
 
-        <img class="slider__image" :src="banner.image">
+        <img class="slider__image" :src="banner.image" />
       </div>
     </div>
   </div>
 </template>
 <script setup>
+import { isSnowThemeOn } from "~/theme/snow";
+
 const props = defineProps({
   banner: Object,
-})
-
+});
 </script>
 <style lang="less" scoped>
 @import "assets/core.less";
@@ -124,7 +124,6 @@ const props = defineProps({
     display: block;
     top: 0;
   }
-
 }
 
 .circle {
@@ -144,6 +143,4 @@ const props = defineProps({
     left: 0;
   }
 }
-
-
 </style>
