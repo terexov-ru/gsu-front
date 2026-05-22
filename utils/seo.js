@@ -80,7 +80,18 @@ export function isNoindexRoute(path = "") {
   return NOINDEX_ROUTES.some((route) => cleanPath === route || cleanPath.startsWith(`${route}/`));
 }
 
-export function buildRobotsTxt(siteUrl = DEFAULT_SITE_URL) {
+export function isNoindexEnvironment(siteUrl = DEFAULT_SITE_URL, noindexFlag = process.env.NUXT_PUBLIC_NOINDEX) {
+  if (String(noindexFlag || "").toLowerCase() === "true") return true;
+
+  const hostname = String(siteUrl || "").toLowerCase();
+  return hostname.includes("://dev.") || hostname.includes("gsu-nuxt-dev");
+}
+
+export function buildRobotsTxt(siteUrl = DEFAULT_SITE_URL, noindexEnvironment = isNoindexEnvironment(siteUrl)) {
+  if (noindexEnvironment) {
+    return ["User-agent: *", "Disallow: /", ""].join("\n");
+  }
+
   const baseUrl = siteUrl.replace(/\/+$/, "");
   const disallowRules = NOINDEX_ROUTES.map((route) => `Disallow: ${route}`).join("\n");
 

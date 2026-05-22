@@ -3,6 +3,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gsu.terexov.ru',
+            noindex: process.env.NUXT_PUBLIC_NOINDEX || '',
         },
     },
     app: {

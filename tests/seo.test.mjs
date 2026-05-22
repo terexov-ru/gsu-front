@@ -6,6 +6,7 @@ import {
   buildCanonical,
   buildRobotsTxt,
   buildSitemapXml,
+  isNoindexEnvironment,
   stripHtml,
   truncateDescription,
 } from "../utils/seo.js";
@@ -42,6 +43,22 @@ test("buildRobotsTxt exposes sitemap and blocks private routes", () => {
   assert.match(robots, /Disallow: \/account/);
   assert.match(robots, /Disallow: \/basket/);
   assert.match(robots, /Sitemap: https:\/\/gsu\.terexov\.ru\/sitemap\.xml/);
+});
+
+test("isNoindexEnvironment detects development site URLs and explicit noindex flag", () => {
+  assert.equal(isNoindexEnvironment("https://dev.gsu.terexov.ru"), true);
+  assert.equal(isNoindexEnvironment("https://gsu-nuxt-dev.example.com"), true);
+  assert.equal(isNoindexEnvironment("https://gsu.terexov.ru", "true"), true);
+  assert.equal(isNoindexEnvironment("https://gsu.terexov.ru"), false);
+});
+
+test("buildRobotsTxt blocks all crawling for noindex environments", () => {
+  const robots = buildRobotsTxt("https://dev.gsu.terexov.ru", true);
+
+  assert.match(robots, /User-agent: \*/);
+  assert.match(robots, /Disallow: \//);
+  assert.doesNotMatch(robots, /Allow: \//);
+  assert.doesNotMatch(robots, /Sitemap:/);
 });
 
 test("buildSitemapXml renders absolute URLs and skips noindex routes", () => {

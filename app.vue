@@ -1,6 +1,16 @@
 <script setup lang="ts">
+import { getSiteUrl, isNoindexEnvironment } from "~/utils/seo.js";
+
 const { checkToken } = useApi();
 const { getTokenCookie, deleteTokenCookie } = useUtils();
+const config = useRuntimeConfig();
+const siteUrl = getSiteUrl(config);
+
+if (isNoindexEnvironment(siteUrl, config.public.noindex)) {
+  useSeoMeta({
+    robots: "noindex, nofollow",
+  });
+}
 
 if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
   const { data } = await checkToken();

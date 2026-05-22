@@ -59,10 +59,11 @@ jobs:
           DEPLOY_BRANCH: develop
           PM2_APP_NAME: ${{ vars.PM2_APP_NAME }}
           NUXT_PUBLIC_SITE_URL: ${{ vars.NUXT_PUBLIC_SITE_URL }}
+          NUXT_PUBLIC_NOINDEX: ${{ vars.NUXT_PUBLIC_NOINDEX || 'true' }}
           NITRO_PORT: ${{ vars.NITRO_PORT }}
         run: |
           ssh -i ~/.ssh/server_key -o IdentitiesOnly=yes -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" \
-            "APP_PATH='$APP_PATH' GIT_REMOTE='$GIT_REMOTE' DEPLOY_BRANCH='$DEPLOY_BRANCH' PM2_APP_NAME='$PM2_APP_NAME' NUXT_PUBLIC_SITE_URL='$NUXT_PUBLIC_SITE_URL' NITRO_PORT='$NITRO_PORT' bash -se" <<'EOF'
+            "APP_PATH='$APP_PATH' GIT_REMOTE='$GIT_REMOTE' DEPLOY_BRANCH='$DEPLOY_BRANCH' PM2_APP_NAME='$PM2_APP_NAME' NUXT_PUBLIC_SITE_URL='$NUXT_PUBLIC_SITE_URL' NUXT_PUBLIC_NOINDEX='$NUXT_PUBLIC_NOINDEX' NITRO_PORT='$NITRO_PORT' bash -se" <<'EOF'
           set -euo pipefail
 
           cd "$APP_PATH"
@@ -70,6 +71,6 @@ jobs:
           git reset --hard "$GIT_REMOTE/$DEPLOY_BRANCH"
           npm ci
           npm run build
-          NUXT_PUBLIC_SITE_URL="$NUXT_PUBLIC_SITE_URL" NITRO_PORT="$NITRO_PORT" PORT="$NITRO_PORT" pm2 restart "$PM2_APP_NAME" --update-env
+          NUXT_PUBLIC_SITE_URL="$NUXT_PUBLIC_SITE_URL" NUXT_PUBLIC_NOINDEX="$NUXT_PUBLIC_NOINDEX" NITRO_PORT="$NITRO_PORT" PORT="$NITRO_PORT" pm2 restart "$PM2_APP_NAME" --update-env
           pm2 save
           EOF

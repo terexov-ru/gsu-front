@@ -75,6 +75,12 @@ git push -u origin develop
 - `PM2_APP_NAME`: `gsu-nuxt-dev`
 - `NITRO_PORT`: `3001`
 - `NUXT_PUBLIC_SITE_URL`: dev URL, например `https://dev.gsu.terexov.ru`
+- `NUXT_PUBLIC_NOINDEX`: `true`
+
+Development-контур закрывается от индексации на двух уровнях:
+
+- `/robots.txt` отдает `User-agent: *` и `Disallow: /`
+- все HTML-страницы получают `<meta name="robots" content="noindex, nofollow">`
 
 ## Server: что настроить
 
@@ -126,7 +132,7 @@ npm run build
 
 ```bash
 cd /var/www/gsu-nuxt-dev
-NUXT_PUBLIC_SITE_URL="https://dev.gsu.terexov.ru" NITRO_PORT=3001 PORT=3001 pm2 start .output/server/index.mjs --name gsu-nuxt-dev
+NUXT_PUBLIC_SITE_URL="https://dev.gsu.terexov.ru" NUXT_PUBLIC_NOINDEX=true NITRO_PORT=3001 PORT=3001 pm2 start .output/server/index.mjs --name gsu-nuxt-dev
 pm2 save
 ```
 
