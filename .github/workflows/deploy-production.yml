@@ -65,6 +65,28 @@ jobs:
             "APP_PATH='$APP_PATH' GIT_REMOTE='$GIT_REMOTE' DEPLOY_BRANCH='$DEPLOY_BRANCH' PM2_APP_NAME='$PM2_APP_NAME' NUXT_PUBLIC_SITE_URL='$NUXT_PUBLIC_SITE_URL' NITRO_PORT='$NITRO_PORT' bash -se" <<'EOF'
           set -euo pipefail
 
+          export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+          if [ -s "$NVM_DIR/nvm.sh" ]; then
+            . "$NVM_DIR/nvm.sh"
+          fi
+
+          if command -v nvm >/dev/null 2>&1; then
+            if [ -f "$APP_PATH/.nvmrc" ]; then
+              nvm use
+            elif nvm alias default >/dev/null 2>&1; then
+              nvm use default
+            else
+              nvm use 22 || nvm install 22
+            fi
+          fi
+
+          command -v node >/dev/null || { echo "node is not available in SSH deploy shell"; exit 127; }
+          command -v npm >/dev/null || { echo "npm is not available in SSH deploy shell"; exit 127; }
+          command -v pm2 >/dev/null || { echo "pm2 is not available in SSH deploy shell"; exit 127; }
+          node -v
+          npm -v
+          pm2 -v
+
           cd "$APP_PATH"
           git fetch "$GIT_REMOTE"
           git reset --hard "$GIT_REMOTE/$DEPLOY_BRANCH"
