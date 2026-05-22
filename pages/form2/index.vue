@@ -1,4 +1,9 @@
 <script setup>
+useSeoMeta({
+  title: "Форма",
+  robots: "noindex, nofollow",
+});
+
 const container = ref();
 const iframe = ref();
 

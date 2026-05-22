@@ -29,13 +29,28 @@
 </template>
 
 <script setup>
+import { buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
+
 const { getDetails } = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 
 const { data } = await getDetails();
 
-console.log(data.value?.page);
-
 const page = data.value?.page;
+const canonical = buildCanonical("/about/details", siteUrl);
+const description = truncateDescription(page?.text || page?.title || "Сведения об образовательной организации");
+
+useSeoMeta({
+  title: page?.title || "Сведения об образовательной организации",
+  description,
+  ogTitle: `${page?.title || "Сведения об образовательной организации"} | ГСУ`,
+  ogDescription: description,
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 </script>
 
 <style lang="less" scoped>

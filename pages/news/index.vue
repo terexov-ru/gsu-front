@@ -83,12 +83,27 @@
 <script setup>
 import { toValue, watch } from "vue";
 import { isSnowThemeOn } from "~/theme/snow";
+import { buildCanonical, getSiteUrl } from "~/utils/seo.js";
 
 const { getNews: getNews } = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 const viewport = useViewport();
 const amount = 5;
 
 const { data: data } = await getNews(0, amount);
+
+useSeoMeta({
+  title: "Новости",
+  description:
+    "Новости ГСУ: события, обновления образовательных программ и полезная информация для слушателей.",
+  ogTitle: "Новости | ГСУ",
+  ogDescription: "Новости и обновления образовательного центра ГСУ.",
+  ogUrl: buildCanonical("/news", siteUrl),
+});
+
+useHead({
+  link: [{ rel: "canonical", href: buildCanonical("/news", siteUrl) }],
+});
 
 const bigNews = ref(undefined);
 const bigNewsActive = ref(false);

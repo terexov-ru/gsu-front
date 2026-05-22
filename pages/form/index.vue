@@ -16,6 +16,11 @@
 </template>
 
 <script setup>
+useSeoMeta({
+  title: "Форма",
+  robots: "noindex, nofollow",
+});
+
 const iframe = ref(null);
 
 onMounted(() => {

@@ -54,9 +54,12 @@
 <script setup>
 import {API} from "~/constants/index.js";
 import {toValue} from "vue";
+import { absoluteUrl, buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
+import { buildBreadcrumbSchema, buildCourseSchema } from "~/utils/schema.js";
 
 const route = useRoute();
 const id = route.params.id;
+const siteUrl = getSiteUrl(useRuntimeConfig());
 const success = ref(false);
 
 const {data: reqPage} = await useFetch(API + '/page/course', {
@@ -65,6 +68,37 @@ const {data: reqPage} = await useFetch(API + '/page/course', {
 });
 
 const page = toValue(reqPage).page;
+const canonical = buildCanonical(`/courses/${id}`, siteUrl);
+const description = truncateDescription(page?.description || page?.title || "");
+
+useSeoMeta({
+  title: page?.title || "Курс",
+  description,
+  ogTitle: page?.title || "Курс | ГСУ",
+  ogDescription: description,
+  ogUrl: canonical,
+  ogImage: page?.banner_image ? absoluteUrl(page.banner_image, siteUrl) : undefined,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify(buildCourseSchema(page, canonical)),
+    },
+    {
+      type: "application/ld+json",
+      children: JSON.stringify(
+        buildBreadcrumbSchema([
+          { name: "Главная", url: buildCanonical("/", siteUrl) },
+          { name: "Обучение", url: buildCanonical("/courses", siteUrl) },
+          { name: page?.title || "Курс", url: canonical },
+        ]),
+      ),
+    },
+  ],
+});
 
 </script>
 

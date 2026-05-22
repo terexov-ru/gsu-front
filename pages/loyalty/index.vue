@@ -57,14 +57,30 @@
 </template>
 <script setup>
 import {ref} from "vue";
+import { buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
 
 const {simpleGet: simpleGet} = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 
 const formActive = ref(false);
 const sucActive = ref(false);
 
 const {data: data} = await simpleGet('/page/loyalties');
 const list = toValue(data).page.loyalties;
+const canonical = buildCanonical("/loyalty", siteUrl);
+const description = truncateDescription(list?.map((item) => item.description).join(" ") || "Программы лояльности ГСУ");
+
+useSeoMeta({
+  title: "Программы лояльности",
+  description,
+  ogTitle: "Программы лояльности | ГСУ",
+  ogDescription: description,
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 </script>
 
 <style lang="less" scoped>

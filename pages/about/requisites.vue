@@ -32,11 +32,28 @@
 </template>
 
 <script setup>
+import { buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
+
 const {getReq} = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 
 const {data} = await getReq();
 
 const page = data.value?.page;
+const canonical = buildCanonical("/about/requisites", siteUrl);
+const description = truncateDescription(page?.text || page?.title || "Реквизиты ГСУ");
+
+useSeoMeta({
+  title: page?.title || "Реквизиты",
+  description,
+  ogTitle: `${page?.title || "Реквизиты"} | ГСУ`,
+  ogDescription: description,
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 
 </script>
 

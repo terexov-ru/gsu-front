@@ -63,8 +63,23 @@
 
 <script setup>
 import { toValue, watch } from "vue";
+import { buildCanonical, getSiteUrl } from "~/utils/seo.js";
 
 const { getTeam: getTeam } = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
+const canonical = buildCanonical("/about/team", siteUrl);
+
+useSeoMeta({
+  title: "Наша команда",
+  description: "Команда ГСУ: администрация и сотрудники образовательного центра.",
+  ogTitle: "Наша команда | ГСУ",
+  ogDescription: "Познакомьтесь с командой ГСУ.",
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 
 const active = ref(0);
 

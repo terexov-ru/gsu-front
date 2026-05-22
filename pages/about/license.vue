@@ -58,11 +58,29 @@
 </template>
 
 <script setup>
+import { absoluteUrl, buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
+
 const { getLicense } = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 
 const { data } = await getLicense();
 
 const page = data.value?.page;
+const canonical = buildCanonical("/about/license", siteUrl);
+const description = truncateDescription(page?.text || page?.subtitle || page?.title || "Лицензии ГСУ");
+
+useSeoMeta({
+  title: page?.title || "Лицензии",
+  description,
+  ogTitle: `${page?.title || "Лицензии"} | ГСУ`,
+  ogDescription: description,
+  ogUrl: canonical,
+  ogImage: page?.image ? absoluteUrl(page.image, siteUrl) : undefined,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 </script>
 
 <style lang="less" scoped>

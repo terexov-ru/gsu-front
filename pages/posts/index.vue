@@ -1,4 +1,9 @@
 <script setup lang="ts">
+useSeoMeta({
+  title: "Posts",
+  robots: "noindex, nofollow",
+});
+
 const {data: posts, pending} = await useLazyFetch('https://jsonplaceholder.typicode.com/posts');
 
 </script>

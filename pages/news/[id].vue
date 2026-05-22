@@ -40,13 +40,50 @@
 
 <script setup>
 import { toValue } from "vue";
+import { absoluteUrl, buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
+import { buildBreadcrumbSchema, buildNewsArticleSchema } from "~/utils/schema.js";
 
 const route = useRoute();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 
 const { getNewsById: getNewsById } = useApi();
 const { data: data } = await getNewsById(route.params.id);
 
 const news = toValue(data).page;
+const canonical = buildCanonical(`/news/${route.params.id}`, siteUrl);
+const title = news?.annotation || "Новость";
+const description = truncateDescription(news?.text || news?.annotation || "");
+
+useSeoMeta({
+  title,
+  description,
+  ogTitle: title,
+  ogDescription: description,
+  ogUrl: canonical,
+  ogImage: news?.image ? absoluteUrl(news.image, siteUrl) : undefined,
+  articlePublishedTime: news?.date,
+  articleModifiedTime: news?.date,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify(buildNewsArticleSchema(news, canonical)),
+    },
+    {
+      type: "application/ld+json",
+      children: JSON.stringify(
+        buildBreadcrumbSchema([
+          { name: "Главная", url: buildCanonical("/", siteUrl) },
+          { name: "Новости", url: buildCanonical("/news", siteUrl) },
+          { name: title, url: canonical },
+        ]),
+      ),
+    },
+  ],
+});
 </script>
 
 <style lang="less" scoped>

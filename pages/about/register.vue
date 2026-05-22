@@ -19,11 +19,28 @@
 </template>
 
 <script setup>
+import { buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
+
 const {getRegistry} = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 
 const {data} = await getRegistry();
 
 const page = data.value?.page;
+const canonical = buildCanonical("/about/register", siteUrl);
+const description = truncateDescription(page?.text || page?.subtitle || page?.title || "Сведения о регистрации ГСУ");
+
+useSeoMeta({
+  title: page?.title || "Регистрация",
+  description,
+  ogTitle: `${page?.title || "Регистрация"} | ГСУ`,
+  ogDescription: description,
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 
 </script>
 

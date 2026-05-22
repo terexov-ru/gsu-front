@@ -258,8 +258,24 @@
 
 <script setup>
 import { onMounted, watch } from "vue";
+import { buildCanonical, getSiteUrl } from "~/utils/seo.js";
 
 const { getRevs: getRevs } = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
+const canonical = buildCanonical("/about/reviews", siteUrl);
+
+useSeoMeta({
+  title: "Отзывы",
+  description: "Отзывы и благодарности слушателей ГСУ об образовательных программах.",
+  ogTitle: "Отзывы | ГСУ",
+  ogDescription: "Отзывы клиентов и слушателей ГСУ.",
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
+
 const amountPerPage = 5;
 
 const data = await getRevs(0, amountPerPage);

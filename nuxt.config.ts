@@ -1,5 +1,27 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    runtimeConfig: {
+        public: {
+            siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://gsu.terexov.ru',
+        },
+    },
+    app: {
+        head: {
+            htmlAttrs: {
+                lang: 'ru',
+            },
+            titleTemplate: '%s | ГСУ',
+            meta: [
+                { name: 'theme-color', content: '#25292D' },
+                { property: 'og:site_name', content: 'ГСУ' },
+                { property: 'og:type', content: 'website' },
+                { name: 'twitter:card', content: 'summary_large_image' },
+            ],
+            link: [
+                { rel: 'icon', href: '/favicon.ico' },
+            ],
+        },
+    },
     css: ["~/assets/core.less"],
     modules: [
         '@nuxtjs/google-fonts',

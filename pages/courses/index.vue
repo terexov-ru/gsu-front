@@ -9,6 +9,23 @@
 </template>
 
 <script setup>
+import { buildCanonical, getSiteUrl } from "~/utils/seo.js";
+
+const siteUrl = getSiteUrl(useRuntimeConfig());
+
+useSeoMeta({
+  title: "Обучение",
+  description:
+    "Каталог образовательных программ ГСУ: повышение квалификации, профессиональное обучение и курсы для специалистов.",
+  ogTitle: "Обучение | ГСУ",
+  ogDescription:
+    "Выберите подходящую программу обучения в каталоге ГСУ.",
+  ogUrl: buildCanonical("/courses", siteUrl),
+});
+
+useHead({
+  link: [{ rel: "canonical", href: buildCanonical("/courses", siteUrl) }],
+});
 // const activeId = ref(-1);
 //
 // onBeforeRouteUpdate((to, from) => {

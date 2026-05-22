@@ -59,6 +59,11 @@
 <script setup>
 import { onMounted, ref, toValue, watch } from "vue";
 
+useSeoMeta({
+  title: "Корзина",
+  robots: "noindex, nofollow",
+});
+
 const {
   cleanBasket,
   getBasket,
@@ -67,7 +72,7 @@ const {
   activatePromoInBasket,
 } = useUtils();
 
-const basket = getBasket();
+const basket = process.client ? getBasket() : ref([]);
 const success = ref(false);
 const active = ref(false);
 const price = ref(getPrice());

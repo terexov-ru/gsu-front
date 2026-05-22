@@ -21,14 +21,28 @@
 </template>
 
 <script setup>
+import { buildCanonical, getSiteUrl } from "~/utils/seo.js";
+
 const { getFAQS } = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 const sucActive = ref(false);
 
 const { data } = await getFAQS();
 
 const page = data.value?.page;
+const canonical = buildCanonical("/help/questions", siteUrl);
 
-console.log(page);
+useSeoMeta({
+  title: "Ответы на вопросы",
+  description: "Ответы на частые вопросы слушателей ГСУ об обучении, записи и прохождении программ.",
+  ogTitle: "Ответы на вопросы | ГСУ",
+  ogDescription: "Частые вопросы по обучению в ГСУ.",
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 </script>
 
 <style lang="less" scoped>

@@ -133,14 +133,28 @@
 </template>
 
 <script setup>
+import { buildCanonical, getSiteUrl } from "~/utils/seo.js";
+
 const { getTechs } = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 const sucActive = ref(false);
 
 const { data } = await getTechs();
 
 const page = data.value?.page;
+const canonical = buildCanonical("/help/tech", siteUrl);
 
-console.log(page);
+useSeoMeta({
+  title: "Технические требования",
+  description: "Технические требования к устройству и браузеру для прохождения обучения в ГСУ.",
+  ogTitle: "Технические требования | ГСУ",
+  ogDescription: "Требования к устройствам и браузерам для обучения в ГСУ.",
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 </script>
 
 <style lang="less" scoped>

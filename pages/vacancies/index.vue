@@ -53,10 +53,27 @@
 </template>
 
 <script setup>
+import { buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
+
 const {simpleGet: simpleGet} = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 
 const {data: data} = await simpleGet('/page/vacancies');
 const list = toValue(data).page.vacancies;
+const canonical = buildCanonical("/vacancies", siteUrl);
+const description = truncateDescription(list?.map((item) => item.title).join(", ") || "Вакансии ГСУ");
+
+useSeoMeta({
+  title: "Вакансии",
+  description,
+  ogTitle: "Вакансии | ГСУ",
+  ogDescription: description,
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+});
 
 const activeItem = ref({});
 const activeVac = ref(false);

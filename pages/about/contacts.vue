@@ -95,12 +95,51 @@
 </template>
 
 <script setup>
+import { buildCanonical, getSiteUrl, truncateDescription } from "~/utils/seo.js";
+import { buildBreadcrumbSchema, buildEducationalOrganizationSchema } from "~/utils/schema.js";
+
 const {getContacts} = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 
 const {data} = await getContacts();
 
 const page = data.value?.page;
+const canonical = buildCanonical("/about/contacts", siteUrl);
+const description = truncateDescription(`${page?.address || ""} ${page?.phone || ""} ${page?.email || ""}`);
 
+useSeoMeta({
+  title: "Контакты",
+  description,
+  ogTitle: "Контакты | ГСУ",
+  ogDescription: description,
+  ogUrl: canonical,
+});
+
+useHead({
+  link: [{ rel: "canonical", href: canonical }],
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify(
+        buildEducationalOrganizationSchema({
+          url: siteUrl,
+          phone: page?.phone,
+          email: page?.email,
+          address: page?.address,
+        }),
+      ),
+    },
+    {
+      type: "application/ld+json",
+      children: JSON.stringify(
+        buildBreadcrumbSchema([
+          { name: "Главная", url: buildCanonical("/", siteUrl) },
+          { name: "Контакты", url: canonical },
+        ]),
+      ),
+    },
+  ],
+});
 
 </script>
 

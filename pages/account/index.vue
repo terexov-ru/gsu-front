@@ -57,6 +57,11 @@ const route = useRoute();
 const router = useRouter();
 const { deleteTokenCookie } = useUtils();
 
+useSeoMeta({
+  title: "Личный кабинет",
+  robots: "noindex, nofollow",
+});
+
 const COMPONENTS = ["AccountProfile", "AccountPrograms", "AccountOrders"];
 const activeComponent = ref(COMPONENTS[0]);
 

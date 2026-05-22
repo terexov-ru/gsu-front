@@ -57,8 +57,11 @@
 </template>
 <script setup>
 import { onMounted, toValue } from "vue";
+import { absoluteUrl, buildCanonical, getSiteUrl } from "~/utils/seo.js";
+import { buildEducationalOrganizationSchema } from "~/utils/schema.js";
 
 const { simpleGet, getUser } = useApi();
+const siteUrl = getSiteUrl(useRuntimeConfig());
 const formConActive = ref(false);
 const sucActive = ref(false);
 const successOrder = ref(false);
@@ -68,6 +71,27 @@ const logActive = ref(false);
 const { data: data } = await simpleGet("/page/main");
 
 const page = toValue(data).page;
+
+useSeoMeta({
+  title: "Обучение и повышение квалификации",
+  description:
+    "ГСУ: образовательные программы, повышение квалификации, новости, отзывы и консультации по обучению.",
+  ogTitle: "Обучение и повышение квалификации | ГСУ",
+  ogDescription:
+    "Подберите программу обучения и повысьте квалификацию вместе с ГСУ.",
+  ogUrl: buildCanonical("/", siteUrl),
+  ogImage: absoluteUrl(page?.top_banner?.image || "/favicon.ico", siteUrl),
+});
+
+useHead({
+  link: [{ rel: "canonical", href: buildCanonical("/", siteUrl) }],
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify(buildEducationalOrganizationSchema({ url: siteUrl })),
+    },
+  ],
+});
 
 /* SUCCESS from store (use with redirect)*/
 const success = useState("mainSuccess");
