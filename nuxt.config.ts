@@ -13,6 +13,7 @@ export default defineNuxtConfig({
             titleTemplate: '%s | ГСУ',
             meta: [
                 { name: 'theme-color', content: '#25292D' },
+                { name: 'yandex-verification', content: '6f765491a6ba81bc' },
                 { property: 'og:site_name', content: 'ГСУ' },
                 { property: 'og:type', content: 'website' },
                 { name: 'twitter:card', content: 'summary_large_image' },
