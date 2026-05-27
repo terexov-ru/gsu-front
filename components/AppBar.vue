@@ -12,13 +12,74 @@
           <img class="logo_s" src="~/assets/logo_s.png" />
         </NuxtLink>
 
+        <div
+          v-if="!$viewport.isLessThan('desktop')"
+          class="delimiter delimiter_column header__logo-divider"
+        />
+
         <div class="nav">
-          <!--     Верх навигации     -->
-          <div class="nav__container">
-            <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
-              <!-- <li class="nav__list__item text text_caption">
-                <NuxtLink to="/loyalty"> Программа лояльности </NuxtLink>
-              </li> -->
+          <div v-if="!$viewport.isLessThan('desktop')" class="nav__container header__top-row">
+            <div class="header-socials">
+              <NuxtLink
+                :to="footerPage?.page?.phone ? 'tel:' + footerPage.page.phone : '/'"
+                target="_blank"
+                external
+              >
+                <img src="~/assets/svg/phone.svg" alt="phone" />
+              </NuxtLink>
+              <NuxtLink
+                :to="footerPage?.page?.whatsapp || '/'"
+                target="_blank"
+                external
+              >
+                <img src="~/assets/svg/whatsapp.svg" alt="whatsapp" />
+              </NuxtLink>
+              <NuxtLink
+                :to="footerPage?.page?.telegram || '/'"
+                target="_blank"
+                external
+              >
+                <img src="~/assets/svg/telegram.svg" alt="telegram" />
+              </NuxtLink>
+            </div>
+
+            <div class="header-actions">
+              <div class="nav__icons">
+                <SearchSmallAnimated />
+
+                <img
+                  class="pointer"
+                  @click="login()"
+                  src="~/assets/svg/profile.svg"
+                  alt="profile"
+                />
+
+                <NuxtLink to="/basket">
+                  <div class="row basket row_al-c">
+                    <img
+                      class="pointer"
+                      src="~/assets/svg/basket.svg"
+                      alt="basket"
+                    />
+
+                    <ClientOnly>
+                      <div v-if="basket.length > 0" class="basket__count">
+                        {{ basket.length }}
+                      </div>
+                    </ClientOnly>
+                  </div>
+                </NuxtLink>
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="!$viewport.isLessThan('desktop')"
+            class="delimiter delimiter_gradient header__nav-divider"
+          />
+
+          <div v-if="!$viewport.isLessThan('desktop')" class="nav__container header__bottom-row">
+            <ul class="nav__list header__nav-list">
               <li class="dropdown nav__list__item">
                 <span class="dropdown__btn text text_caption text_dark"
                   >Обучение</span
@@ -91,7 +152,16 @@
                 <NuxtLink to="/about/contacts"> Контакты </NuxtLink>
               </li>
             </ul>
-            <!--     Иконки     -->
+
+            <button
+              @click="reqActive = !reqActive"
+              class="button button_rounded button_gradient button_small header__callback"
+            >
+              Заказать звонок
+            </button>
+          </div>
+
+          <div v-if="$viewport.isLessThan('desktop')" class="nav__container header__mobile-actions">
             <div class="nav__icons">
               <SearchSmallAnimated />
 
@@ -119,78 +189,6 @@
                 </div>
               </NuxtLink>
             </div>
-          </div>
-
-          <div
-            v-if="!$viewport.isLessThan('desktop')"
-            class="delimiter delimiter_gradient"
-          />
-
-          <div v-if="!$viewport.isLessThan('mobile')" class="nav__container">
-            <!--     Низ навигации     -->
-            <!-- <ul v-if="!$viewport.isLessThan('desktop')" class="nav__list">
-              <li class="dropdown nav__list__item">
-                <span class="dropdown__btn text text_caption text_dark"
-                  >Обучение</span
-                >
-                <ul class="dropdown__list text text_normal text_dark">
-                  <li v-for="category in categories">
-                    <NuxtLink
-                      :to="'/courses?id=' + category.id"
-                      @click="menuActive = false"
-                      >{{ category.title }}
-                    </NuxtLink>
-                  </li>
-                </ul>
-              </li>
-
-              <li class="dropdown nav__list__item">
-                <span class="dropdown__btn text text_caption text_dark"
-                  >О компании</span
-                >
-                <ul class="dropdown__list text text_dark">
-                  <li>
-                    <NuxtLink to="/about"> О нас </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/news"> Новости </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/about/license"> Лицензии </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/about/reviews"> Отзывы клиентов </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/about/team"> Наша команда </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/vacancies"> Вакансии </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/about/requisites"> Реквизиты </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/about/details">
-                      Сведения об организации
-                    </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/about/register">
-                      Государственный реестр ФИС ФРДО
-                    </NuxtLink>
-                  </li>
-                </ul>
-              </li>
-            </ul> -->
-
-            <!--     Кнопка действия     -->
-            <button
-              @click="reqActive = !reqActive"
-              class="button button_rounded button_gradient button_small"
-            >
-              Заказать звонок
-            </button>
           </div>
 
           <div
@@ -442,6 +440,10 @@ const { data: page } = await useFetch(API + "/page/learning", {
   body: firstRequestBody,
 });
 
+const { data: footerPage } = await useFetch(API + "/page/footer", {
+  method: "GET",
+});
+
 const categories = toValue(page).page.categories;
 
 const login = async () => {
@@ -495,6 +497,7 @@ a {
   @media @min990 {
     padding: 20px 0;
     height: 76px;
+    align-items: stretch;
   }
 }
 
@@ -520,6 +523,10 @@ a {
   @media @min760 {
     max-width: 59px;
   }
+
+  @media @min990 {
+    max-width: 68px;
+  }
 }
 
 .logo-link {
@@ -534,6 +541,18 @@ a {
   width: 90%;
 
   transform: translateX(-50%);
+}
+
+.header__logo-divider {
+  display: none;
+
+  @media @min990 {
+    display: block;
+    width: 1px;
+    height: 64px;
+    align-self: center;
+    background: @MidGreyColor;
+  }
 }
 
 /* Navigation */
@@ -558,6 +577,55 @@ a {
   .button {
     margin-left: auto;
   }
+}
+
+.header__top-row {
+  min-height: 24px;
+}
+
+.header__bottom-row {
+  min-height: 36px;
+}
+
+.header-socials,
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.header-socials {
+  gap: 20px;
+}
+
+.header-socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.header-socials img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) saturate(100%) invert(47%) sepia(99%) saturate(1851%)
+    hue-rotate(176deg) brightness(99%) contrast(93%);
+}
+
+.header-actions {
+  gap: 20px;
+}
+
+.header__nav-divider {
+  height: 1px;
+}
+
+.header__callback {
+  min-width: 157px;
+}
+
+.header__mobile-actions {
+  justify-content: flex-end;
 }
 
 .nav__list {
