@@ -88,6 +88,7 @@ export default {
   },
   setup() {
     const basket = useState('basket');
+    
     return {
       basket
     }

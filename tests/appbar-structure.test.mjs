@@ -28,3 +28,7 @@ test("desktop header separates the logo with a vertical divider", () => {
   assert.match(source, /class="[^"]*header__logo-divider[^"]*"/);
   assert.match(source, /delimiter_column/);
 });
+
+test("desktop education nav item links to courses page", () => {
+  assert.match(source, /<NuxtLink\s+to="\/courses"\s+class="dropdown__btn text text_caption text_dark"/);
+});

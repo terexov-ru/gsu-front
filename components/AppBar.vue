@@ -81,9 +81,9 @@
           <div v-if="!$viewport.isLessThan('desktop')" class="nav__container header__bottom-row">
             <ul class="nav__list header__nav-list">
               <li class="dropdown nav__list__item">
-                <span class="dropdown__btn text text_caption text_dark"
-                  >Обучение</span
-                >
+                <NuxtLink to="/courses" class="dropdown__btn text text_caption text_dark">
+                  Обучение
+                </NuxtLink>
                 <ul class="dropdown__list text text_normal text_dark">
                   <li v-for="category in categories">
                     <NuxtLink
@@ -96,9 +96,9 @@
               </li>
 
               <li class="dropdown nav__list__item">
-                <span class="dropdown__btn text text_caption text_dark"
-                  >О компании</span
-                >
+                <NuxtLink to="/about" class="dropdown__btn text text_caption text_dark">
+                  О компании
+                </NuxtLink>
                 <ul class="dropdown__list text text_dark">
                   <li>
                     <NuxtLink to="/about"> О нас </NuxtLink>
@@ -134,7 +134,9 @@
                 </ul>
               </li>
               <li class="dropdown nav__list__item">
-                <span class="dropdown__btn text text_caption">Помощь</span>
+                <NuxtLink to="/help/questions" class="dropdown__btn text text_caption text_dark">
+                  Помощь
+                </NuxtLink>
                 <ul class="dropdown__list text text_normal text_dark">
                   <li>
                     <NuxtLink to="/help/questions">
@@ -725,6 +727,8 @@ a {
 }
 
 .dropdown:hover .dropdown__btn {
+  position: relative;
+  z-index: 100;
   color: @BlueNewColor;
 }
 
