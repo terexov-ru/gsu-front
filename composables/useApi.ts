@@ -18,6 +18,8 @@ const CONTACTS_PATH = "/page/company_contacts";
 const FAQS_PATH = "/page/faqs";
 const TECH_PATH = "/page/technical_requirements";
 const PROMO_PATH = "/get_promo_for_month";
+const MODAL_PROMO_PATH = "/promo";
+const MODAL_PROMO_LEAD_PATH = "/promo/lead";
 const CREATE_AGREEMENT = "/profile/create_order_agreement";
 
 /* AUTH */
@@ -161,6 +163,23 @@ export const useApi = () => {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getTokenCookie()}`,
+      },
+    });
+  }
+
+  async function getPromos() {
+    return $fetch(API + MODAL_PROMO_PATH, {
+      method: "GET",
+    });
+  }
+
+  async function sendPromoLead(promoId: number, name: String, phone: String) {
+    return $fetch(API + MODAL_PROMO_LEAD_PATH, {
+      method: "POST",
+      body: {
+        promo_id: promoId,
+        name,
+        phone,
       },
     });
   }
@@ -585,5 +604,7 @@ export const useApi = () => {
     createReview,
     checkPromocode,
     createAgreement,
+    getPromos,
+    sendPromoLead,
   };
 };

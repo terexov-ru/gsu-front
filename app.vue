@@ -27,6 +27,9 @@ if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
     <NuxtPage />
   </NuxtLayout>
   <AppFooter />
+  <ClientOnly>
+    <SiteFixedLayer />
+  </ClientOnly>
 </template>
 
 <style lang="less">
