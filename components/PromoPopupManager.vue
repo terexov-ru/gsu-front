@@ -1,8 +1,7 @@
 <template>
   <div
-    v-if="true"
+    v-if="isVisible"
     class="promo-popup-layer"
-    @click.self="closePopup"
   >
     <PromoPopupModal
       v-if="activePromo"
@@ -189,13 +188,18 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="less">
-.promo-popup-layer {
+.promo-popup-backdrop {
   position: fixed;
   inset: 0;
+  z-index: 1;
+}
+
+.promo-popup-layer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
   box-sizing: border-box;
-  padding: 24px 16px;
   display: flex;
-  align-items: flex-end;
   justify-content: center;
   pointer-events: auto;
 }

@@ -1,7 +1,9 @@
 <template>
   <div class="site-fixed-layer">
-    <PromoPopupManager />
-    <slot name="cookie-banner" />
+    <div class="site-fixed-layer__stack">
+      <CookieBanner />
+      <PromoPopupManager />
+    </div>
   </div>
 </template>
 
@@ -13,8 +15,22 @@
   pointer-events: none;
 }
 
+.site-fixed-layer__stack {
+  position: absolute;
+  right: 16px;
+  bottom: 24px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  pointer-events: none;
+}
+
 .site-fixed-layer :deep(.overflow),
-.site-fixed-layer :deep(.promo-popup-layer) {
+.site-fixed-layer :deep(.promo-popup-backdrop),
+.site-fixed-layer :deep(.promo-popup-layer),
+.site-fixed-layer :deep(.cookie-banner-layer) {
   pointer-events: auto;
 }
 </style>

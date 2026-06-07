@@ -36,6 +36,17 @@ test("promo manager fetches active promos once and shows active dated promos aft
   assert.doesNotMatch(source, /<OverflowContainer/);
 });
 
+test("promo manager only enables the fullscreen click layer while the popup is visible", () => {
+  const source = readFileSync(managerPath, "utf8");
+
+  assert.match(source, /v-if="isVisible"/);
+  assert.match(source, /class="promo-popup-backdrop"/);
+  assert.match(source, /@click="closePopup"/);
+  assert.match(source, /\.promo-popup-backdrop\s*\{[^}]*position:\s*fixed/s);
+  assert.match(source, /\.promo-popup-layer\s*\{[^}]*position:\s*relative/s);
+  assert.doesNotMatch(source, /v-if="true"/);
+});
+
 test("promo manager rotates promos every 10 seconds and exposes side navigation", () => {
   const source = readFileSync(managerPath, "utf8");
 
