@@ -30,5 +30,9 @@ test("desktop header separates the logo with a vertical divider", () => {
 });
 
 test("desktop education nav item links to courses page", () => {
-  assert.match(source, /<NuxtLink\s+to="\/courses"\s+class="dropdown__btn text text_caption text_dark"/);
+  assert.match(
+    source,
+    /<HeaderEducationMenu\s+:specialty-areas="specialtyAreas"\s+@navigate="menuActive = false"/,
+  );
+  assert.doesNotMatch(source, /v-for="category in categories"/);
 });

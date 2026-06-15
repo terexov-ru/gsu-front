@@ -27,4 +27,6 @@ test("courses page uses specialty areas as cards and moves category into dropdow
 
 test("courses page reads specialty area from route query", () => {
   assert.match(coursesSearchSource, /route\.query\.specialty_area_id/);
+  assert.match(coursesSearchSource, /route\.query\.category/);
+  assert.match(coursesSearchSource, /selectedCategory\.value =\s+categories\.find/);
 });

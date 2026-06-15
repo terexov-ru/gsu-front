@@ -80,20 +80,10 @@
 
           <div v-if="!$viewport.isLessThan('desktop')" class="nav__container header__bottom-row">
             <ul class="nav__list header__nav-list">
-              <li class="dropdown nav__list__item">
-                <NuxtLink to="/courses" class="dropdown__btn text text_caption text_dark">
-                  Обучение
-                </NuxtLink>
-                <ul class="dropdown__list text text_normal text_dark">
-                  <li v-for="category in categories">
-                    <NuxtLink
-                      :to="'/courses?id=' + category.id"
-                      @click="menuActive = false"
-                      >{{ category.title }}
-                    </NuxtLink>
-                  </li>
-                </ul>
-              </li>
+              <HeaderEducationMenu
+                :specialty-areas="specialtyAreas"
+                @navigate="menuActive = false"
+              />
 
               <li class="dropdown nav__list__item">
                 <NuxtLink to="/about" class="dropdown__btn text text_caption text_dark">
@@ -240,28 +230,16 @@
       <div class="text burger-menu__title text_h3">Меню</div>
 
       <div class="column">
-        <div class="burger-menu__item">
-          <div
-            class="text burger-menu__text text_caption text_dark pointer"
-            @click="
-              activeStudy = !activeStudy;
-              activeAbout = false;
-            "
-          >
-            Обучение
-          </div>
-          <div class="info__body" :class="{ info__body_active: activeStudy }">
-            <div class="column column_gap16 text text_normal text_light">
-              <div v-for="category in categories">
-                <NuxtLink
-                  :to="'/courses?id=' + category.id"
-                  @click="menuActive = false"
-                  >{{ category.title }}
-                </NuxtLink>
-              </div>
-            </div>
-          </div>
-        </div>
+        <HeaderEducationMenu
+          mobile
+          :specialty-areas="specialtyAreas"
+          :is-open="activeStudy"
+          @toggle="
+            activeStudy = !activeStudy;
+            activeAbout = false;
+          "
+          @navigate="menuActive = false"
+        />
 
         <div class="burger-menu__item">
           <div
@@ -430,23 +408,15 @@ const closeOverflow = () => {
   reqActive.value = false;
 };
 
-const firstRequestBody = {
-  start: 0,
-  amount: 1,
-  sort: 0,
-  category: 0,
-};
-
-const { data: page } = await useFetch(API + "/page/learning", {
-  method: "POST",
-  body: firstRequestBody,
+const { data: mainPage } = await useFetch(API + "/page/main", {
+  method: "GET",
 });
 
 const { data: footerPage } = await useFetch(API + "/page/footer", {
   method: "GET",
 });
 
-const categories = toValue(page).page.categories;
+const specialtyAreas = toValue(mainPage)?.page?.specialty_areas || [];
 
 const login = async () => {
   if (!getTokenCookie()) {

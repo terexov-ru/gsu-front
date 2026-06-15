@@ -4,7 +4,10 @@
 
     <ProgramSearchBar @search="search()" v-model:value="searchValue" />
 
-    <SearchTipList :tips="specialtyAreas" v-model:selected="selectedSpecialtyAreaId" />
+    <SearchTipList
+      :tips="specialtyAreas"
+      v-model:selected="selectedSpecialtyAreaId"
+    />
 
     <div class="search-block__filters">
       <DropDown
@@ -109,7 +112,9 @@ async function search(noUpdated = undefined) {
 
 /* search request to get options info */
 const initialSpecialtyAreaId =
-  normalizeQueryId(route.query.specialty_area_id) ?? normalizeQueryId(route.query.id);
+  normalizeQueryId(route.query.specialty_area_id) ??
+  normalizeQueryId(route.query.id);
+const initialCategoryId = normalizeQueryId(route.query.category);
 
 selectedSpecialtyAreaId.value = initialSpecialtyAreaId;
 
@@ -117,6 +122,7 @@ const firstRequestBody = buildLearningRequest({
   start: 0,
   amount: amount,
   sort: 0,
+  category: initialCategoryId,
   specialty_area_id: initialSpecialtyAreaId,
 });
 
@@ -130,6 +136,9 @@ const specs = ref(toValue(page).page.specs);
 const studentCategories = ref(toValue(page).page.student_categories);
 const categories = toValue(page).page.categories;
 const specialtyAreas = ref(toValue(page).page.specialty_areas);
+selectedCategory.value =
+  categories.find((item) => Number(item.id) === Number(initialCategoryId)) ||
+  {};
 courses.value = toValue(page).page.courses;
 const count = ref(toValue(page).page.total_courses_amount);
 
@@ -143,7 +152,18 @@ watch(
       top: 0,
       behavior: "smooth",
     });
-  }
+  },
+);
+
+watch(
+  () => route.query.category,
+  (newId) => {
+    const normalizedCategoryId = normalizeQueryId(newId);
+    selectedCategory.value =
+      categories.find(
+        (item) => Number(item.id) === Number(normalizedCategoryId),
+      ) || {};
+  },
 );
 
 watch(currentPage, async (newVal) => {
