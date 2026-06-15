@@ -4,9 +4,16 @@
 
     <ProgramSearchBar @search="search()" v-model:value="searchValue" />
 
-    <SearchTipList :tips="categories" v-model:selected="category" />
+    <SearchTipList :tips="specialtyAreas" v-model:selected="selectedSpecialtyAreaId" />
 
     <div class="search-block__filters">
+      <DropDown
+        :title="'Вид обучения'"
+        :options="categories"
+        v-model:selected="selectedCategory"
+        class="search-block__drop-down"
+      />
+
       <DropDown
         :title="'Специализация'"
         :options="specs"
@@ -40,32 +47,53 @@
 <script setup>
 import { API } from "~/constants/index.js";
 import { toValue, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
+const selectedCategory = ref({});
 const selectedSpec = ref({});
 const selectedDuration = ref({});
 const selectedStudentCategories = ref({});
-const category = ref(NaN);
+const selectedSpecialtyAreaId = ref(undefined);
 const courses = ref([]);
 const currentPage = ref(1);
 const amount = 5;
 const searchValue = ref("");
+const route = useRoute();
+
+function normalizeQueryId(value) {
+  if (Array.isArray(value)) value = value[0];
+  if (value === undefined || value === null || value === "") return undefined;
+
+  const parsed = Number(value);
+  return Number.isNaN(parsed) ? undefined : parsed;
+}
+
+function buildLearningRequest(body) {
+  return Object.fromEntries(
+    Object.entries(body).filter(([, value]) => {
+      if (value === undefined || value === null || value === "") return false;
+      if (typeof value === "number" && Number.isNaN(value)) return false;
+
+      return true;
+    }),
+  );
+}
 
 /* search request */
 async function search(noUpdated = undefined) {
   if (!noUpdated) currentPage.value = 1;
 
-  const req = {
+  const req = buildLearningRequest({
     start: toValue(currentPage) * amount - amount,
     amount: amount,
     sort: 0,
-    category: toValue(category),
+    category: toValue(selectedCategory)?.id,
+    specialty_area_id: toValue(selectedSpecialtyAreaId),
     search_value: toValue(searchValue),
-
     search_student_category: toValue(selectedStudentCategories).id,
     search_spec: toValue(selectedSpec).id,
     search_duration: toValue(selectedDuration).id,
-  };
+  });
 
   const { data: page } = await useFetch(API + "/page/learning", {
     method: "POST",
@@ -80,15 +108,17 @@ async function search(noUpdated = undefined) {
 }
 
 /* search request to get options info */
-const route = useRoute();
-let firstCategory = route.query.id ? route.query.id : 0;
+const initialSpecialtyAreaId =
+  normalizeQueryId(route.query.specialty_area_id) ?? normalizeQueryId(route.query.id);
 
-const firstRequestBody = {
+selectedSpecialtyAreaId.value = initialSpecialtyAreaId;
+
+const firstRequestBody = buildLearningRequest({
   start: 0,
   amount: amount,
   sort: 0,
-  category: firstCategory,
-};
+  specialty_area_id: initialSpecialtyAreaId,
+});
 
 const { data: page } = await useFetch(API + "/page/learning", {
   method: "POST",
@@ -99,14 +129,15 @@ const durations = ref(toValue(page).page.durations);
 const specs = ref(toValue(page).page.specs);
 const studentCategories = ref(toValue(page).page.student_categories);
 const categories = toValue(page).page.categories;
+const specialtyAreas = ref(toValue(page).page.specialty_areas);
 courses.value = toValue(page).page.courses;
 const count = ref(toValue(page).page.total_courses_amount);
 
 /* Watchers */
 watch(
-  () => route.query.id,
+  () => route.query.specialty_area_id,
   (newId) => {
-    category.value = newId || 0;
+    selectedSpecialtyAreaId.value = normalizeQueryId(newId);
 
     window.scrollTo({
       top: 0,
@@ -120,19 +151,23 @@ watch(currentPage, async (newVal) => {
   await search(true);
 });
 
-watch(category, async (newVal) => {
-  category.value = newVal;
+watch(selectedSpecialtyAreaId, async (newVal) => {
+  selectedSpecialtyAreaId.value = newVal;
+  await search(false);
+});
+
+watch(selectedCategory, async () => {
   await search(false);
 });
 
 /* Filters */
-watch(selectedSpec, async (newVal) => {
+watch(selectedSpec, async () => {
   await search(false);
 });
-watch(selectedDuration, async (newVal) => {
+watch(selectedDuration, async () => {
   await search(false);
 });
-watch(selectedStudentCategories, async (newVal) => {
+watch(selectedStudentCategories, async () => {
   await search(false);
 });
 </script>

@@ -59,6 +59,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    queryKey: {
+      type: String,
+      default: "id",
+    },
   },
   data() {
     return {
@@ -85,7 +89,7 @@ export default {
         await navigateTo({
           path: "/courses",
           query: {
-            id: tip.id,
+            [this.$props.queryKey]: tip.id,
           },
         });
       } else {
@@ -127,10 +131,10 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const activeTip = ref(route.query.id);
+    const activeTip = ref(route.query.id || route.query.specialty_area_id);
 
     onBeforeRouteUpdate((to, from) => {
-      activeTip.value = to.query.id;
+      activeTip.value = to.query.id || to.query.specialty_area_id;
     });
 
     return { activeTip };

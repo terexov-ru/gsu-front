@@ -13,9 +13,10 @@
 
     <div v-if="status === 'success'">
       <SearchTipList
-        :tips="categories"
+        :tips="specialtyAreas"
         :redirect="true"
-        v-model:selected="category"
+        query-key="specialty_area_id"
+        v-model:selected="specialtyAreaId"
       />
 
       <!-- <ProgramCardList
@@ -30,13 +31,13 @@
 </template>
 
 <script setup>
-import { onMounted, toValue, watch } from "vue";
+import { toValue, watch } from "vue";
 import { API } from "~/constants/index.js";
 
-const category = ref(NaN);
+const specialtyAreaId = ref(undefined);
 const courses = ref([]);
 const searchValue = ref("");
-const categories = ref([]);
+const specialtyAreas = ref([]);
 
 const firstRequestBody = {
   start: 0,
@@ -44,14 +45,25 @@ const firstRequestBody = {
   sort: 0,
 };
 
+function buildLearningRequest(body) {
+  return Object.fromEntries(
+    Object.entries(body).filter(([, value]) => {
+      if (value === undefined || value === null || value === "") return false;
+      if (typeof value === "number" && Number.isNaN(value)) return false;
+
+      return true;
+    }),
+  );
+}
+
 async function search() {
-  const req = {
+  const req = buildLearningRequest({
     start: 0,
     amount: 3,
     sort: 0,
-    category: toValue(category),
+    specialty_area_id: toValue(specialtyAreaId),
     search_value: toValue(searchValue),
-  };
+  });
 
   const { data: page } = await useFetch(API + "/page/learning", {
     method: "POST",
@@ -60,8 +72,8 @@ async function search() {
   courses.value = toValue(page).page.courses;
 }
 
-watch(category, async (newVal) => {
-  category.value = newVal;
+watch(specialtyAreaId, async (newVal) => {
+  specialtyAreaId.value = newVal;
   await search();
 });
 
@@ -77,7 +89,7 @@ const {
 });
 
 watch(page, (newVal) => {
-  categories.value = toValue(newVal).page.categories;
+  specialtyAreas.value = toValue(newVal).page.specialty_areas;
   courses.value = toValue(newVal).page.courses;
 });
 </script>
