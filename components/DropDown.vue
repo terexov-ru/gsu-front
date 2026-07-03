@@ -90,8 +90,23 @@ watch(
   }
 );
 
+watch(
+  () => props.selected,
+  (newSelected) => {
+    if (newSelected && Object.keys(newSelected).length) {
+      selectedItem.value = newSelected;
+      return;
+    }
+
+    selectedItem.value = { title: props.title, id: undefined };
+  },
+  { immediate: true, deep: true }
+);
+
 onMounted(() => {
-  selectedItem.value.title = props.title;
+  if (!props.selected || !Object.keys(props.selected).length) {
+    selectedItem.value.title = props.title;
+  }
 });
 
 defineExpose({

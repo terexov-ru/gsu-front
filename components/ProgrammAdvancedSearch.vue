@@ -6,6 +6,7 @@
 
     <SearchTipList
       :tips="specialtyAreas"
+      query-key="specialty_area_id"
       v-model:selected="selectedSpecialtyAreaId"
     />
 
@@ -50,7 +51,7 @@
 <script setup>
 import { API } from "~/constants/index.js";
 import { toValue, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const selectedCategory = ref({});
 const selectedSpec = ref({});
@@ -62,6 +63,7 @@ const currentPage = ref(1);
 const amount = 5;
 const searchValue = ref("");
 const route = useRoute();
+const router = useRouter();
 
 function normalizeQueryId(value) {
   if (Array.isArray(value)) value = value[0];
@@ -79,6 +81,44 @@ function buildLearningRequest(body) {
 
       return true;
     }),
+  );
+}
+
+function getNormalizedQueryValue(value) {
+  return value === undefined || value === null || value === ""
+    ? undefined
+    : String(value);
+}
+
+async function syncQuery(queryPatch) {
+  const nextQuery = { ...route.query };
+  let changed = false;
+
+  Object.entries(queryPatch).forEach(([key, value]) => {
+    const normalizedValue = getNormalizedQueryValue(value);
+    const currentValue = getNormalizedQueryValue(route.query[key]);
+
+    if (normalizedValue === currentValue) return;
+
+    changed = true;
+
+    if (normalizedValue === undefined) {
+      delete nextQuery[key];
+    } else {
+      nextQuery[key] = normalizedValue;
+    }
+  });
+
+  if (!changed) return;
+
+  await router.replace({
+    query: nextQuery,
+  });
+}
+
+function findCategoryById(categoryId) {
+  return (
+    categories.value.find((item) => Number(item.id) === Number(categoryId)) || {}
   );
 }
 
@@ -104,9 +144,11 @@ async function search(noUpdated = undefined) {
   });
 
   courses.value = toValue(page).page.courses;
+  categories.value = toValue(page).page.categories;
   durations.value = toValue(page).page.durations;
   specs.value = toValue(page).page.specs;
   studentCategories.value = toValue(page).page.student_categories;
+  selectedCategory.value = findCategoryById(toValue(selectedCategory)?.id);
   count.value = toValue(page).page.total_courses_amount;
 }
 
@@ -134,11 +176,9 @@ const { data: page } = await useFetch(API + "/page/learning", {
 const durations = ref(toValue(page).page.durations);
 const specs = ref(toValue(page).page.specs);
 const studentCategories = ref(toValue(page).page.student_categories);
-const categories = toValue(page).page.categories;
+const categories = ref(toValue(page).page.categories);
 const specialtyAreas = ref(toValue(page).page.specialty_areas);
-selectedCategory.value =
-  categories.find((item) => Number(item.id) === Number(initialCategoryId)) ||
-  {};
+selectedCategory.value = findCategoryById(initialCategoryId);
 courses.value = toValue(page).page.courses;
 const count = ref(toValue(page).page.total_courses_amount);
 
@@ -159,10 +199,7 @@ watch(
   () => route.query.category,
   (newId) => {
     const normalizedCategoryId = normalizeQueryId(newId);
-    selectedCategory.value =
-      categories.find(
-        (item) => Number(item.id) === Number(normalizedCategoryId),
-      ) || {};
+    selectedCategory.value = findCategoryById(normalizedCategoryId);
   },
 );
 
@@ -173,12 +210,21 @@ watch(currentPage, async (newVal) => {
 
 watch(selectedSpecialtyAreaId, async (newVal) => {
   selectedSpecialtyAreaId.value = newVal;
+  await syncQuery({
+    specialty_area_id: newVal,
+  });
   await search(false);
 });
 
-watch(selectedCategory, async () => {
-  await search(false);
-});
+watch(
+  () => toValue(selectedCategory)?.id,
+  async (newId) => {
+    await syncQuery({
+      category: newId,
+    });
+    await search(false);
+  },
+);
 
 /* Filters */
 watch(selectedSpec, async () => {
