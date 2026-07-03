@@ -53,6 +53,18 @@
             </div>
           </NuxtLink>
 
+          <NuxtLink :to="page.vk" target="_blank" external>
+            <div class="contacts__icon">
+              <img src="~/assets/svg/vk_dark.svg" alt="vk" />
+            </div>
+          </NuxtLink>
+
+          <NuxtLink :to="page.max" target="_blank" external>
+            <div class="contacts__icon">
+              <img src="~/assets/svg/max_dark.svg" alt="max" />
+            </div>
+          </NuxtLink>
+
         </div>
       </div>
 
@@ -184,6 +196,11 @@ useHead({
 
   border: 1px solid @DarkGreyColor;
   border-radius: 50%;
+}
+
+.contacts__icon img {
+  width: 24px;
+  height: 24px;
 }
 
 .map {

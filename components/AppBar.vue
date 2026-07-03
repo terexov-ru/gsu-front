@@ -18,10 +18,15 @@
         />
 
         <div class="nav">
-          <div v-if="!$viewport.isLessThan('desktop')" class="nav__container header__top-row">
+          <div
+            v-if="!$viewport.isLessThan('desktop')"
+            class="nav__container header__top-row"
+          >
             <div class="header-socials">
               <NuxtLink
-                :to="footerPage?.page?.phone ? 'tel:' + footerPage.page.phone : '/'"
+                :to="
+                  footerPage?.page?.phone ? 'tel:' + footerPage.page.phone : '/'
+                "
                 target="_blank"
                 external
               >
@@ -33,6 +38,20 @@
                 external
               >
                 <img src="~/assets/svg/whatsapp.svg" alt="whatsapp" />
+              </NuxtLink>
+              <NuxtLink
+                :to="footerPage?.page?.vk || '/'"
+                target="_blank"
+                external
+              >
+                <img src="~/assets/svg/vk.svg" alt="vk" />
+              </NuxtLink>
+              <NuxtLink
+                :to="footerPage?.page?.max || '/'"
+                target="_blank"
+                external
+              >
+                <img src="~/assets/svg/max.svg" alt="max" />
               </NuxtLink>
               <NuxtLink
                 :to="footerPage?.page?.telegram || '/'"
@@ -78,7 +97,10 @@
             class="delimiter delimiter_gradient header__nav-divider"
           />
 
-          <div v-if="!$viewport.isLessThan('desktop')" class="nav__container header__bottom-row">
+          <div
+            v-if="!$viewport.isLessThan('desktop')"
+            class="nav__container header__bottom-row"
+          >
             <ul class="nav__list header__nav-list">
               <HeaderEducationMenu
                 :specialty-areas="specialtyAreas"
@@ -86,7 +108,10 @@
               />
 
               <li class="dropdown nav__list__item">
-                <NuxtLink to="/about" class="dropdown__btn text text_caption text_dark">
+                <NuxtLink
+                  to="/about"
+                  class="dropdown__btn text text_caption text_dark"
+                >
                   О компании
                 </NuxtLink>
                 <ul class="dropdown__list text text_dark">
@@ -124,7 +149,10 @@
                 </ul>
               </li>
               <li class="dropdown nav__list__item">
-                <NuxtLink to="/help/questions" class="dropdown__btn text text_caption text_dark">
+                <NuxtLink
+                  to="/help/questions"
+                  class="dropdown__btn text text_caption text_dark"
+                >
                   Помощь
                 </NuxtLink>
                 <ul class="dropdown__list text text_normal text_dark">
@@ -153,7 +181,10 @@
             </button>
           </div>
 
-          <div v-if="$viewport.isLessThan('desktop')" class="nav__container header__mobile-actions">
+          <div
+            v-if="$viewport.isLessThan('desktop')"
+            class="nav__container header__mobile-actions"
+          >
             <div class="nav__icons">
               <SearchSmallAnimated />
 

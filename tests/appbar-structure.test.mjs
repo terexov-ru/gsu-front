@@ -22,6 +22,8 @@ test("desktop header has socials, action buttons, divider, and nav in Figma orde
   assert.match(source, /assets\/svg\/phone\.svg/);
   assert.match(source, /assets\/svg\/whatsapp\.svg/);
   assert.match(source, /assets\/svg\/telegram\.svg/);
+  assert.match(source, /assets\/svg\/vk\.svg/);
+  assert.match(source, /assets\/svg\/max\.svg/);
 });
 
 test("desktop header separates the logo with a vertical divider", () => {

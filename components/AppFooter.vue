@@ -100,7 +100,20 @@
               target="_blank"
               external
             >
-              <img src="~/assets/svg/whatsapp.svg" alt="whatsapp" />
+              <img src="~/assets/svg/whatsapp.svg" alt="whatsapp" /> </NuxtLink
+            ><NuxtLink
+              :to="pending ? '/' : page.page.vk"
+              target="_blank"
+              external
+            >
+              <img src="~/assets/svg/vk.svg" alt="vk" />
+            </NuxtLink>
+            <NuxtLink
+              :to="pending ? '/' : page.page.max"
+              target="_blank"
+              external
+            >
+              <img src="~/assets/svg/max.svg" alt="max" />
             </NuxtLink>
             <NuxtLink
               :to="pending ? '/' : page.page.telegram"
@@ -115,7 +128,7 @@
         <div class="delimiter delimiter_dark-grey" />
 
         <div class="policy">
-          <div class="text text_normal">Все права защищены 2024©</div>
+          <div class="text text_normal">Все права защищены 2026©</div>
           <NuxtLink to="/policy.pdf" target="_blank">
             <div class="text text_normal">Политика конфиденциальности</div>
           </NuxtLink>
