@@ -12,23 +12,24 @@
 
     <div class="search-block__filters">
       <DropDown
-        :title="'Вид обучения'"
+        :title="'Уровень образования'"
+        :options="educationLevels"
+        v-model:selected="selectedEducationLevel"
+        class="search-block__drop-down"
+      />
+
+      <DropDown
+        :title="'Вид образования'"
         :options="categories"
         v-model:selected="selectedCategory"
         class="search-block__drop-down"
       />
 
       <DropDown
+        v-if="specs && specs.length > 0"
         :title="'Специализация'"
         :options="specs"
         v-model:selected="selectedSpec"
-        class="search-block__drop-down"
-      />
-
-      <DropDown
-        :title="'Слушатели'"
-        :options="studentCategories"
-        v-model:selected="selectedStudentCategories"
         class="search-block__drop-down"
       />
 
@@ -56,7 +57,7 @@ import { useRoute, useRouter } from "vue-router";
 const selectedCategory = ref({});
 const selectedSpec = ref({});
 const selectedDuration = ref({});
-const selectedStudentCategories = ref({});
+const selectedEducationLevel = ref({});
 const selectedSpecialtyAreaId = ref(undefined);
 const courses = ref([]);
 const currentPage = ref(1);
@@ -133,7 +134,7 @@ async function search(noUpdated = undefined) {
     category: toValue(selectedCategory)?.id,
     specialty_area_id: toValue(selectedSpecialtyAreaId),
     search_value: toValue(searchValue),
-    search_student_category: toValue(selectedStudentCategories).id,
+    search_education_level: toValue(selectedEducationLevel).id,
     search_spec: toValue(selectedSpec).id,
     search_duration: toValue(selectedDuration).id,
   });
@@ -147,7 +148,7 @@ async function search(noUpdated = undefined) {
   categories.value = toValue(page).page.categories;
   durations.value = toValue(page).page.durations;
   specs.value = toValue(page).page.specs;
-  studentCategories.value = toValue(page).page.student_categories;
+  educationLevels.value = toValue(page).page.education_levels;
   selectedCategory.value = findCategoryById(toValue(selectedCategory)?.id);
   count.value = toValue(page).page.total_courses_amount;
 }
@@ -175,7 +176,7 @@ const { data: page } = await useFetch(API + "/page/learning", {
 
 const durations = ref(toValue(page).page.durations);
 const specs = ref(toValue(page).page.specs);
-const studentCategories = ref(toValue(page).page.student_categories);
+const educationLevels = ref(toValue(page).page.education_levels);
 const categories = ref(toValue(page).page.categories);
 const specialtyAreas = ref(toValue(page).page.specialty_areas);
 selectedCategory.value = findCategoryById(initialCategoryId);
@@ -233,7 +234,7 @@ watch(selectedSpec, async () => {
 watch(selectedDuration, async () => {
   await search(false);
 });
-watch(selectedStudentCategories, async () => {
+watch(selectedEducationLevel, async () => {
   await search(false);
 });
 </script>

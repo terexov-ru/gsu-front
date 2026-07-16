@@ -21,7 +21,7 @@ test("home search block uses specialty areas for cards and request filter", () =
 test("courses page uses specialty areas as cards and moves category into dropdown", () => {
   assert.match(coursesSearchSource, /:tips="specialtyAreas"/);
   assert.match(coursesSearchSource, /specialty_area_id/);
-  assert.match(coursesSearchSource, /title="'Вид обучения'"/);
+  assert.match(coursesSearchSource, /title="'Вид образования'"/);
   assert.match(coursesSearchSource, /v-model:selected="selectedCategory"/);
 });
 

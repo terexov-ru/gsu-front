@@ -91,10 +91,10 @@
 
     <div class="course-coast__item course-coast__item_big">
       <div class="text course-coast__item__name text_normal">
-        Категория слушателей
+        Уровень образования
       </div>
       <div class="text text_normal">
-        {{ page.student_category }}
+        {{ page.education_level?.title }}
       </div>
 
       <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
