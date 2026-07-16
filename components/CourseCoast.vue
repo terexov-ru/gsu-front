@@ -90,12 +90,14 @@
     </div>
 
     <div class="course-coast__item course-coast__item_big">
-      <div class="text course-coast__item__name text_normal">
-        Уровень образования
-      </div>
-      <div class="text text_normal">
-        {{ page.education_level?.title }}
-      </div>
+      <template v-if="page.education_level">
+        <div class="text course-coast__item__name text_normal">
+          Уровень образования
+        </div>
+        <div class="text text_normal">
+          {{ page.education_level.title }}
+        </div>
+      </template>
 
       <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
         Итоговая аттестация
