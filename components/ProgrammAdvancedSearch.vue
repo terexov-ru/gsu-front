@@ -27,7 +27,7 @@
 
       <DropDown
         v-if="specs && specs.length > 0"
-        :title="'Специализация'"
+        :title="'Специальность'"
         :options="specs"
         v-model:selected="selectedSpec"
         class="search-block__drop-down"
@@ -119,7 +119,8 @@ async function syncQuery(queryPatch) {
 
 function findCategoryById(categoryId) {
   return (
-    categories.value.find((item) => Number(item.id) === Number(categoryId)) || {}
+    categories.value.find((item) => Number(item.id) === Number(categoryId)) ||
+    {}
   );
 }
 

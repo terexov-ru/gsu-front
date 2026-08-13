@@ -1,81 +1,74 @@
 <template>
   <div class="course-coast">
     <div class="course-coast__item course-coast__item_big">
-      <div class="text course-coast__item__name text_normal">
-        Специализация
-      </div>
+      <div class="text course-coast__item__name text_normal">Специальность</div>
       <div>
-        <span v-for="spec in page.specs" class="text text_h3 course-coast__item__value">
-        <!--        Лабораторная диагностика-->
-        {{ spec }};
+        <span
+          v-for="spec in page.specs"
+          class="text text_h3 course-coast__item__value"
+        >
+          <!--        Лабораторная диагностика-->
+          {{ spec }};
         </span>
       </div>
     </div>
 
     <div
-        class="course-coast__item course-coast__item_hours"
-        :class="{ 'course-coast__item_hours-open': hoursDropdownActive }"
+      class="course-coast__item course-coast__item_hours"
+      :class="{ 'course-coast__item_hours-open': hoursDropdownActive }"
     >
-      <div class="text course-coast__item__name text_normal">
-        Кол-во часов
-      </div>
+      <div class="text course-coast__item__name text_normal">Кол-во часов</div>
       <div
-          v-if="hasRelatedCourses"
-          class="course-hours"
-          v-click-outside="closeHoursDropdown"
+        v-if="hasRelatedCourses"
+        class="course-hours"
+        v-click-outside="closeHoursDropdown"
       >
         <button
-            class="text text_h3 course-coast__item__value course-hours__button"
-            type="button"
-            :aria-expanded="hoursDropdownActive.toString()"
-            aria-label="Выбрать количество часов"
-            @click="toggleHoursDropdown"
+          class="text text_h3 course-coast__item__value course-hours__button"
+          type="button"
+          :aria-expanded="hoursDropdownActive.toString()"
+          aria-label="Выбрать количество часов"
+          @click="toggleHoursDropdown"
         >
           <span>{{ selectedCourseHours }}</span>
           <svg
-              class="course-hours__icon"
-              :class="{ 'course-hours__icon_open': hoursDropdownActive }"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
+            class="course-hours__icon"
+            :class="{ 'course-hours__icon_open': hoursDropdownActive }"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
             <path
-                d="M7 9.19727L12 14.1973L17 9.19727"
-                stroke="#B9BFC6"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+              d="M7 9.19727L12 14.1973L17 9.19727"
+              stroke="#B9BFC6"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             />
           </svg>
         </button>
 
-        <ul
-            v-if="hoursDropdownActive"
-            class="course-hours__list"
-        >
+        <ul v-if="hoursDropdownActive" class="course-hours__list">
           <li
-              v-for="course in hourOptions"
-              :key="course.id"
-              class="course-hours__item"
+            v-for="course in hourOptions"
+            :key="course.id"
+            class="course-hours__item"
           >
             <button
-                class="text text_semi-bold course-hours__option"
-                :class="{ 'text_accent': isCurrentCourse(course) }"
-                type="button"
-                @click="selectRelatedCourse(course)"
+              class="text text_semi-bold course-hours__option"
+              :class="{ text_accent: isCurrentCourse(course) }"
+              type="button"
+              @click="selectRelatedCourse(course)"
             >
               {{ formatHours(course.hours) }}
             </button>
           </li>
         </ul>
       </div>
-      <div
-          v-else
-          class="text text_h3 course-coast__item__value"
-      >
+      <div v-else class="text text_h3 course-coast__item__value">
         {{ page.duration }}
       </div>
     </div>
@@ -99,21 +92,27 @@
         </div>
       </template>
 
-      <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
+      <div
+        class="text course-coast__item__name text_normal course-coast__item__name_margin"
+      >
         Итоговая аттестация
       </div>
       <div class="text text_normal">
         {{ page.exam }}
       </div>
 
-      <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
+      <div
+        class="text course-coast__item__name text_normal course-coast__item__name_margin"
+      >
         Документ, выдаваемый после обучения
       </div>
       <div class="text text_normal">
         {{ page.document }}
       </div>
 
-      <div class="text course-coast__item__name text_normal course-coast__item__name_margin">
+      <div
+        class="text course-coast__item__name text_normal course-coast__item__name_margin"
+      >
         Форма обучения
       </div>
       <div class="text text_normal">
@@ -122,11 +121,7 @@
     </div>
 
     <div class="course-coast__buttons course-coast__item_big">
-      <NuxtLink
-          to="/basket"
-          @click="addToBasket(page)"
-          class="width"
-      >
+      <NuxtLink to="/basket" @click="addToBasket(page)" class="width">
         <button class="button button_black-bordered button_fill">
           Записаться
         </button>
@@ -136,7 +131,7 @@
 </template>
 
 <script>
-import {toValue} from "vue";
+import { toValue } from "vue";
 
 export default {
   props: {
@@ -146,11 +141,11 @@ export default {
     },
   },
   setup() {
-    const basket = useState('basket');
-    
+    const basket = useState("basket");
+
     return {
-      basket
-    }
+      basket,
+    };
   },
   data() {
     return {
@@ -160,8 +155,8 @@ export default {
   computed: {
     relatedCourses() {
       return Array.isArray(this.page?.related_courses)
-          ? this.page.related_courses
-          : [];
+        ? this.page.related_courses
+        : [];
     },
     hasRelatedCourses() {
       return this.relatedCourses.length > 0;
@@ -182,17 +177,21 @@ export default {
       ];
 
       return courses
-          .filter((course) => course?.id !== undefined && course?.hours !== undefined)
-          .filter((course, index, list) => (
-              list.findIndex((item) => String(item.id) === String(course.id)) === index
-          ));
+        .filter(
+          (course) => course?.id !== undefined && course?.hours !== undefined,
+        )
+        .filter(
+          (course, index, list) =>
+            list.findIndex((item) => String(item.id) === String(course.id)) ===
+            index,
+        );
     },
   },
   methods: {
     formatHours(hours) {
       return String(hours ?? "")
-          .replace(/\s*час(ов|а)?\.?$/i, "")
-          .trim();
+        .replace(/\s*час(ов|а)?\.?$/i, "")
+        .trim();
     },
     isCurrentCourse(course) {
       return String(course?.id) === String(this.currentCourseId);
@@ -215,15 +214,15 @@ export default {
     addToBasket(course) {
       const basket = toValue(this.basket);
       if (basket.length > 0) {
-        if (!basket.find((element) => element.id === course.id)){
+        if (!basket.find((element) => element.id === course.id)) {
           this.basket.value = basket.push(course);
         }
       } else {
         this.basket.value = basket.push(course);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

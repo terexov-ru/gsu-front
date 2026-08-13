@@ -1,82 +1,76 @@
 <template>
-  <OverflowSuccess @close="emits('close')" v-if="success"/>
+  <OverflowSuccess @close="emits('close')" v-if="success" />
   <Overflow v-else>
-
-    <img class="close"
-         @click="emits('close')"
-         src="~/assets/svg/close.svg"
-         alt="close"
-    >
+    <img
+      class="close"
+      @click="emits('close')"
+      src="~/assets/svg/close.svg"
+      alt="close"
+    />
 
     <div class="text text_h3">Отзыв на обучение</div>
 
     <Form class="form" @submit="onSubmit">
-
       <div class="column column_gap8">
         <div class="text text_normal text_light">Обучающийся</div>
         <div>{{ name }}</div>
       </div>
 
       <div class="column column_gap8">
-        <div class="text text_normal text_light">Специализации</div>
-        <CardTipList
-            class="course__info__card-list"
-            :tips="specs"
-        />
+        <div class="text text_normal text_light">Специальности</div>
+        <CardTipList class="course__info__card-list" :tips="specs" />
       </div>
 
       <InputBlock
-          :name="'title'"
-          :title="'Заголовок'"
-          :type="'text'"
-          :placeholder="'Заголовок'"
-          :rule="emptyRule"
+        :name="'title'"
+        :title="'Заголовок'"
+        :type="'text'"
+        :placeholder="'Заголовок'"
+        :rule="emptyRule"
       />
 
       <div class="column column_gap8">
         <div class="text text_normal">Комментарий</div>
         <Field
-            as="textarea"
-            class="text text-area"
-            name="text"
-            type="text"
-            placeholder="Ваш комментарий"
-            :rules="emptyRule"
+          as="textarea"
+          class="text text-area"
+          name="text"
+          type="text"
+          placeholder="Ваш комментарий"
+          :rules="emptyRule"
         />
-        <ErrorMessage class="text text_normal text_error" name="text"/>
+        <ErrorMessage class="text text_normal text_error" name="text" />
       </div>
 
       <button
-          :disabled="disabled"
-          class="button overflow-card__button button_gradient"
+        :disabled="disabled"
+        class="button overflow-card__button button_gradient"
       >
         Отправить
       </button>
-
     </Form>
-
   </Overflow>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 
-const {createReview} = useApi();
+const { createReview } = useApi();
 
-const emits = defineEmits(['close']);
+const emits = defineEmits(["close"]);
 const props = defineProps({
   specs: Array,
   name: String,
-  id: Number
-})
+  id: Number,
+});
 
-const commentValue = ref('');
+const commentValue = ref("");
 const success = ref(false);
 const disabled = ref(false);
 
 function emptyRule(value) {
   if (!value) {
-    return 'Это поле обязательное';
+    return "Это поле обязательное";
   } else {
     return true;
   }
@@ -89,13 +83,12 @@ async function onSubmit(values) {
 
   const data = await createReview(props.id, values.text, values.title);
 
-  if (data.status === 'ok') {
+  if (data.status === "ok") {
     success.value = true;
   }
 
   disabled.value = false;
 }
-
 </script>
 
 <style scoped lang="less">
