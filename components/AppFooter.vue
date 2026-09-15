@@ -143,18 +143,15 @@
 </template>
 
 <script setup>
-import { API } from "~/constants/index.js";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { isSnowThemeOn } from "~/theme/snow";
 
 const FOOTER_PATH = "/page/footer";
 
 const logActive = ref(false);
-const { getUser } = useApi();
+const { getUser, simpleGet } = useApi();
 
-const { pending, data: page } = useLazyFetch(API + FOOTER_PATH, {
-  methods: "GET",
-});
+const { pending, data: page } = await simpleGet(FOOTER_PATH);
 
 async function login() {
   const { getTokenCookie } = useUtils();
@@ -175,13 +172,6 @@ async function login() {
   }
 }
 
-// console.log(data.value.page);
-
-watch(page, (newPage) => {
-  // console.log(newData);
-  // page.value = newData.value.page;
-  // console.log(page.value);
-});
 </script>
 
 <style lang="less" scoped>

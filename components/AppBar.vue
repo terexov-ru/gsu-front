@@ -416,7 +416,6 @@ import Test from "./SearchSmallAnimated.vue";
 import { useUtils } from "@/composables/useUtils";
 import { useApi } from "@/composables/useApi";
 import { useRouter } from "vue-router";
-import { API } from "~/constants/index.js";
 import { isSnowThemeOn } from "~/theme/snow";
 
 const menuActive = ref(false);
@@ -425,27 +424,17 @@ const logActive = ref(false);
 const activeStudy = ref(false);
 const activeAbout = ref(false);
 const activeHelp = ref(false);
-const basket = ref([]);
-
 const { getBasket, getTokenCookie } = useUtils();
-const { getUser } = useApi();
+const basket = getBasket();
+const { getUser, simpleGet } = useApi();
 const router = useRouter();
-
-onMounted(() => {
-  basket.value = getBasket();
-});
 
 const closeOverflow = () => {
   reqActive.value = false;
 };
 
-const { data: mainPage } = await useFetch(API + "/page/main", {
-  method: "GET",
-});
-
-const { data: footerPage } = await useFetch(API + "/page/footer", {
-  method: "GET",
-});
+const { data: mainPage } = await simpleGet("/page/main");
+const { data: footerPage } = await simpleGet("/page/footer");
 
 const specialtyAreas = toValue(mainPage)?.page?.specialty_areas || [];
 

@@ -12,13 +12,14 @@ if (isNoindexEnvironment(siteUrl, config.public.noindex)) {
   });
 }
 
-if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
-  const { data } = await checkToken();
-
-  if (!data.value.token_valid) {
-    deleteTokenCookie();
+onMounted(async () => {
+  if (getTokenCookie() !== undefined && getTokenCookie() !== null) {
+    const tokenValid = await checkToken();
+    if (!tokenValid) {
+      deleteTokenCookie();
+    }
   }
-}
+});
 </script>
 
 <template>

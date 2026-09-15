@@ -38,6 +38,7 @@ const REVIEW_PATH = "/api/create_review";
 export const useApi = () => {
   async function simpleGet(path: String) {
     return useFetch(API + path, {
+      key: `api-get:${path}`,
       method: "GET",
     });
   }
@@ -283,29 +284,44 @@ export const useApi = () => {
   const { getTokenCookie, setTokenCookie } = useUtils();
 
   async function checkToken() {
-    return useLazyFetch(API + CHECK_PATH, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${getTokenCookie()}`,
-      },
-    });
+    try {
+      const data = await $fetch<{ token_valid?: boolean }>(API + CHECK_PATH, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getTokenCookie()}`,
+        },
+      });
+
+      return data.token_valid === true;
+    } catch {
+      return false;
+    }
   }
 
-  async function login(login: String, pass: String) {
-    const { data: data } = await useFetch(API + LOGIN_PATH, {
-      method: "POST",
-      body: {
-        credential: login,
-        password: pass,
-      },
-    });
+  async function login(login: string, pass: string) {
+    try {
+      const data = await $fetch<{ token?: string }>(API + LOGIN_PATH, {
+        method: "POST",
+        body: {
+          credential: login,
+          password: pass,
+        },
+      });
 
-    if (data.value?.token) {
-      setTokenCookie(data.value?.token);
-      return true;
+      if (data.token) {
+        setTokenCookie(data.token);
+        return { ok: true as const };
+      }
+
+      return { ok: false as const, reason: "invalid_response" as const };
+    } catch (error: any) {
+      const statusCode = error?.response?.status ?? error?.statusCode;
+
+      return {
+        ok: false as const,
+        reason: statusCode === 401 ? "invalid_credentials" as const : "service_unavailable" as const,
+      };
     }
-
-    return false;
   }
 
   async function resetPassword(email: string) {

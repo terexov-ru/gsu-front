@@ -14,19 +14,28 @@ export const useUtils = () => {
   }
 
   function getBasket() {
+    const basket = useState<any[]>("basket", () => []);
+
     if (process.client) {
+      const basketLoaded = useState("basketLoaded", () => false);
+      if (basketLoaded.value) return basket;
+
       const store = localStorage.getItem("basket");
       if (store !== null) {
-        const basket: any = JSON.parse(store);
-        if (Array.isArray(basket)) {
-          return useState("basket", () => basket);
+        try {
+          const storedBasket = JSON.parse(store);
+          basket.value = Array.isArray(storedBasket) ? storedBasket : [];
+        } catch {
+          basket.value = [];
         }
       } else {
-        const newBasket = useState("basket", () => []);
-        saveBasket(newBasket);
-        return newBasket;
+        saveBasket(basket);
       }
+
+      basketLoaded.value = true;
     }
+
+    return basket;
   }
 
   function saveBasket(basket: any) {
@@ -108,6 +117,17 @@ export const useUtils = () => {
     saveBasket(basket);
   }
 
+  function isValidHttpUrl(value: unknown): value is string {
+    if (typeof value !== "string" || value.trim() === "") return false;
+
+    try {
+      const url = new URL(value);
+      return url.protocol === "http:" || url.protocol === "https:";
+    } catch {
+      return false;
+    }
+  }
+
   return {
     getTokenCookie,
     setTokenCookie,
@@ -118,5 +138,6 @@ export const useUtils = () => {
     setPromoInBasket,
     activatePromoInBasket,
     getBasket,
+    isValidHttpUrl,
   };
 };

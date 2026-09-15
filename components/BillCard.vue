@@ -109,7 +109,7 @@ const phoneValue = ref("");
 const mailValue = ref("");
 const basketError = ref("");
 const disabled = ref(false);
-const { cleanBasket, getTokenCookie } = useUtils();
+const { cleanBasket, getTokenCookie, isValidHttpUrl } = useUtils();
 
 const isAuthed = getTokenCookie() !== undefined && getTokenCookie() !== null;
 
@@ -132,8 +132,8 @@ if (isAuthed) {
     mailValue.value = profile.email;
     phoneValue.value = profile.phone;
     nameValue.value = profile.name;
-    senameValue.value = profile.surname;
-    lastNameValue.value = profile.last_name;
+    senameValue.value = profile.last_name;
+    lastNameValue.value = profile.surname;
     postalAddressValue.value = profile.postal_address;
 
     resetFieldsToFill();
@@ -147,13 +147,17 @@ async function onSubmit(values, actions) {
 
     useState("orderMail", () => shallowRef(mailValue.value));
 
-    if (isAuthed) {
-      await getOrderAuth(values, actions);
-    } else {
-      await getOrderBase(values, actions);
+    try {
+      if (isAuthed) {
+        await getOrderAuth(values, actions);
+      } else {
+        await getOrderBase(values, actions);
+      }
+    } catch {
+      basketError.value = "Не удалось создать заказ. Попробуйте позже";
+    } finally {
+      disabled.value = false;
     }
-
-    disabled.value = false;
   } else {
     basketError.value = "Вы не можете отправить заявку, пока корзина пуста";
   }
@@ -175,28 +179,10 @@ async function getOrderBase(values, actions) {
     orderBasket,
   );
 
-  if (status.value === "success" && shallowRef(data.value.status === "ok")) {
-    setTokenCookie(data.value.token);
-    useState("orderLink").value = data.value.payment_link;
-    useState("orderNumber").value = data.value.iorder_id;
-    await nextTick();
-    emit("success");
-    await nextTick();
-    actions.resetForm();
-    cleanBasket();
+  if (isSuccessfulOrderResponse(data.value, status.value)) {
+    await completeOrder(data.value, actions);
   } else {
-    if (
-      error.value.data.message.includes("phone") &&
-      error.value.data.message.includes("mail")
-    ) {
-      basketError.value = "Телефон и email уже используются";
-    } else if (error.value.data.message.includes("phone")) {
-      basketError.value = "Телефон уже используется";
-    } else if (error.value.data.message.includes("mail")) {
-      basketError.value = "Почта уже используется";
-    } else {
-      basketError.value = "Произошла ошибка";
-    }
+    setOrderError(data.value, error.value);
   }
 }
 
@@ -206,8 +192,8 @@ async function getOrderAuth(values, actions) {
     promo: item.promo !== undefined ? item.promo : null,
   }));
 
-  if (fieldsToFill.value.length > 0)
-    await setInfo({
+  if (fieldsToFill.value.length > 0) {
+    const profileUpdateResult = await setInfo({
       name: nameValue.value,
       last_name: senameValue.value,
       surname: lastNameValue.value,
@@ -216,19 +202,57 @@ async function getOrderAuth(values, actions) {
       postal_address: postalAddressValue.value,
     });
 
-  const { data, status } = await createOrderAuth(orderBasket);
+    if (profileUpdateResult !== true) {
+      basketError.value = "Не удалось сохранить данные получателя";
+      return;
+    }
+  }
 
-  if (status.value === "success" && data.value.status === "ok") {
-    setTokenCookie(data.value.token);
-    useState("orderLink").value = data.value.payment_link;
-    useState("orderNumber").value = data.value.iorder_id;
-    await nextTick();
-    emit("success");
-    await nextTick();
-    actions.resetForm();
-    cleanBasket();
+  const { data, status, error } = await createOrderAuth(orderBasket);
+
+  if (isSuccessfulOrderResponse(data.value, status.value)) {
+    await completeOrder(data.value, actions);
   } else {
-    basketError.value = "Произошла ошибка";
+    setOrderError(data.value, error.value);
+  }
+}
+
+function isSuccessfulOrderResponse(data, status) {
+  return status === "success"
+    && data?.status === "ok"
+    && isValidHttpUrl(data?.payment_link);
+}
+
+async function completeOrder(data, actions) {
+  if (data.token) setTokenCookie(data.token);
+
+  useState("orderLink").value = data.payment_link;
+  useState("orderNumber").value = data.iorder_id;
+  await nextTick();
+  emit("success");
+  await nextTick();
+  actions.resetForm();
+  cleanBasket();
+}
+
+function setOrderError(data, error) {
+  const message = String(data?.message || error?.data?.message || "");
+
+  if (message.includes("phone") && (message.includes("mail") || message.includes("email"))) {
+    basketError.value = "Телефон и email уже используются";
+  } else if (message.includes("phone")) {
+    basketError.value = "Телефон уже используется";
+  } else if (message.includes("mail") || message.includes("email")) {
+    basketError.value = "Почта уже используется";
+  } else if (
+    message === "Платежный сервис временно недоступен"
+    || message === "Платежный сервис не настроен"
+    || message === "Платежный сервис отклонил создание платежа"
+    || message === "Платежный сервис не вернул ссылку на оплату"
+  ) {
+    basketError.value = message;
+  } else {
+    basketError.value = "Не удалось создать заказ. Попробуйте позже";
   }
 }
 
@@ -237,7 +261,7 @@ function resetFieldsToFill() {
   if (!senameValue.value) fieldsToFill.value.push("sename");
   if (!lastNameValue.value) fieldsToFill.value.push("lastName");
   if (!phoneValue.value) fieldsToFill.value.push("phone");
-  if (!mailValue.value) fieldsToFill.value.push("mail");
+  if (!mailValue.value) fieldsToFill.value.push("email");
   if (!postalAddressValue.value) fieldsToFill.value.push("postalAddress");
 
   fieldsToFill.value = [...new Set(fieldsToFill.value)];

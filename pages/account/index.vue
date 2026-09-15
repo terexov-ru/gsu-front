@@ -68,11 +68,15 @@ const activeComponent = ref(COMPONENTS[0]);
 const { getUser } = useApi();
 
 const data = await getUser();
-const profile = ref(data.profile);
-const documents = ref(data.documents);
-const name = ref(`${data.profile.surname === null ? "" : data.profile.surname}
-${data.profile.name === null ? "" : data.profile.name}
-${data.profile.last_name === null ? "" : data.profile.last_name}`);
+const profile = ref(data?.profile || {});
+const documents = ref(data?.documents || []);
+const name = ref(`${profile.value.surname || ""}
+${profile.value.name || ""}
+${profile.value.last_name || ""}`);
+
+if (!data?.profile) {
+  await navigateTo("/");
+}
 
 provide("name", name);
 

@@ -94,16 +94,23 @@
         </NuxtLink>
 
         <div v-else class="row order__buttons row_gap10">
-          <NuxtLink
-            v-if="!isOrderPaid"
-            :to="order.payment_link"
+          <a
+            v-if="!isOrderPaid && hasPaymentLink"
+            :href="order.payment_link"
             target="_blank"
+            rel="noopener noreferrer"
+            class="button order__button button_gradient"
             :class="{ disabled: isLoading }"
           >
-            <button class="button order__button button_gradient">
-              Оплатить
-            </button>
-          </NuxtLink>
+            Оплатить
+          </a>
+          <button
+            v-else-if="!isOrderPaid"
+            class="button order__button button_gradient disabled"
+            disabled
+          >
+            Ссылка на оплату недоступна
+          </button>
           <!--          <NuxtLink-->
           <!--            :class="{ disabled: isLoading }"-->
           <!--            :to="{ path: '/account', query: { tab: 'AccountPrograms' } }"-->
@@ -143,10 +150,11 @@ const { createAgreement } = useApi();
 
 const active = ref(props.showDetails);
 const isLoading = ref(false);
+const { isValidHttpUrl } = useUtils();
+const hasPaymentLink = computed(() => isValidHttpUrl(props.order.payment_link));
 
 const isOrderPaid = computed(() => {
-  if (props.order.status.id === 5) return true;
-  else return false;
+  return props.order.payment_status === 1 || props.order.status.id === 5;
 });
 
 function getTipClass(id) {

@@ -21,10 +21,14 @@
 
       <div class="column column_gap8">
         <div class="text text_error text_center">{{ errorMessage }}</div>
-        <button class="button overflow-card__button button_gradient">
-          Войти
+        <button
+          class="button overflow-card__button button_gradient"
+          :disabled="isSubmitting"
+        >
+          {{ isSubmitting ? "Входим..." : "Войти" }}
         </button>
         <button
+          type="button"
           class="button overflow-card__button button_black-bordered"
           @click="emits('openReg')"
         >
@@ -37,15 +41,29 @@
 <script setup>
 const { login } = useApi();
 const errorMessage = ref("");
+const isSubmitting = ref(false);
 
 const emits = defineEmits(["close", "openReg", "openPass"]);
 
 async function onSubmit(value) {
-  if (await login(value.phone, value.pass)) {
-    navigateTo("/account");
-    emits("close");
-  } else {
-    errorMessage.value = "Неверный логин или пароль";
+  if (isSubmitting.value) return;
+
+  isSubmitting.value = true;
+  errorMessage.value = "";
+
+  try {
+    const result = await login(value.phone, value.pass);
+    if (result.ok) {
+      await navigateTo("/account");
+      emits("close");
+      return;
+    }
+
+    errorMessage.value = result.reason === "invalid_credentials"
+      ? "Неверный логин или пароль"
+      : "Сервис авторизации временно недоступен. Попробуйте позже";
+  } finally {
+    isSubmitting.value = false;
   }
 }
 </script>

@@ -72,7 +72,7 @@ const {
   activatePromoInBasket,
 } = useUtils();
 
-const basket = process.client ? getBasket() : ref([]);
+const basket = getBasket();
 const success = ref(false);
 const active = ref(false);
 const price = ref(getPrice());

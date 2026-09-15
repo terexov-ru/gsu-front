@@ -85,11 +85,19 @@
           >
             {{ isLoading ? "Подписание..." : "Подписать договор" }}
           </button>
-          <NuxtLink :to="payLink" target="_blank" style="width: 100%">
-            <button class="button button_dark">
-              Оплатить заказ ({{ sum }} ₽)
-            </button>
-          </NuxtLink>
+          <a
+            v-if="hasPayLink"
+            :href="payLink"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button button_dark"
+            style="width: 100%"
+          >
+            Оплатить заказ ({{ sum }} ₽)
+          </a>
+          <button v-else class="button button_dark disabled" disabled>
+            Ссылка на оплату недоступна
+          </button>
         </div>
       </template>
       <template v-else>
@@ -225,6 +233,8 @@ const disabled = ref(false);
 
 const payLink = computed(() => useState("orderLink").value);
 const orderNumber = computed(() => useState("orderNumber").value);
+const { isValidHttpUrl } = useUtils();
+const hasPayLink = computed(() => isValidHttpUrl(payLink.value));
 
 var profileData;
 
