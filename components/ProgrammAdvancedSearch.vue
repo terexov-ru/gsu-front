@@ -271,7 +271,7 @@ watch(selectedEducationLevel, async () => {
   gap: 12px;
 
   margin-top: 24px;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 
   @media @min580 {
     flex-direction: row;
