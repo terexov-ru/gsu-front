@@ -4,12 +4,6 @@
 
     <ProgramSearchBar @search="search()" v-model:value="searchValue" />
 
-    <SearchTipList
-      :tips="specialtyAreas"
-      query-key="specialty_area_id"
-      v-model:selected="selectedSpecialtyAreaId"
-    />
-
     <div class="search-block__filters">
       <DropDown
         :title="'Уровень образования'"
@@ -40,6 +34,12 @@
         class="search-block__drop-down"
       />
     </div>
+
+    <SearchTipList
+      :tips="specialtyAreas"
+      query-key="specialty_area_id"
+      v-model:selected="selectedSpecialtyAreaId"
+    />
 
     <CourseCardList v-model:courses="courses" class="search-block__card-list" />
 
