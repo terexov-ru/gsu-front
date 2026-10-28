@@ -1,3 +1,4 @@
+import { findCategoryById, normalizeQueryId } from "../utils/courseFilters.js";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -25,19 +26,32 @@ test("courses page uses specialty areas as cards and moves category into dropdow
   assert.match(coursesSearchSource, /v-model:selected="selectedCategory"/);
 });
 
-test("courses page reads specialty area from route query", () => {
-  assert.match(coursesSearchSource, /route\.query\.specialty_area_id/);
-  assert.match(coursesSearchSource, /route\.query\.category/);
-  assert.match(
-    coursesSearchSource,
-    /const initialCategoryId = normalizeQueryId\(route\.query\.category\)/,
-  );
-  assert.match(
-    coursesSearchSource,
-    /selectedCategory\.value = findCategoryById\(initialCategoryId\)/,
-  );
-  assert.match(
-    coursesSearchSource,
-    /function findCategoryById\(categoryId\)\s*\{\s*return\s*\(\s*categories\.value\.find\(\(item\) => Number\(item\.id\) === Number\(categoryId\)\)/,
-  );
+test("category query values select the corresponding option", () => {
+  const options = [{ id: 12, title: "Training" }, { id: "27", title: "Retraining" }];
+  for (const value of [12, "12", ["12", "27"]]) {
+    assert.equal(findCategoryById(options, normalizeQueryId(value)), options[0]);
+  }
+  assert.equal(findCategoryById(options, normalizeQueryId("27")), options[1]);
+});
+
+test("absent, invalid and unknown category queries leave the filter unselected", () => {
+  const options = [{ id: 12, title: "Training" }];
+  for (const value of [undefined, null, "", [], "invalid", "999"]) {
+    assert.deepEqual(findCategoryById(options, normalizeQueryId(value)), {});
+  }
+});
+
+test("selection uses refreshed options and clears a removed category", () => {
+  const original = [{ id: 12, title: "Old title" }];
+  const selectedId = findCategoryById(original, 12).id;
+  const refreshed = [{ id: "12", title: "New title" }];
+  assert.equal(findCategoryById(refreshed, selectedId), refreshed[0]);
+  assert.deepEqual(findCategoryById([], selectedId), {});
+  assert.deepEqual(original, [{ id: 12, title: "Old title" }]);
+});
+
+test("query normalization preserves the current numeric conversion contract", () => {
+  for (const [value, expected] of [[undefined, undefined], [null, undefined], ["", undefined], [[], undefined], ["0", 0], [" 12 ", 12], [["27", "12"], 27], ["bad", undefined]]) {
+    assert.equal(normalizeQueryId(value), expected);
+  }
 });
