@@ -50,6 +50,7 @@
 </template>
 
 <script setup>
+import { findCategoryById, normalizeQueryId } from "~/utils/courseFilters.js";
 import { API } from "~/constants/index.js";
 import { toValue, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -65,14 +66,6 @@ const amount = 5;
 const searchValue = ref("");
 const route = useRoute();
 const router = useRouter();
-
-function normalizeQueryId(value) {
-  if (Array.isArray(value)) value = value[0];
-  if (value === undefined || value === null || value === "") return undefined;
-
-  const parsed = Number(value);
-  return Number.isNaN(parsed) ? undefined : parsed;
-}
 
 function buildLearningRequest(body) {
   return Object.fromEntries(
@@ -117,13 +110,6 @@ async function syncQuery(queryPatch) {
   });
 }
 
-function findCategoryById(categoryId) {
-  return (
-    categories.value.find((item) => Number(item.id) === Number(categoryId)) ||
-    {}
-  );
-}
-
 /* search request */
 async function search(noUpdated = undefined) {
   if (!noUpdated) currentPage.value = 1;
@@ -150,7 +136,7 @@ async function search(noUpdated = undefined) {
   durations.value = toValue(page).page.durations;
   specs.value = toValue(page).page.specs;
   educationLevels.value = toValue(page).page.education_levels;
-  selectedCategory.value = findCategoryById(toValue(selectedCategory)?.id);
+  selectedCategory.value = findCategoryById(categories.value, toValue(selectedCategory)?.id);
   count.value = toValue(page).page.total_courses_amount;
 }
 
@@ -180,7 +166,7 @@ const specs = ref(toValue(page).page.specs);
 const educationLevels = ref(toValue(page).page.education_levels);
 const categories = ref(toValue(page).page.categories);
 const specialtyAreas = ref(toValue(page).page.specialty_areas);
-selectedCategory.value = findCategoryById(initialCategoryId);
+selectedCategory.value = findCategoryById(categories.value, initialCategoryId);
 courses.value = toValue(page).page.courses;
 const count = ref(toValue(page).page.total_courses_amount);
 
@@ -201,7 +187,7 @@ watch(
   () => route.query.category,
   (newId) => {
     const normalizedCategoryId = normalizeQueryId(newId);
-    selectedCategory.value = findCategoryById(normalizedCategoryId);
+    selectedCategory.value = findCategoryById(categories.value, normalizedCategoryId);
   },
 );
 
@@ -278,3 +264,4 @@ watch(selectedEducationLevel, async () => {
   }
 }
 </style>
+
